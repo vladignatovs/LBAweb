@@ -23,6 +23,18 @@ button {
     text-align: center;
 }
 
+.button-resend, .account-management {
+    text-decoration: none;
+    display: inline-flex;
+    height: inherit;
+}
+
+.account-management {
+    width: 100%;
+    display: flex;
+    justify-content: right;
+}
+
 button:hover {
     background: rgba(255, 255, 255, 0.5);
 }
@@ -47,11 +59,6 @@ main {
     height: 5000px;
 }
 
-.button-resend {
-    text-decoration: none;
-    display: inline-flex;
-    height: inherit;
-}
 
 .main-relink {
     display: flex;

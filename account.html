@@ -3,11 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
     <title>Document</title>
 </head>
 <body>  
-    <h1>hi
-        
-    </h1>
+    <header>
+        <a href="home.html" class="button-resend">
+            <button>HOME</button>
+        </a>
+        <button onclick="scrolldown()">ABOUT</button>
+        <a href="account.html" class="button-resend" >
+            <button>ACCOUNT</button>
+        </a>
+        <div class="account-management">
+            <button onclick="openregister()">REGISTER</button>
+            <button onclick="openlogin()">LOG IN</button>
+        </div>
+    </header>
+    <main>
+
+    </main>
+    <form action="" method="get" class="form-example">
+        <div class="form-example">
+          <label for="name">Enter your username: </label>
+          <input type="text" name="name" id="name" required />
+        </div>
+        <div class="form-example">
+          <label for="email">Enter your email: </label>
+          <input type="email" name="email" id="email" required />
+        </div>
+        <div class="form-example">
+            <label for="email">Enter your password: </label>
+            <input type="email" name="email" id="email" required />
+        </div>
+        <div class="form-example">
+            <label for="email">Repeat your password: </label>
+            <input type="email" name="email" id="email" required />
+        </div>
+        <div class="form-example">
+          <input type="submit" value="Register" />
+        </div>
+      </form>
 </body>
 </html>
