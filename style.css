@@ -1,0 +1,68 @@
+@font-face {
+    font-family: Talk;
+    src: url("C:\\Users\\vi00242\\Favorites\\ZT Talk Free Typeface - WEB TT\\ZTTalk-Medium.ttf");
+}
+
+* {
+    font-family: Talk;
+    margin: 0;
+} 
+
+button {
+    border-radius: 0;
+    border: none;
+
+    transition-duration: 0.5s;
+
+    background: rgba(255, 255, 255, 0);
+    color: white;
+    font-size: larger;
+
+    height: 100%;
+
+    text-align: center;
+}
+
+button:hover {
+    background: rgba(255, 255, 255, 0.5);
+}
+
+header {
+    display: flex;
+    align-items: center;
+    height: 75px;
+
+    font-size: larger;
+    color: white;
+    background-color: black;
+}
+
+aside {
+    height: 300px;
+    font-size: large;
+    margin-bottom: 25px;
+}
+
+main {
+    height: 5000px;
+}
+
+.button-resend {
+    text-decoration: none;
+    display: inline-flex;
+    height: inherit;
+}
+
+.main-relink {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    height: 100%;
+}
+
+.relink {
+    height: inherit;
+    width: 300px;
+    background-color: black;
+    display: inline-block;
+}
