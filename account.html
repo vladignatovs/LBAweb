@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="accountstyle.css">
     <title>Document</title>
 </head>
 <body>  
@@ -11,38 +11,48 @@
         <a href="home.html" class="button-resend">
             <button>HOME</button>
         </a>
-        <button onclick="scrolldown()">ABOUT</button>
         <a href="account.html" class="button-resend" >
             <button>ACCOUNT</button>
         </a>
-        <div class="account-management">
+        <!-- <div class="account-management">
             <button onclick="openregister()">REGISTER</button>
             <button onclick="openlogin()">LOG IN</button>
-        </div>
+        </div> -->
     </header>
+    <aside>
+        <h1> You are not logged in an account. </h1>
+        <div  class="account-buttons">   
+            <button> REGISTER </button><button> LOG IN </button>
+        </div>
+    </aside>
     <main>
-
+        <div>
+            <p>
+                Logging into an account is an essencial part of your experience on our website, as it allows your account to be browsed by other users, and makes its fair for you
+                to browse those in the first place. By having an account you also get an access to creating your own levels, saving of your achivements and
+            </p>
+        </div>
+        <form action="" method="get" class="form-example">
+            <div class="form-example">
+                <label for="name">Enter your username: </label>
+                <input type="text" name="name" id="name" required/>
+            </div>
+            <div class="form-example">
+                <label for="email">Enter your email: </label>
+                <input type="email" name="email" id="email" required/>
+            </div>
+            <div class="form-example">
+                <label for="email">Enter your password: </label>
+                <input type="email" name="email" id="email" required/>
+            </div>
+            <div class="form-example">
+                <label for="email">Repeat your password: </label>
+                <input type="email" name="email" id="email" required />
+            </div>
+            <div class="form-example">
+                <input type="submit" value="Register"/>
+            </div>
+        </form>
     </main>
-    <form action="" method="get" class="form-example">
-        <div class="form-example">
-          <label for="name">Enter your username: </label>
-          <input type="text" name="name" id="name" required />
-        </div>
-        <div class="form-example">
-          <label for="email">Enter your email: </label>
-          <input type="email" name="email" id="email" required />
-        </div>
-        <div class="form-example">
-            <label for="email">Enter your password: </label>
-            <input type="email" name="email" id="email" required />
-        </div>
-        <div class="form-example">
-            <label for="email">Repeat your password: </label>
-            <input type="email" name="email" id="email" required />
-        </div>
-        <div class="form-example">
-          <input type="submit" value="Register" />
-        </div>
-      </form>
 </body>
 </html>
