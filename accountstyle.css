@@ -45,7 +45,8 @@ button:hover {
 
 main {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
     margin: 50px;
     height: 500px;
 }
@@ -65,4 +66,39 @@ aside {
 
 .account-buttons {
     gap: 0;
+}
+
+#login, #register {
+    background-color: black;
+    color: white;
+    visibility: hidden;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding:20px;
+    max-width: 600px;
+    width: 80%;
+}
+
+.form-fill {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 100%;
+}
+  
+label, input {
+    display: block;
+    gap: 5px;
+}
+  
+input {
+    padding: 8px;
+    font-size: 1rem;
+}
+  
+button[type="submit"] {
+    max-width: 150px;
+    padding: 10px;
 }
