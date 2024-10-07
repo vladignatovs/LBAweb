@@ -4,35 +4,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="accountstyle.css">
-    <script src="account.js"></script>
+    <script src="account.js" defer></script>
     <title>Document</title>
 </head>
 <body>  
     <header>
         <a href="home.html" class="button-resend">
-            <button>HOME</button>
+            <button type>HOME</button>
         </a>
         <a href="account.html" class="button-resend" >
             <button>ACCOUNT</button>
         </a>
-        <!-- <div class="account-management">
-            <button onclick="openregister()">REGISTER</button>
-            <button onclick="openlogin()">LOG IN</button>
-        </div> -->
     </header>
     <aside>
         <h1> You are not logged in an account. </h1>
-        <div class="account-buttons">   
-            <button onclick="openregister()"> REGISTER </button><button onclick="openlogin()"> LOG IN </button>
+        <div class="radio-select">
+            <input class="radio-button" type="radio" name="radio-group" id="REGISTER"/>
+            <label class="radio-label"for="REGISTER">REGISTER</label>
+            <input class="radio-button" type="radio" name="radio-group" id="LOGIN"/>
+            <label class="radio-label"for="LOGIN">LOGIN</label>
         </div>
     </aside>
     <main>
-        <div>
-            <p>
-                Logging into an account is an essential part of your experience on our website, as it allows your account to be browsed by other users, and makes its fair for you
-                to browse those in the first place. By having an account you also get an access to creating your own levels, saving your achivements in a dedicated server and 
-            </p>
-        </div>
         <div id="register">
             <form action="" method="get" class="form-fill">
                 <div class="form-fill">
@@ -58,6 +51,12 @@
         </div>
         <div id="login">
             <p> LOGIN</p>
+        </div>
+        <div>
+            <p>
+                Logging into an account is an essential part of your experience on our website, as it allows your account to be browsed by other users, and makes its fair for you
+                to browse those in the first place. By having an account you also get an access to creating your own levels, saving your achivements in a dedicated server and 
+            </p>
         </div>
     </main>
 </body>

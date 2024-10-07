@@ -39,7 +39,8 @@ button {
     height: inherit;
 }
 
-button:hover {
+button:hover, .radio-label:hover, .radio-button:checked + .radio-label:hover {
+    cursor: pointer;
     background: rgba(255, 255, 255, 0.5);
 }
 
@@ -65,15 +66,16 @@ aside {
 }
 
 .account-buttons {
+    justify-content: center;
     gap: 0;
 }
 
 #login, #register {
     background-color: black;
     color: white;
-    visibility: hidden;
 
-    display: flex;
+    display: none;
+
     flex-direction: column;
     align-items: center;
     padding:20px;
@@ -87,9 +89,9 @@ aside {
     gap: 15px;
     width: 100%;
 }
-  
+
 label, input {
-    display: block;
+    display: inline-block;
     gap: 5px;
 }
   
@@ -101,4 +103,22 @@ input {
 button[type="submit"] {
     max-width: 150px;
     padding: 10px;
+}
+
+.radio-button {
+    display: none;
+}
+
+.radio-select {
+    display: flex;
+}
+
+.radio-label {
+    display: inline-block;
+    transition-duration: 0.5s;
+    padding: 5px;
+}
+
+.radio-button:checked + .radio-label {
+    background: rgba(255, 255, 255, 0.25);
 }
