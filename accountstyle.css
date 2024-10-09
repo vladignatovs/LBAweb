@@ -1,0 +1,180 @@
+@font-face {
+    font-family: Talk;
+    src: url("assets\\ZTTalk-Medium.ttf");
+}
+
+* {
+    font-family: Talk;
+    margin: 0;
+} 
+
+header {
+    display: flex;
+    align-items: center;
+    height: 75px;
+
+    font-size: larger;
+    color: white;
+    background-color: black;
+}
+
+button {
+    border-radius: 0;
+    border: none;
+
+    transition-duration: 0.5s;
+
+    background: rgba(255, 255, 255, 0);
+    color: white;
+    font-size: larger;
+
+    height: 100%;
+
+    text-align: center;
+}
+
+.button-resend {
+    text-decoration: none;
+    display: inline-flex;
+    height: inherit;
+}
+
+button:hover {
+    cursor: pointer;
+    background: rgba(255, 255, 255, 0.5);
+}
+
+.radio-label:hover, .radio-button:checked + .radio-label:hover {
+    cursor: pointer;
+    background: rgba(0, 0, 0, 0.5);
+}
+
+
+/* aside {
+    background-color: black;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: xx-large;
+    gap: 10px;
+    padding: 10px;
+    margin: 50px;
+    margin-bottom: 0;
+} */
+
+main {
+    display: flex;
+    align-items: stretch;
+    justify-content: space-between;
+    height: 500px;
+    gap: 50px;
+}
+
+.select-page {
+    flex: 1;
+    margin: 0 0 0 50px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: xx-large;
+}
+
+.input-page {
+    flex: 1;
+
+    display: flex;
+    flex-direction: row;
+    background-color: black;
+    color: white;
+}
+
+aside {
+    padding: 50px;
+    background-color: black;
+    color: white;
+
+    height: 1000px;
+}
+
+footer  {
+    background-color: black;
+    color: gray;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 75px;
+    font-size: x-large;
+}
+
+/* section {
+    flex: 1; Allow sections to grow and fill available space equally
+    justify-content: center;
+
+    background-color: black;
+    color: white;
+    align-items: center;
+    height: inherit;
+    width: auto;
+} */
+
+#login, #register {
+    background-color: black;
+    color: white;
+
+    visibility: hidden;
+    opacity: 0;
+
+    transition-duration: 0.5s;
+
+    flex-direction: column;
+    align-items: center;
+    padding:20px;
+    max-width: 600px;
+    width: 80%;
+}
+
+.radio-button {
+    display: none;
+}
+
+.radio-select {
+    display: flex;
+}
+
+.radio-label {
+    display: inline-block;
+    transition-duration: 0.5s;
+    padding: 5px;
+}
+
+.radio-button:checked + .radio-label {
+    background: rgba(0, 0, 0, 0.25);
+}
+
+/* -----------------------TODO: thisss ----------------------------*/
+.form-fill { 
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 100%;
+}
+
+label, input {
+    display: inline-block;
+    gap: 5px;
+}
+  
+input {
+    padding: 8px;
+    font-size: 1rem;
+}
+  
+button[type="submit"] {
+    max-width: 150px;
+    padding: 10px;
+}
