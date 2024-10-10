@@ -6,8 +6,10 @@
 
 ## 2. Portfolio
 - **Date**: 09/17/2024
-- **Status**: Not Started
-- **Description**: Task requests don't fit the idea of the website. 
+- **Status**: Partially Completed
+- **Description**: Few points were completed while completing other tasks.
+- **TODO**: 
+  - A separated page for a portfolio;
 
 ## 3. Cards
 - **Date**: 09/17/2024
@@ -18,7 +20,7 @@
 - **Date**: 09/23/2024
 - **Status**: Partially Completed
 - **TODO**: 
-  - Compatibility with different screen sizes;
+  - Compatibility with different screen sizes (@media quieries);
   - Color scheme;
   - Dark mode;
 
@@ -26,5 +28,5 @@
 - **Date**: 09/24/2024
 - **Status**: Not Started
 - **TODO**:
-  - "Learn More" dropdown;
-  - Compatibility with different screen sizes;
+  - Modal box;
+  - Compatibility with different screen sizes (@media quieries);
