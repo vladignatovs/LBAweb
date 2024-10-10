@@ -18,7 +18,64 @@ header {
     background-color: black;
 }
 
-button {
+ul {
+    padding: 0;
+
+    height: 100%;
+
+    display: inline-flex;
+    justify-content: left;
+
+    list-style: none;
+}
+ul li {
+    display: inline-block;
+    
+    position: relative;
+}
+
+ul li a {
+    padding: 0 20px;
+    
+    height: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: white;
+    transition-duration: 0.5s;
+
+    text-decoration: none;
+    font-size: larger;
+    text-align: center;
+}
+
+li a:hover {
+    background: rgba(255, 255, 255, 0.5);
+}
+
+/* ul li ul.dropdown li {
+    height: 75%;
+    
+    display: block;
+
+    background-color: black;
+
+    font-size: medium;
+
+}
+ul li ul.dropdown {
+    width: 100%;
+    position: absolute;
+    display: none;
+}
+
+ul li:hover ul.dropdown {
+    display: block;
+} */
+
+/* button {
     border-radius: 0;
     border: none;
 
@@ -37,7 +94,7 @@ button {
     text-decoration: none;
     display: inline-flex;
     height: inherit;
-}
+} */
 
 button:hover {
     cursor: pointer;
