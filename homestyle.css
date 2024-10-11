@@ -42,10 +42,19 @@ ul li a {
 }
 
 li a:hover {
-    background: rgba(255, 255, 255, 0.5);
+    background-color: rgba(255, 255, 255, 0.5);
 }
 
-ul li ul.dropdown li {
+.dropdown-li {
+    transition-duration: 0.5s;
+}
+.dropdown-li a:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+}
+.dropdown-li:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+.dropdown-li ul.dropdown li {
     height: 75%;
 
     display: block;
@@ -53,16 +62,14 @@ ul li ul.dropdown li {
     background-color: black;
 
     font-size: medium;
-
 }
-ul li ul.dropdown {
+.dropdown-li ul.dropdown {
     transition-duration: 0.5s;
     width: 100%;
     position: absolute;
     display: none;
 }
-
-ul li:hover ul.dropdown {
+.dropdown-li:hover ul.dropdown {
     display: block;
 }
 
@@ -167,6 +174,7 @@ img {
     text-align: center;
 
     background-color: black;
+    background-image: linear-gradient(black, black, rgba(21, 0, 255, 0.25));
     color: white;
 
     transition-duration: .5s;
@@ -178,6 +186,8 @@ img {
 
 .card:hover {
     transform: scale(1.05);
+    z-index: 1;
+    background-image: linear-gradient(white, white, rgba(21, 0, 255, 0.25));
     background-color: white;
     color: black;
 }
