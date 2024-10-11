@@ -9,7 +9,7 @@
 - **Status**: Partially Completed
 - **Description**: Few points were completed while completing other tasks.
 - **TODO**: 
-  - A separated page for a portfolio;
+  - Compatibility with different screen sizes (@media quieries);
 
 ## 3. Cards
 - **Date**: 09/17/2024
@@ -21,7 +21,6 @@
 - **Status**: Partially Completed
 - **TODO**: 
   - Compatibility with different screen sizes (@media quieries);
-  - Color scheme;
   - Dark mode;
 
 ## 5. Dropdown
