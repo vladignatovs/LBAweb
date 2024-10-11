@@ -25,7 +25,7 @@
 
 ## 5. Dropdown
 - **Date**: 09/24/2024
-- **Status**: Not Started
+- **Status**: Partially Completed
 - **TODO**:
   - Modal box;
   - Compatibility with different screen sizes (@media quieries);
