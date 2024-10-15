@@ -152,6 +152,16 @@ footer  {
     height: 100%;
 }
 
+@media (max-width: 600px) {
+    .cards-page {
+        flex-direction: column;
+        gap: 30px;
+    }
+    .cards-page a {
+        width: 90%;
+    }
+}
+
 img {
     width: 75px;
     height: 75px;
@@ -179,6 +189,7 @@ img {
 
     transition-duration: .5s;
 }
+
 
 .card p {
     padding: 0 30px;
