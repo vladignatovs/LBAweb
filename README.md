@@ -1,5 +1,6 @@
 # Task Dump
-
+### TODO: 
+  - fix "about us" button to send user to home page AND use the scroll function
 ## 1. Basic HTML
 - **Date**: 09/10/2024
 - **Status**: Completed
@@ -29,9 +30,4 @@
 - **TODO**:
   - Modal box;
   - Compatibility with different screen sizes (@media quieries);
-
-## 6. Dropdown pt.2
-- **Date**: 10/15/2024
-- **Status**: Not started
-- **TODO**: 
   - Polish out current dropdown, add it to other pages.

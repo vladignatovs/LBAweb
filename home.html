@@ -5,30 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HOME</title>
     <link rel="stylesheet" href="homestyle.css">
+    <!-- Stylesheet directly used for header -->
+    <link rel="stylesheet" href="pages/headerstyle.css">
     <script src="script.js"></script>
 </head>
 <body>
-    <header>
-        <ul>
-            <li><a href="home.html">HOME</a></li>
-            <li class="dropdown-li">
-                <a href="#">LEARN MORE</a>
-                <ul class="dropdown">
-                    <li><a href="#" onclick="scrolldown()">ABOUT US</a></li>
-                    <li><a href="portfolio.html">PERSONAL PORTFOLIO</a></li>
-                    <li><a href="#">CONTACT US</a></li>
-                </ul>
-            </li>
-            <li><a href="account.html">ACCOUNT</a></li>
-        </ul>
-        <!-- <a href="home.html" class="button-resend">
-            <button>HOME</button>
-        </a>
-        <button onclick="scrolldown()">ABOUT</button>
-        <a href="account.html" class="button-resend" >
-            <button>ACCOUNT</button>
-        </a> -->
-    </header>
+    <header id="header"></header>
     <aside>
         <p> Basically the main point of this page, where useful redirects will be more noticable, could also be a good place to put most important socials
             like a discord server or a redirect to the steam page of the game.
@@ -52,8 +34,7 @@
     <main>
         <p> Bunch of info about the game, history of development as well as some other details, socials (?) and useful links</p>
     </main>
-    <footer>
-        <p> © 2024 LightsBeatsAction, All rights reserved. </p>
-    </footer>
+    <footer id="footer"></footer>
 </body>
+<script src="loadtemplate.js"></script>
 </html>
