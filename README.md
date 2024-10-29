@@ -1,6 +1,4 @@
 # Task Dump
-### TODO: 
-  - fix "about us" button to send user to home page AND use the scroll function
 ## 1. Basic HTML
 - **Date**: 09/10/2024
 - **Status**: Completed
