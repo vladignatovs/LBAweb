@@ -1,3 +1,21 @@
+<template>
+    <header>
+        <ul>
+            <li><a href="home.html">HOME</a></li>
+            <li class="dropdown-li">
+                <a href="#">LEARN MORE</a>
+                <ul class="dropdown">
+                    <li><a href="home.html#about">ABOUT US</a></li>
+                    <li><a href="portfolio.html">PERSONAL PORTFOLIO</a></li>
+                    <li><a href="#">CONTACT US</a></li>
+                </ul>
+            </li>
+            <li><a href="account.html">ACCOUNT</a></li>
+        </ul>
+    </header>
+</template>
+
+<style scoped>
 html {
     scroll-behavior: smooth;
 }
@@ -82,3 +100,4 @@ header .dropdown-li ul.dropdown {
 header .dropdown-li:hover ul.dropdown {
     display: block;
 }
+</style>
