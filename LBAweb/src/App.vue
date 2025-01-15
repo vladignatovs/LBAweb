@@ -1,8 +1,11 @@
 <script setup>
-import { RouterView} from 'vue-router'
+import Navbar from './components/nav-bar.vue'
+import Footbar from './components/foot-bar.vue'
+import { RouterView } from 'vue-router'
 </script>
 
 <template>
-  <p>hi</p>
+  <Navbar/>
   <RouterView/>
+  <Footbar/>
 </template>
