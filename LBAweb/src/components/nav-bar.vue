@@ -1,16 +1,29 @@
+<script setup>
+import { RouterLink } from 'vue-router';
+</script>
 <template>
     <header>
         <ul>
-            <li><a href="home.html">HOME</a></li>
+            <li>
+                <RouterLink to="/">HOME</RouterLink>
+            </li>
             <li class="dropdown-li">
-                <a href="#">LEARN MORE</a>
+                <RouterLink to="#">LEARN MORE</RouterLink>
                 <ul class="dropdown">
-                    <li><a href="home.html#about">ABOUT US</a></li>
-                    <li><a href="portfolio.html">PERSONAL PORTFOLIO</a></li>
-                    <li><a href="#">CONTACT US</a></li>
+                    <li>
+                        <RouterLink to="#about">ABOUT US</RouterLink>
+                    </li>
+                    <li>
+                        <RouterLink to="portfolio.html">PERSONAL PORTFOLIO</RouterLink>
+                    </li>
+                    <li>
+                        <RouterLink to="#">CONTACT US</RouterLink>
+                    </li>
                 </ul>
             </li>
-            <li><a href="account.html">ACCOUNT</a></li>
+            <li>
+                <RouterLink to="/account">ACCOUNT</RouterLink>
+            </li>
         </ul>
     </header>
 </template>
