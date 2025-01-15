@@ -1,43 +1,12 @@
 @font-face {
     font-family: Talk;
-    src: url("ZTTalk-Medium.ttf");
+    src: url("assets\\ZTTalk-Medium.ttf");
 }
 
 * {
     font-family: Talk;
     margin: 0;
 } 
-
-header {
-    display: flex;
-    align-items: center;
-    height: 75px;
-
-    font-size: larger;
-    color: white;
-    background-color: black;
-}
-
-button {
-    border-radius: 0;
-    border: none;
-
-    transition-duration: 0.5s;
-
-    background: rgba(255, 255, 255, 0);
-    color: white;
-    font-size: larger;
-
-    height: 100%;
-
-    text-align: center;
-}
-
-.button-resend {
-    text-decoration: none;
-    display: inline-flex;
-    height: inherit;
-}
 
 button:hover {
     cursor: pointer;

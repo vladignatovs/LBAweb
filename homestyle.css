@@ -1,6 +1,6 @@
 @font-face {
     font-family: Talk;
-    src: url("ZTTalk-Medium.ttf");
+    src: url("assets\\ZTTalk-Medium.ttf");
 }
 
 * {
@@ -8,51 +8,18 @@
     margin: 0;
 } 
 
-button {
-    border-radius: 0;
-    border: none;
+aside {
+    margin: 50px 0;
 
-    transition-duration: 0.5s;
-
-    background: rgba(255, 255, 255, 0);
-    color: white;
-    font-size: larger;
-
-    height: 100%;
+    display: grid;
+    gap: 50px;
+    font-size: large;
 
     text-align: center;
 }
 
-.button-resend, .account-management {
-    text-decoration: none;
-    display: inline-flex;
-    height: inherit;
-}
-
-.account-management {
-    width: 100%;
-    display: flex;
-    justify-content: right;
-}
-
-button:hover {
-    background: rgba(255, 255, 255, 0.5);
-}
-
-header {
-    display: flex;
-    align-items: center;
-    height: 75px;
-
-    font-size: larger;
-    color: white;
-    background-color: black;
-}
-
-aside {
-    height: 300px;
-    font-size: large;
-    margin-bottom: 25px;
+aside p {
+    padding: 0 50px;
 }
 
 main {
@@ -71,16 +38,70 @@ footer  {
 }
 
 
-.main-relink {
+.cards-page {
     display: flex;
     justify-content: space-around;
     align-items: center;
     height: 100%;
 }
 
-.relink {
+@media (max-width: 600px) {
+    .cards-page {
+        flex-direction: column;
+        gap: 30px;
+    }
+    .cards-page a {
+        width: 90%;
+    }
+}
+
+img {
+    width: 75px;
+    height: 75px;
+
+    filter: invert(1);
+    transition-duration: .5s;
+
+}
+
+.card {
     height: inherit;
-    width: 300px;
+    border-radius: 15px;
+    min-height: 300px;
+    display: flex;
+    flex-direction: column;
+
+    justify-content: center;
+    align-items: center;
+
+    text-align: center;
+
     background-color: black;
-    display: inline-block;
+    background-image: linear-gradient(black, black, rgba(21, 0, 255, 0.25));
+    color: white;
+
+    transition-duration: .5s;
+}
+
+
+.card p {
+    padding: 0 30px;
+}
+
+.card:hover {
+    transform: scale(1.05);
+    z-index: 1;
+    background-image: linear-gradient(white, white, rgba(21, 0, 255, 0.25));
+    background-color: white;
+    color: black;
+}
+
+.card:hover img {
+    filter: invert(0);
+}
+.clickable-card {
+    height: inherit;
+    width: 30%;
+
+    text-decoration: none;
 }
