@@ -16,7 +16,7 @@ registerRadio.addEventListener('click', function() {
     }
     loginPanel.style.visibility = "hidden";
     loginPanel.style.opacity = "0";  // Optional for animation effect
-});
+};
 
 loginRadio.addEventListener('click', function() {
     var registerPanel = document.getElementById('register');
@@ -40,7 +40,7 @@ loginRadio.addEventListener('click', function() {
         <section class="select-page">
             <h1> You are not logged in an account. </h1>
             <div class="radio-select">
-                <input class="radio-button" type="radio" name="radio-group" id="REGISTER"/>
+                <input class="radio-button" type="radio" name="radio-group" id="REGISTER" @click="register()"/>
                 <label class="radio-label" for="REGISTER">REGISTER</label>
                 <input class="radio-button" type="radio" name="radio-group" id="LOGIN"/>
                 <label class="radio-label" for="LOGIN">LOGIN</label>
