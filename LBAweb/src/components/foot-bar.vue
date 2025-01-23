@@ -1,24 +1,7 @@
 <template>
-    <footer>
-        <p> © 2024 LightsBeatsAction, All rights reserved. </p>
-    </footer>
+  <footer
+    class="bg-black text-[var(--text)] absolute bottom-0 w-full flex justify-center items-center h-18 text-2xl"
+  >
+    <p>© 2024 LightsBeatsAction, All rights reserved.</p>
+  </footer>
 </template>
-
-<style scoped>
-footer  {
-    background-color: black;
-    color: gray;
-
-    position: absolute;
-    bottom: 0;
-
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    height: 75px;
-
-    font-size: x-large;
-}
-</style>

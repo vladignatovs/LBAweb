@@ -1,116 +1,69 @@
 <script setup>
-import { RouterLink } from 'vue-router';
+import { RouterLink } from 'vue-router'
 </script>
 <template>
-    <header>
-        <ul>
-            <li>
-                <RouterLink to="/">HOME</RouterLink>
-            </li>
-            <li class="dropdown-li">
-                <RouterLink to="#">LEARN MORE</RouterLink>
-                <ul class="dropdown">
-                    <li>
-                        <RouterLink to="#about">ABOUT US</RouterLink>
-                    </li>
-                    <li>
-                        <RouterLink to="portfolio.html">PERSONAL PORTFOLIO</RouterLink>
-                    </li>
-                    <li>
-                        <RouterLink to="#">CONTACT US</RouterLink>
-                    </li>
-                </ul>
-            </li>
-            <li>
-                <RouterLink to="/account">ACCOUNT</RouterLink>
-            </li>
+  <header
+    class="flex items-center h-18 text-xl text-[var(--text)] bg-black scroll-smooth border-b-2 border-b-[var(--primary)]"
+  >
+    <ul class="p-0 h-full inline-flex justify-start list-none">
+      <li class="inline-block relative">
+        <RouterLink
+          to="/"
+          class="px-5 h-full flex justify-center items-center text-white duration-500 no-underline text-xl text-center hover:bg-[var(--accent)]/50"
+          >HOME</RouterLink
+        >
+      </li>
+      <li class="inline-block relative group hover:bg-[var(--accent)]/20">
+        <!-- main dropdown -->
+        <RouterLink
+          to="#"
+          class="px-5 h-full flex justify-center items-center text-white no-underline text-xl text-center duration-300 hover:bg-[var(--accent)]/30"
+        >
+          LEARN MORE
+        </RouterLink>
+
+        <!-- dropdown menu -->
+        <ul
+          class="absolute top-full left-0 w-full h-0 overflow-hidden bg-black opacity-0 duration-500 ease-in-out group-hover:h-[300%] group-hover:opacity-100"
+        >
+          <!-- dropdown item -->
+          <li class="block relative h-[33.3%]">
+            <RouterLink
+              to="/#about"
+              class="px-5 h-full flex justify-center items-center text-white no-underline text-base text-center duration-300 hover:bg-[var(--accent)]/30"
+            >
+              ABOUT US
+            </RouterLink>
+          </li>
+
+          <!-- dropdown item -->
+          <li class="block relative h-[33.3%]">
+            <RouterLink
+              to="#"
+              class="px-5 h-full flex justify-center items-center text-white no-underline text-base text-center duration-300 hover:bg-[var(--accent)]/30"
+            >
+              PATCH NOTES
+            </RouterLink>
+          </li>
+
+          <!-- dropdown item -->
+          <li class="block relative h-[33.3%]">
+            <RouterLink
+              to="#"
+              class="px-5 h-full flex justify-center items-center text-white no-underline text-base text-center duration-300 hover:bg-[var(--accent)]/30"
+            >
+              FORUM
+            </RouterLink>
+          </li>
         </ul>
-    </header>
+      </li>
+      <li class="inline-block relative">
+        <RouterLink
+          to="/account"
+          class="px-5 h-full flex justify-center items-center text-white duration-500 no-underline text-xl text-center hover:bg-[var(--accent)]/50"
+          >ACCOUNT</RouterLink
+        >
+      </li>
+    </ul>
+  </header>
 </template>
-
-<style scoped>
-html {
-    scroll-behavior: smooth;
-}
-
-header {
-    display: flex;
-    align-items: center;
-    height: 75px;
-
-    font-size: larger;
-    color: white;
-    background-color: black;
-}
-
-header ul {
-    padding: 0;
-
-    height: 100%;
-
-    display: inline-flex;
-    justify-content: left;
-
-    list-style: none;
-}
-
-header ul li {
-    display: inline-block;
-    
-    position: relative;
-}
-
-header ul li a {
-    padding: 0 20px;
-    
-    height: 100%;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    color: white;
-    transition-duration: 0.5s;
-
-    text-decoration: none;
-    font-size: larger;
-    text-align: center;
-}
-
-header li a:hover {
-    background-color: rgba(255, 255, 255, 0.5);
-}
-
-header .dropdown-li {
-    transition-duration: 0.5s;
-}
-
-header .dropdown-li a:hover {
-    background-color: rgba(255, 255, 255, 0.3);
-}
-
-header .dropdown-li:hover {
-    background: rgba(255, 255, 255, 0.2);
-}
-
-header .dropdown-li ul.dropdown li {
-    height: 75%;
-
-    display: block;
-
-    background-color: black;
-
-    font-size: medium;
-}
-
-header .dropdown-li ul.dropdown {
-    transition-duration: 0.5s;
-    width: 100%;
-    position: absolute;
-    display: none;
-}
-
-header .dropdown-li:hover ul.dropdown {
-    display: block;
-}
-</style>

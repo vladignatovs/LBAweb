@@ -1,0 +1,55 @@
+@import 'tailwindcss';
+
+@font-face {
+  font-family: Talk;
+  src: url('ZTTalk-Medium.ttf');
+}
+
+#app {
+  position: relative;
+  min-height: 100vh;
+  /* max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 auto;
+  font-weight: normal; */
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  font-family: Talk;
+}
+
+html {
+  background-color: var(--accent);
+}
+
+/* COLOR SCHEME FROM https://www.realtimecolors.com/?colors=d1d1d1-16161d-2b2b2b-ffff66-0fffff&fonts=Inter-Inter */
+:root {
+  --text: #d1d1d1;
+  --background: #16161d;
+  --primary: #2b2b2b;
+  --secondary: #ffff66;
+  --accent: #0fffff;
+}
+
+/* @media (hover: hover) {
+  a:hover {
+    background-color: hsla(160, 100%, 37%, 0.2);
+  }
+} */
+
+/* @media (min-width: 1024px) {
+  body {
+    display: flex;
+    place-items: center;
+  }
+
+  #app {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding: 0 2rem;
+  }
+} */
