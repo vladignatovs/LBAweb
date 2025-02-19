@@ -5,34 +5,34 @@
       also be a good place to put most important socials like a discord server or a redirect to the
       steam page of the game.
     </p>
-    <div class="cards-page">
-      <a href="https://discord.com" class="clickable-card">
-        <div class="card">
+    <div class="flex justify-around items-center h-full">
+      <a href="https://discord.com" class="h-full w-[30%] no-underline">
+        <div
+          class="h-full rounded-2xl min-h-[300px] flex flex-col justify-center items-center text-center text-[var(--text)] duration-500 group bg-linear-to-t from-blue-100 to-red-100 hover:scale-105 hover:z-10 hover:ease-out hover:text-black hover:bg-linear-to-r hover:from-red-500 hover:to-blue-500">
           <img
             src="https://cdn.prod.website-files.com/6257adef93867e50d84d30e2/636e0a6918e57475a843f59f_icon_clyde_black_RGB.svg"
-            alt=""
-          />
+            alt="" class="w-19 h-19 invert duration-500 ease-in-out group-hover:invert-0" />
           <br />
           <p>
             Join our official discord server, as it is our main source of recieving feedback from
             our YOU!
           </p>
-        </div></a
-      >
-      <a href="https://store.steampowered.com" class="clickable-card"
-        ><div class="card">
+        </div>
+      </a>
+      <a href="https://store.steampowered.com" class="h-full w-[30%] no-underline">
+        <div class="card">
           <img src="../assets/steam_logo_icon.webp" alt="" />
           <br />
           <p>Wishlist our game on steam NOW! Don't forget to let us know about your experience!</p>
-        </div></a
-      >
-      <a href="account.html" class="clickable-card"
-        ><div class="card">
+        </div>
+      </a>
+      <a href="account.html" class="h-full w-[30%] no-underline">
+        <div class="card">
           <img src="../assets/account_icon.webp" alt="" />
           <br />
           <p>Create an account for further usage in both our GAME and WEBSITE!</p>
-        </div></a
-      >
+        </div>
+      </a>
     </div>
   </aside>
   <!-- TO BE CHANGED -->
@@ -49,18 +49,13 @@
 <style scoped>
 /* TODO FIX STYLES, FIX ANIMATIONS */
 /* ALSO FIX COLOR SCHEME, FIND HOW TO USE IT */
-.cards-page {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  height: 100%;
-}
 
 @media (max-width: 600px) {
   .cards-page {
     flex-direction: column;
     gap: 30px;
   }
+
   .cards-page a {
     width: 90%;
   }
@@ -104,13 +99,8 @@ img {
   color: black;
 }
 
+/* 
 .card:hover img {
   filter: invert(0);
-}
-.clickable-card {
-  height: inherit;
-  width: 30%;
-
-  text-decoration: none;
-}
+} */
 </style>

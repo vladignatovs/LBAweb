@@ -13,8 +13,8 @@ import { RouterLink } from 'vue-router'
           >HOME</RouterLink
         >
       </li>
+      <!-- main dropdown -->
       <li class="inline-block relative group hover:bg-[var(--accent)]/20">
-        <!-- main dropdown -->
         <RouterLink
           to="#"
           class="px-5 h-full flex justify-center items-center text-white no-underline text-xl text-center duration-300 hover:bg-[var(--accent)]/30"
@@ -23,7 +23,7 @@ import { RouterLink } from 'vue-router'
         </RouterLink>
 
         <!-- dropdown menu -->
-        <ul
+          <ul
           class="absolute top-full left-0 w-full h-0 overflow-hidden bg-black opacity-0 duration-500 ease-in-out group-hover:h-[300%] group-hover:opacity-100"
         >
           <!-- dropdown item -->

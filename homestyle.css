@@ -45,7 +45,7 @@ footer  {
     height: 100%;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 768px) {
     .cards-page {
         flex-direction: column;
         gap: 30px;
