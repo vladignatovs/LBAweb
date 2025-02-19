@@ -1,8 +1,8 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 
 @font-face {
   font-family: Talk;
-  src: url('ZTTalk-Medium.ttf');
+  src: url("ZTTalk-Medium.ttf");
 }
 
 #app {
@@ -23,7 +23,7 @@
 }
 
 html {
-  background-color: var(--accent);
+  background-color: var(--background);
 }
 
 /* COLOR SCHEME FROM https://www.realtimecolors.com/?colors=d1d1d1-16161d-2b2b2b-ffff66-0fffff&fonts=Inter-Inter */

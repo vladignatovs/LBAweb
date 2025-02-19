@@ -1,7 +1,6 @@
 <template>
   <footer
-    class="bg-black text-[var(--text)] absolute bottom-0 w-full flex justify-center items-center h-18 text-2xl"
-  >
-    <p>© 2024 LightsBeatsAction, All rights reserved.</p>
+    class="absolute bottom-0 flex h-18 w-full items-center justify-center bg-black text-2xl text-[var(--text)]">
+    <p>© 2025 LightsBeatsAction, All rights reserved.</p>
   </footer>
 </template>

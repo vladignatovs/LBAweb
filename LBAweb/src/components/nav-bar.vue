@@ -1,68 +1,63 @@
 <script setup>
-import { RouterLink } from 'vue-router'
+import { RouterLink } from "vue-router";
 </script>
 <template>
   <header
-    class="flex items-center h-18 text-xl text-[var(--text)] bg-black scroll-smooth border-b-2 border-b-[var(--primary)]"
-  >
-    <ul class="p-0 h-full inline-flex justify-start list-none">
-      <li class="inline-block relative">
+    class="sticky top-0 z-50 h-18 items-center scroll-smooth bg-black/60 text-xl text-[var(--text)] backdrop-blur-3xl">
+    <ul class="inline-flex h-full list-none justify-start p-0">
+      <li class="relative inline-block">
         <RouterLink
           to="/"
-          class="px-5 h-full flex justify-center items-center text-white duration-500 no-underline text-xl text-center hover:bg-[var(--accent)]/50"
-          >HOME</RouterLink
-        >
+          class="flex h-full items-center justify-center px-5 text-center text-xl text-white duration-500 hover:text-2xl hover:text-[var(--text)]">
+          HOME
+        </RouterLink>
       </li>
       <!-- main dropdown -->
-      <li class="inline-block relative group hover:bg-[var(--accent)]/20">
+      <li
+        class="group relative inline-block hover:text-2xl hover:text-[var(--text)]">
         <RouterLink
           to="#"
-          class="px-5 h-full flex justify-center items-center text-white no-underline text-xl text-center duration-300 hover:bg-[var(--accent)]/30"
-        >
+          class="flex h-full items-center justify-center px-5 text-center text-xl text-white duration-300 group-hover:text-2xl hover:text-[var(--text)]">
           LEARN MORE
         </RouterLink>
 
         <!-- dropdown menu -->
         <ul
-          class="absolute top-full left-0 w-full h-0 overflow-hidden bg-black opacity-0 duration-500 ease-in-out group-hover:h-[300%] group-hover:opacity-100"
-        >
+          class="absolute top-full left-0 h-0 w-full overflow-hidden bg-black/60 opacity-0 backdrop-blur-3xl duration-500 ease-in-out group-hover:h-[300%] group-hover:opacity-100">
           <!-- dropdown item -->
-          <li class="block relative h-[33.3%]">
+          <li class="relative block h-[33.3%]">
             <RouterLink
               to="/#about"
-              class="px-5 h-full flex justify-center items-center text-white no-underline text-base text-center duration-300 hover:bg-[var(--accent)]/30"
-            >
+              class="flex h-full items-center justify-center px-5 text-center text-base text-white duration-300 hover:text-xl hover:text-[var(--text)]">
               ABOUT US
             </RouterLink>
           </li>
 
           <!-- dropdown item -->
-          <li class="block relative h-[33.3%]">
+          <li class="relative block h-[33.3%]">
             <RouterLink
               to="#"
-              class="px-5 h-full flex justify-center items-center text-white no-underline text-base text-center duration-300 hover:bg-[var(--accent)]/30"
-            >
+              class="flex h-full items-center justify-center px-5 text-center text-base text-white no-underline duration-300 hover:text-xl hover:text-[var(--text)]">
               PATCH NOTES
             </RouterLink>
           </li>
 
           <!-- dropdown item -->
-          <li class="block relative h-[33.3%]">
+          <li class="relative block h-[33.3%]">
             <RouterLink
               to="#"
-              class="px-5 h-full flex justify-center items-center text-white no-underline text-base text-center duration-300 hover:bg-[var(--accent)]/30"
-            >
+              class="flex h-full items-center justify-center px-5 text-center text-base text-white no-underline duration-300 hover:text-xl hover:text-[var(--text)]">
               FORUM
             </RouterLink>
           </li>
         </ul>
       </li>
-      <li class="inline-block relative">
+      <li class="relative inline-block">
         <RouterLink
           to="/account"
-          class="px-5 h-full flex justify-center items-center text-white duration-500 no-underline text-xl text-center hover:bg-[var(--accent)]/50"
-          >ACCOUNT</RouterLink
-        >
+          class="flex h-full items-center justify-center px-5 text-center text-xl text-white no-underline duration-500 hover:text-2xl hover:text-[var(--text)]">
+          ACCOUNT
+        </RouterLink>
       </li>
     </ul>
   </header>
