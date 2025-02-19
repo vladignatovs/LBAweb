@@ -8,9 +8,9 @@
       discord server or a redirect to the steam page of the game.
     </p>
     <div class="flex h-full items-center justify-around">
-      <a href="https://discord.com" class="h-full w-[30%] no-underline">
+      <a href="https://discord.com" class="group h-full w-[30%] no-underline">
         <div
-          class="group flex h-full min-h-[300px] flex-col items-center justify-center rounded-2xl bg-linear-to-t from-blue-100 to-red-100 text-center text-[var(--text)] duration-500 hover:z-10 hover:scale-105 hover:bg-linear-to-r hover:from-red-500 hover:to-blue-500 hover:text-black hover:ease-out"
+          class="flex h-full min-h-[300px] flex-col items-center justify-center rounded-2xl bg-linear-to-t from-blue-100 to-red-100 text-center text-[var(--text)] duration-500 hover:z-10 hover:scale-105 hover:bg-linear-to-r hover:from-red-500 hover:to-blue-500 hover:text-black hover:ease-out"
         >
           <img
             src="https://cdn.prod.website-files.com/6257adef93867e50d84d30e2/636e0a6918e57475a843f59f_icon_clyde_black_RGB.svg"
@@ -29,7 +29,11 @@
         class="h-full w-[30%] no-underline"
       >
         <div class="card">
-          <img src="../assets/steam_logo_icon.webp" alt="" />
+          <img
+            src="../assets/steam_logo_icon.webp"
+            alt=""
+            class="h-19 w-19 invert duration-500 ease-in-out group-hover:invert-0"
+          />
           <br />
           <p>
             Wishlist our game on steam NOW! Don't forget to let us know about
@@ -39,7 +43,11 @@
       </a>
       <a href="account.html" class="h-full w-[30%] no-underline">
         <div class="card">
-          <img src="../assets/account_icon.webp" alt="" />
+          <img
+            src="../assets/account_icon.webp"
+            alt=""
+            class="h-19 w-19 invert duration-500 ease-in-out group-hover:invert-0"
+          />
           <br />
           <p>
             Create an account for further usage in both our GAME and WEBSITE!
@@ -72,14 +80,6 @@
   .cards-page a {
     width: 90%;
   }
-}
-
-img {
-  width: 75px;
-  height: 75px;
-
-  filter: invert(1);
-  transition-duration: 0.5s ease-in;
 }
 
 .card {
