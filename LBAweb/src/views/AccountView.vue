@@ -1,56 +1,68 @@
 <script setup>
-import { ref } from 'vue'
+import { ref } from "vue";
 
 // Reactive properties for controlling panel visibility
-const isLoginVisible = ref(false)
-const isRegisterVisible = ref(false)
+// false - value, ref() - makes it reactive
+const isLoginVisible = ref(false);
+const isRegisterVisible = ref(false);
 
 // Method to toggle panels
 function togglePanel(panel) {
-  if (panel === 'login') {
-    isLoginVisible.value = !isLoginVisible.value
-    isRegisterVisible.value = false // Hide the register panel
-  } else if (panel === 'register') {
-    isRegisterVisible.value = !isRegisterVisible.value
-    isLoginVisible.value = false // Hide the login panel
+  if (panel === "login") {
+    isLoginVisible.value = !isLoginVisible.value;
+    isRegisterVisible.value = false; // Hide the register panel
+  } else if (panel === "register") {
+    isRegisterVisible.value = !isRegisterVisible.value;
+    isLoginVisible.value = false; // Hide the login panel
   }
 }
 </script>
 <template>
-  <main>
-    <section class="select-page">
+  <main class="flex items-stretch justify-between gap-13">
+    <section
+      class="m-0 mb-13 flex flex-1 flex-col items-center justify-center text-2xl">
       <h1>You are not logged in an account.</h1>
-      <div class="radio-select">
+      <div class="flex">
         <input
-          class="radio-button"
+          class="hidden"
           type="radio"
           name="radio-group"
           id="REGISTER"
-          @click="togglePanel('register')"
-        />
-        <label class="radio-label" for="REGISTER">REGISTER</label>
+          @click="togglePanel('register')" />
+        <label
+          class="inline-block p-1 duration-500 hover:cursor-pointer hover:bg-black/50"
+          for="REGISTER">
+          REGISTER
+        </label>
         <input
-          class="radio-button"
+          class="group hidden"
           type="radio"
           name="radio-group"
           id="LOGIN"
-          @click="togglePanel('login')"
-        />
-        <label class="radio-label" for="LOGIN">LOGIN</label>
+          @click="togglePanel('login')" />
+        <label
+          class="inline-block p-1 duration-500 group-checked:bg-black/50 hover:cursor-pointer hover:bg-black/50"
+          for="LOGIN">
+          LOGIN
+        </label>
       </div>
     </section>
-    <section class="input-page">
+    <section class="flex flex-1 flex-row bg-black text-white">
       <div
         id="register"
         :class="{
           'visible-panel': isRegisterVisible,
           'hidden-panel': !isRegisterVisible,
-        }"
-      >
+        }">
         <form action="" method="get" class="form-fill">
           <div class="form-fill">
             <label for="name">Enter your username: </label>
-            <input type="text" name="name" id="name" required />
+            <input
+              class="inline-block"
+              type="text"
+              name="name"
+              id="name"
+              required />
           </div>
           <div class="form-fill">
             <label for="email">Enter your email: </label>
@@ -65,7 +77,11 @@ function togglePanel(panel) {
             <input type="password" name="rpassword" id="rpassword" required />
           </div>
           <div class="form-fill" id="submit-form">
-            <button type="submit">REGISTER</button>
+            <button
+              class="hover:cursor-pointer hover:bg-white/50"
+              type="submit">
+              REGISTER
+            </button>
           </div>
         </form>
       </div>
@@ -74,8 +90,7 @@ function togglePanel(panel) {
         :class="{
           'visible-panel': isLoginVisible,
           'hidden-panel': !isLoginVisible,
-        }"
-      >
+        }">
         <form action="" method="get" class="form-fill">
           <div class="form-fill">
             <label for="name">Enter your username: </label>
@@ -94,18 +109,24 @@ function togglePanel(panel) {
             <input type="password" name="rpassword" id="rpassword" required />
           </div>
           <div class="form-fill" id="submit-form">
-            <button type="submit">REGISTER</button>
+            <button
+              class="hover:cursor-pointer hover:bg-white/50"
+              type="submit">
+              REGISTER
+            </button>
           </div>
         </form>
       </div>
     </section>
   </main>
-  <aside>
+  <aside class="h-[1000px] bg-black p-13 text-white">
+    <!-- class="m-13 mb-0 flex flex-col items-center justify-center gap-3 bg-black p-3 text-2xl text-white"> -->
     <p>
-      Logging into an account is an essential part of your experience on our website, as it allows
-      your account to be browsed by other users, and makes its fair for you to browse those in the
-      first place. By having an account you also get an access to creating your own levels, saving
-      your achivements in a dedicated server and
+      Logging into an account is an essential part of your experience on our
+      website, as it allows your account to be browsed by other users, and makes
+      it fair for you to browse those in the first place. By having an account
+      you also get an access to creating your own levels, saving your
+      achivements in a dedicated server and
     </p>
   </aside>
 </template>
@@ -126,76 +147,10 @@ function togglePanel(panel) {
     opacity 0.3s;
 }
 
-button:hover {
-  cursor: pointer;
-  background: rgba(255, 255, 255, 0.5);
-}
-
 .radio-label:hover,
 .radio-button:checked + .radio-label:hover {
   cursor: pointer;
   background: rgba(0, 0, 0, 0.5);
-}
-
-/* aside {
-    background-color: black;
-    color: white;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    font-size: xx-large;
-    gap: 10px;
-    padding: 10px;
-    margin: 50px;
-    margin-bottom: 0;
-} */
-
-main {
-  display: flex;
-  align-items: stretch;
-  justify-content: space-between;
-  height: 500px;
-  gap: 50px;
-}
-
-.select-page {
-  flex: 1;
-  margin: 0 0 0 50px;
-
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  font-size: xx-large;
-}
-
-.input-page {
-  flex: 1;
-
-  display: flex;
-  flex-direction: row;
-  background-color: black;
-  color: white;
-}
-
-aside {
-  padding: 50px;
-  background-color: black;
-  color: white;
-
-  height: 1000px;
-}
-
-footer {
-  background-color: black;
-  color: gray;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 75px;
-  font-size: x-large;
 }
 
 /* section {
@@ -226,24 +181,6 @@ footer {
   width: 80%;
 }
 
-.radio-button {
-  display: none;
-}
-
-.radio-select {
-  display: flex;
-}
-
-.radio-label {
-  display: inline-block;
-  transition-duration: 0.5s;
-  padding: 5px;
-}
-
-.radio-button:checked + .radio-label {
-  background: rgba(0, 0, 0, 0.25);
-}
-
 /* -----------------------TODO: thisss ----------------------------*/
 .form-fill {
   display: flex;
@@ -252,18 +189,18 @@ footer {
   width: 100%;
 }
 
-label,
+/* label,
 input {
   display: inline-block;
   gap: 5px;
-}
+} */
 
 input {
   padding: 8px;
   font-size: 1rem;
 }
 
-button[type='submit'] {
+button[type="submit"] {
   max-width: 150px;
   padding: 10px;
 }

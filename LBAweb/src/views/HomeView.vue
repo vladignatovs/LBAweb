@@ -13,7 +13,7 @@
           <img
             src="https://cdn.prod.website-files.com/6257adef93867e50d84d30e2/636e0a6918e57475a843f59f_icon_clyde_black_RGB.svg"
             alt=""
-            class="h-19 w-19 invert duration-500 ease-out group-hover:invert-0" />
+            class="size-19 invert duration-500 ease-out group-hover:invert-0" />
           <br />
           <p class="px-8">
             Join our official discord server, as it is our main source of
@@ -29,7 +29,7 @@
           <img
             src="../assets/steam_logo_icon.webp"
             alt=""
-            class="h-19 w-19 invert duration-500 ease-in-out group-hover:invert-0" />
+            class="size-19 invert duration-500 ease-in-out group-hover:invert-0" />
           <br />
           <p class="px-8">
             Wishlist our game on steam NOW! Don't forget to let us know about
@@ -43,7 +43,7 @@
           <img
             src="../assets/account_icon.webp"
             alt=""
-            class="h-19 w-19 invert duration-500 ease-in-out group-hover:invert-0" />
+            class="size-19 invert duration-500 ease-in-out group-hover:invert-0" />
           <br />
           <p class="px-8">
             Create an account for further usage in both our GAME and WEBSITE!
