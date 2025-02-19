@@ -31,10 +31,16 @@
     "eslint-plugin-cypress": "^4.1.0",
     "eslint-plugin-vue": "^9.30.0",
     "jsdom": "^25.0.1",
-    "prettier": "^3.3.3",
+    "prettier": "^3.5.1",
+    "prettier-plugin-tailwindcss": "^0.6.11",
     "start-server-and-test": "^2.0.9",
     "vite": "^6.0.5",
     "vite-plugin-vue-devtools": "^7.6.8",
     "vitest": "^2.1.8"
+  },
+  "prettier": {
+    "plugins": [
+      "prettier-plugin-tailwindcss"
+    ]
   }
 }

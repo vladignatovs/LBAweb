@@ -23,7 +23,7 @@ import { RouterLink } from 'vue-router'
         </RouterLink>
 
         <!-- dropdown menu -->
-          <ul
+        <ul
           class="absolute top-full left-0 w-full h-0 overflow-hidden bg-black opacity-0 duration-500 ease-in-out group-hover:h-[300%] group-hover:opacity-100"
         >
           <!-- dropdown item -->
