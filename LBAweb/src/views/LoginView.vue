@@ -15,7 +15,8 @@ const handleLogin = async () => {
     });
 
     localStorage.setItem("auth_token", response.data.token);
-
+    localStorage.setItem("user", JSON.stringify(response.data.user));
+    // push user to the page where they are already logged in (preferably showing user data for development)
     router.push("/dashboard");
   } catch (e) {
     alert("womp womp");

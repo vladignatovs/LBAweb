@@ -36,7 +36,28 @@ const router = createRouter({
       name: "Register",
       component: () => import("@/views/RegisterView.vue"),
     },
+    {
+      path: "/dashboard",
+      name: "Dashboard",
+      component: () => import("@/views/DashboardView.vue"),
+      meta: { requiresAuth: true }, // !!!!!
+    },
+    {
+      path: "/news",
+      name: "News",
+      component: () => import("@/views/NewsList.vue"),
+    },
   ],
+});
+
+router.beforeEach((to, from, next) => {
+  const token = localStorage.getItem("auth_token");
+
+  if (to.meta.requiresAuth && !token) {
+    next("/login");
+  } else {
+    next();
+  }
 });
 
 export default router;

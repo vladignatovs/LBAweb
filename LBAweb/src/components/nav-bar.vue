@@ -38,7 +38,7 @@ import { RouterLink } from "vue-router";
             <!-- dropdown item -->
             <li class="relative block h-[33.3%]">
               <RouterLink
-                to=""
+                to="/news"
                 class="flex h-full items-center justify-center px-5 text-center text-base duration-300 hover:text-[var(--text)]">
                 NEWS
               </RouterLink>

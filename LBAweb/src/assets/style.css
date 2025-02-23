@@ -20,9 +20,9 @@
   box-sizing: border-box;
   font-family: Talk;
 }
-
+/* BACKGROUND COLOR HERE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! */
 html {
-  background-color: var(--background);
+  background-color: #d8d8b0;
 }
 
 /* COLOR SCHEME FROM https://www.realtimecolors.com/?colors=d1d1d1-16161d-2b2b2b-ffff66-0fffff&fonts=Inter-Inter */
