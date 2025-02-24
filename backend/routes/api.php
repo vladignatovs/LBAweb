@@ -32,4 +32,4 @@ Route::get('/news', [NewsController::class, 'index']);  // get all news
 Route::get('/news/{id}', [NewsController::class, 'show']);  // get single news
 
 // STORE FUNCTION ONLY AVAILABLE FOR ADMINS
-Route::middleware(['auth:sanctum'])->post('/news', [NewsController::class, 'store']);
+Route::post('/news', [NewsController::class, 'store'])->middleware(['auth:sanctum']);

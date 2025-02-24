@@ -18,6 +18,7 @@ function togglePanel(panel) {
 }
 </script>
 <template>
+  
   <main class="flex items-stretch justify-between gap-13">
     <section
       class="m-0 mb-13 flex flex-1 flex-col items-center justify-center text-2xl">

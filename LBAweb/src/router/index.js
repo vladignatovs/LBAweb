@@ -15,6 +15,7 @@ const router = createRouter({
       path: "/account",
       name: "Account",
       component: AccountView,
+      meta: { requiresAuth: true }, // !!!!!
     },
     {
       path: "/authentication",
@@ -40,7 +41,7 @@ const router = createRouter({
       path: "/dashboard",
       name: "Dashboard",
       component: () => import("@/views/DashboardView.vue"),
-      meta: { requiresAuth: true }, // !!!!!
+      meta: { requiresAuth: true },
     },
     {
       path: "/news",

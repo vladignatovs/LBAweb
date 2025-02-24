@@ -1,10 +1,10 @@
 <script setup>
 import { ref, onMounted } from "vue";
-// import { useRouter } from "vue-router";
+import { useRouter } from "vue-router";
 import axios from "axios";
 
 const user = ref(null);
-// const router = useRouter();
+const router = useRouter();
 
 const fetchUserData = async () => {
   const token = localStorage.getItem("auth_token");
@@ -29,6 +29,27 @@ const fetchUserData = async () => {
   }
 };
 
+const logout = async () => {
+  const token = localStorage.getItem("auth_token");
+  await axios
+    .post(
+      "http://127.0.0.1:8000/api/logout",
+      {},
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      },
+    )
+    .then((response) => {
+      console.log(response.data.message);
+      router.push("/");
+      // localStorage.removeItem("auth_token");
+    })
+    .catch((e) => {
+      console.error(e);
+      alert("womp womp!");
+    });
+};
+
 onMounted(() => {
   fetchUserData();
 });
@@ -40,6 +61,7 @@ onMounted(() => {
       <p>Name: {{ user.name }}</p>
       <p>Email: {{ user.email }}</p>
       <p>Password: {{ user.password }}</p>
+      <button @click="logout" class="cursor-pointer">Log out</button>
     </div>
     <div v-else>
       <p>You are not logged in!</p>
