@@ -7,7 +7,7 @@ const name = ref("");
 const email = ref("");
 const password = ref("");
 const passwordConfirmation = ref("");
-// const error = ref("");
+const error = ref("");
 const router = useRouter();
 
 const handleRegister = async () => {
