@@ -28,22 +28,6 @@ const router = createRouter({
       component: () => import("@/views/HelloRequest.vue"),
     },
     {
-      path: "/login",
-      name: "Login",
-      component: () => import("@/views/LoginView.vue"),
-    },
-    {
-      path: "/register",
-      name: "Register",
-      component: () => import("@/views/RegisterView.vue"),
-    },
-    {
-      path: "/dashboard",
-      name: "Dashboard",
-      component: () => import("@/views/DashboardView.vue"),
-      meta: { requiresAuth: true },
-    },
-    {
       path: "/news",
       name: "News",
       component: () => import("@/views/NewsList.vue"),
@@ -55,7 +39,7 @@ router.beforeEach((to, from, next) => {
   const token = localStorage.getItem("auth_token");
 
   if (to.meta.requiresAuth && !token) {
-    next("/login");
+    next("/authentication");
   } else {
     next();
   }

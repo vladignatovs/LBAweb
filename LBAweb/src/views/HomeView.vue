@@ -37,7 +37,7 @@
           </p>
         </div>
       </a>
-      <a href="account.html" class="group h-full w-[30%] no-underline">
+      <a href="/account" class="group h-full w-[30%] no-underline">
         <div
           class="flex h-full min-h-[300px] flex-col items-center justify-center rounded-2xl bg-linear-to-t from-[var(--primary)] via-[var(--primary)] to-[var(--primary)] text-center text-[var(--text)] duration-500 hover:z-10 hover:scale-105 hover:bg-linear-to-t hover:from-[var(--secondary)] hover:via-[var(--secondary)] hover:to-[var(--secondary)] hover:text-black hover:ease-out">
           <img

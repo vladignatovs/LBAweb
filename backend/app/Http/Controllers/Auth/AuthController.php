@@ -74,6 +74,24 @@ class AuthController extends Controller {
         return response()->json(['message' => 'Logged out']);
     }
 
+    /**
+     * Logs out all the users from the system and the database (i think)
+     * @param \Illuminate\Http\Request $request
+     * @return mixed|\Illuminate\Http\JsonResponse
+     */
+    public function forceLogout(Request $request){
+        // If unauthorized or no admin rights -> return eror 403
+        if (!Auth::check() || Auth::user()->rights !== 'admin') {
+            return response()->json(['message' => 'Forbidden'], 403);
+        }
+        // Delete all tokens
+        $request->user()->tokens->each(function ($token) {
+            $token->delete();
+        });
+
+        return response()->json(['message' => 'All sessions logged out']);
+    }
+
     public function user(Request $request) {
         return $request->user();
     }
