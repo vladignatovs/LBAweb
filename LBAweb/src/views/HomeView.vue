@@ -1,12 +1,23 @@
 <template>
-  <aside
-    class="mx-0 grid gap-12 bg-[var(--background)] py-12 text-center text-xl text-white">
-    <p class="px-12">
-      Basically the main point of this page, where useful redirects will be more
-      noticable, could also be a good place to put most important socials like a
-      discord server or a redirect to the steam page of the game.
-    </p>
-    <div class="flex h-full items-center justify-around">
+  <main>
+    <!-- TITLE -->
+    <section
+      class="mx-0 grid gap-12 bg-[var(--accent)] py-12 text-center text-xl">
+      <p class="px-12">
+        Basically the main point of this page, where useful redirects will be
+        more noticable, could also be a good place to put most important socials
+        like a discord server or a redirect to the steam page of the game.
+      </p>
+    </section>
+    <!-- NEWS -->
+    <section
+      class="mx-0 grid gap-12 bg-[var(--accent)] py-12 text-center text-xl text-[var(--secondary)]">
+      <P>NEWS</P>
+    </section>
+    <!-- CARDS -->
+    <section
+      class="mx-0 flex h-full items-center justify-around gap-12 bg-[var(--accent)] px-12 text-center text-xl text-white">
+      <!-- DISCORD CARD -->
       <a href="https://discord.com" class="group h-full w-[30%] no-underline">
         <div
           class="flex h-full min-h-[300px] flex-col items-center justify-center rounded-2xl bg-linear-to-t from-[var(--primary)] via-[var(--primary)] to-[var(--primary)] text-center text-[var(--text)] duration-500 hover:z-10 hover:scale-105 hover:bg-linear-to-t hover:from-[var(--secondary)] hover:via-[var(--secondary)] hover:to-[var(--secondary)] hover:text-black hover:ease-out">
@@ -21,6 +32,7 @@
           </p>
         </div>
       </a>
+      <!-- STEAM CARD -->
       <a
         href="https://store.steampowered.com"
         class="group h-full w-[30%] no-underline">
@@ -37,6 +49,7 @@
           </p>
         </div>
       </a>
+      <!-- ACCOUNT CARD (MIGHT CHANGE) -->
       <a href="/account" class="group h-full w-[30%] no-underline">
         <div
           class="flex h-full min-h-[300px] flex-col items-center justify-center rounded-2xl bg-linear-to-t from-[var(--primary)] via-[var(--primary)] to-[var(--primary)] text-center text-[var(--text)] duration-500 hover:z-10 hover:scale-105 hover:bg-linear-to-t hover:from-[var(--secondary)] hover:via-[var(--secondary)] hover:to-[var(--secondary)] hover:text-black hover:ease-out">
@@ -50,14 +63,13 @@
           </p>
         </div>
       </a>
-    </div>
-  </aside>
-  <!-- TO BE CHANGED -->
-  <main class="h-[5000px] bg-[var(--background)] text-[var(--text)]">
-    <section id="about" class="font-bold">
+    </section>
+    <!-- DEVELOPMENT -->
+    <section
+      class="h-[5000px] bg-linear-to-b from-[var(--accent)] from-0% to-[var(--secondary)] p-12 font-bold">
       <p>
         Bunch of info about the game, history of development as well as some
-        other details, socials (?) and useful links
+        other details, socials (?) and useful links, on scroll moving section
       </p>
     </section>
   </main>

@@ -74,7 +74,7 @@ import fancyInput from "./fancy-input.vue";
       <li class="relative inline-block">
         <form
           action=""
-          class="flex h-full w-64 items-center justify-center px-5 text-center text-xl no-underline duration-200 hover:text-[var(--text)]">
+          class="flex h-full w-64 items-center justify-center px-5 text-center text-xl no-underline duration-200">
           <fancy-input label="Browse Levels / Accounts" />
         </form>
       </li>
