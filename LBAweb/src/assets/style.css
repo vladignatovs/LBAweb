@@ -22,7 +22,7 @@
 }
 /* BACKGROUND COLOR HERE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! */
 html {
-  background-color: #d8d8b0;
+  background-color: var(--background);
 }
 
 /* COLOR SCHEME FROM https://www.realtimecolors.com/?colors=d1d1d1-16161d-2b2b2b-ffff66-0fffff&fonts=Inter-Inter */
@@ -32,6 +32,13 @@ html {
   --primary: #2b2b2b;
   --secondary: #ffff66;
   --accent: #0fffff;
+}
+
+input:-internal-autofill-selected,
+input:-webkit-autofill {
+  background-color: black !important;
+  -webkit-text-fill-color: white !important;
+  box-shadow: 0 0 0px 1000px black inset !important; /* <- CHANGES BG COLOR!*/
 }
 
 /* @media (hover: hover) {

@@ -66,24 +66,29 @@ const switchMethod = async () => {
 };
 </script>
 <template>
+  <!-- REPLACE THIS, JUST A TEST FOR ANIMATIONS -->
+  <img
+    src="https://static.vecteezy.com/system/resources/previews/020/933/072/non_2x/abstract-blur-gradient-background-vector.jpg"
+    alt=""
+    class="absolute top-0 z-[-100] h-full w-full" />
   <div class="flex w-full justify-center">
     <button
       :class="loginButton"
       @click="switchMethod"
-      class="absolute top-1/2 right-1/2 z-50 -translate-y-1/2 cursor-pointer rounded-l-lg bg-black/60 px-6 py-3 backdrop-blur-3xl transition-all duration-200 ease-in-out hover:text-white">
+      class="absolute top-1/2 right-1/2 z-50 -translate-y-1/2 cursor-pointer rounded-l-2xl bg-black/60 px-6 py-3 backdrop-blur-3xl transition-all duration-200 ease-in-out hover:text-white">
       LOGIN
     </button>
     <button
       :class="registerButton"
       @click="switchMethod"
-      class="absolute top-1/2 left-1/2 z-50 -translate-y-1/2 cursor-pointer rounded-r-lg bg-black/60 px-6 py-3 backdrop-blur-3xl transition-all duration-200 ease-in-out hover:text-white">
+      class="absolute top-1/2 left-1/2 z-50 -translate-y-1/2 cursor-pointer rounded-r-2xl bg-black/60 px-6 py-3 backdrop-blur-3xl transition-all duration-200 ease-in-out hover:text-white">
       REGISTER
     </button>
   </div>
   <!-- REGISTER -->
   <div
     v-if="register"
-    class="absolute top-0 right-0 flex h-screen w-1/2 flex-col items-center justify-center">
+    class="absolute top-0 right-0 flex h-screen w-1/2 flex-col items-center justify-center transition-all">
     <div class="absolute z-[-10] size-full bg-black/60 backdrop-blur-3xl"></div>
     <form @submit.prevent="handleRegister" class="flex w-1/2 flex-col gap-3">
       <fancy-input v-model="name" label="Username" />
@@ -104,7 +109,7 @@ const switchMethod = async () => {
   <!-- LOGIN -->
   <div
     v-else
-    class="absolute top-0 left-0 flex h-screen w-1/2 flex-col items-center justify-center">
+    class="absolute top-0 left-0 flex h-screen w-1/2 flex-col items-center justify-center transition-all">
     <div class="absolute z-[-10] size-full bg-black/60 backdrop-blur-3xl"></div>
     <form @submit.prevent="handleLogin" class="flex w-1/2 flex-col gap-3">
       <fancy-input v-model="email" type="email" label="Email" />
@@ -117,14 +122,3 @@ const switchMethod = async () => {
     </form>
   </div>
 </template>
-<style>
-input:-webkit-autofill {
-  background-color: #00e1ff !important;
-  color: #000 !important;
-  transition: background-color 5000s ease-in-out 0s;
-}
-input:-webkit-autofill:focus {
-  background-color: #00e1ff !important;
-  color: #000 !important;
-}
-</style>

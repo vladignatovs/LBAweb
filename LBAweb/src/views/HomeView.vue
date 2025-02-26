@@ -4,9 +4,17 @@
     <section
       class="mx-0 grid gap-12 bg-[var(--accent)] py-12 text-center text-xl">
       <p class="px-12">
-        Basically the main point of this page, where useful redirects will be
-        more noticable, could also be a good place to put most important socials
-        like a discord server or a redirect to the steam page of the game.
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras quis urna
+        ante. Nullam tempus, nisl eget elementum tempus, quam orci volutpat
+        lorem, sed hendrerit turpis tellus id lorem. Aenean dapibus, ligula
+        imperdiet ultrices hendrerit, mauris neque fermentum dolor, non iaculis
+        leo nisl non arcu. Donec elit tellus, finibus a ante non, gravida
+        porttitor mi. Sed ipsum arcu, efficitur eu dignissim id, cursus sit amet
+        felis. Curabitur convallis enim lacus, a egestas mi ultrices vel.
+        Curabitur vitae euismod est. Nullam convallis feugiat mi, at venenatis
+        dolor interdum sit amet. Ut vitae mauris quis nibh ornare condimentum.
+        Sed fermentum lorem sed erat malesuada scelerisque. Sed nec laoreet
+        lacus.
       </p>
     </section>
     <!-- NEWS -->
@@ -16,7 +24,7 @@
     </section>
     <!-- CARDS -->
     <section
-      class="mx-0 flex h-full items-center justify-around gap-12 bg-[var(--accent)] px-12 text-center text-xl text-white">
+      class="mx-0 flex h-full items-center justify-around gap-12 bg-[var(--background)] p-12 text-center text-xl text-white">
       <!-- DISCORD CARD -->
       <a href="https://discord.com" class="group h-full w-[30%] no-underline">
         <div
@@ -66,6 +74,7 @@
     </section>
     <!-- DEVELOPMENT -->
     <section
+      id="development"
       class="h-[5000px] bg-linear-to-b from-[var(--accent)] from-0% to-[var(--secondary)] p-12 font-bold">
       <p>
         Bunch of info about the game, history of development as well as some

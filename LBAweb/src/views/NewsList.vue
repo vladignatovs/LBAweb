@@ -1,6 +1,7 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import axios from "axios";
+import fancyInput from "@/components/fancy-input.vue";
 
 const newsList = ref([]);
 const user = ref(null);
@@ -53,29 +54,64 @@ async function storeNews() {
     console.error(e);
   }
 }
+
+const adminPanelOpen = ref(false);
+async function adminPanel() {
+  adminPanelOpen.value = !adminPanelOpen.value;
+}
 </script>
 <template>
-  <div v-if="user && user.rights === 'admin'">
-    <h2>Create news</h2>
-    <input v-model="title" type="text" placeholder="Title" />
-    <textarea v-model="content" placeholder="Content"></textarea>
-    <button @click="storeNews">Submit</button>
-    <p>{{ message }}</p>
-  </div>
-  <div class="m-auto max-w-200 p-5">
-    <h1 class="text-3xl text-white">News</h1>
-    <div v-if="newsList.length">
-      <div
-        v-for="news in newsList"
-        :key="news.id"
-        class="border-b-[1px] border-white p-4">
-        <h2 class="text-xl text-[var(--text)]">{{ news.title }}</h2>
-        <small
-          >Published: {{ new Date(news.created_at).toLocaleString() }}</small
-        >
-        <p v-html="news.content"></p>
-      </div>
+  <main class="relative flex min-h-screen w-full bg-[var(--accent)] pb-18">
+    <!-- ADMIN PANEL -->
+    <div v-if="user && user.rights === 'admin'">
+      <aside
+        :class="adminPanelOpen ? 'translate-x-0' : '-translate-x-full'"
+        class="fixed top-0 left-0 flex h-screen w-1/3 flex-col items-center justify-center gap-5 bg-black/70 px-5 pt-18 text-white shadow-lg transition-transform duration-300">
+        <h2 class="text-3xl font-bold">Create news</h2>
+        <fancy-input v-model="title" label="Title" class="w-2" />
+        <textarea
+          v-model="content"
+          placeholder="Content"
+          class="h-1/2 max-h-full min-h-25 w-full resize-y overflow-auto rounded-2xl border border-white/20 bg-black/10 p-2 pb-18 text-base text-white shadow-md backdrop-blur-3xl hover:bg-black/20 hover:shadow-lg focus:bg-black/20 focus:ring-2 focus:ring-white/50 focus:outline-none">
+        </textarea>
+        <button
+          @click="storeNews"
+          class="w-1/2 cursor-pointer rounded-2xl border border-white/10 bg-white/10 px-6 py-3 text-white shadow-md backdrop-blur-xl transition-all hover:bg-white/20 hover:shadow-lg focus:bg-white/20 focus:ring-2 focus:ring-white/50 focus:outline-none active:scale-95">
+          Submit
+        </button>
+        <p>{{ message }}</p>
+      </aside>
+      <button
+        @click="adminPanel"
+        class="fixed m-5 w-fit cursor-pointer rounded-2xl border border-white/10 bg-white/10 p-1 text-white shadow-md backdrop-blur-xl transition-all hover:bg-white/20 hover:shadow-lg focus:bg-white/20 focus:ring-2 focus:ring-white/50 focus:outline-none active:scale-95">
+        <svg
+          :class="adminPanelOpen ? 'rotate-180' : 'rotate-0'"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          class="size-6 transition-all duration-200">
+          <path
+            fill="currentColor"
+            d="M16 21.308L6.692 12L16 2.692l1.064 1.064L8.819 12l8.244 8.244z" />
+        </svg>
+      </button>
     </div>
-    <p v-else>No news available.</p>
-  </div>
+
+    <!-- NEWS LIST -->
+    <section class="m-auto max-w-200 flex-1 p-5">
+      <h1 class="text-3xl">News</h1>
+      <div v-if="newsList.length">
+        <div
+          v-for="news in newsList"
+          :key="news.id"
+          class="border-b-[1px] border-white p-4">
+          <h2 class="text-xl text-[var(--text)]">{{ news.title }}</h2>
+          <small
+            >Published: {{ new Date(news.created_at).toLocaleString() }}</small
+          >
+          <p v-html="news.content"></p>
+        </div>
+      </div>
+      <p v-else>No news available.</p>
+    </section>
+  </main>
 </template>

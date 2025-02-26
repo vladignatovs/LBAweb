@@ -33,6 +33,19 @@ const router = createRouter({
       component: () => import("@/views/NewsList.vue"),
     },
   ],
+  scrollBehavior(to) {
+    if (to.hash) {
+      return {
+        el: to.hash,
+        behavior: "smooth",
+      };
+    } else if (to.path == "/") {
+      return {
+        top: 0,
+        behavior: "smooth",
+      };
+    }
+  },
 });
 
 router.beforeEach((to, from, next) => {

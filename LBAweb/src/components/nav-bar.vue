@@ -3,8 +3,7 @@ import { RouterLink } from "vue-router";
 import fancyInput from "./fancy-input.vue";
 </script>
 <template>
-  <header
-    class="sticky top-0 z-50 h-18 items-center scroll-smooth text-xl text-white">
+  <header class="sticky top-0 z-50 h-18 items-center text-xl text-white">
     <!-- bg filler -->
     <div class="fixed z-[-10] h-18 w-full bg-black/60 backdrop-blur-3xl"></div>
     <!-- NAVBAR LINKS FLOATING LEFT  -->
@@ -54,7 +53,7 @@ import fancyInput from "./fancy-input.vue";
             <!-- Dropdown Item -->
             <li class="relative block h-[33.3%]">
               <RouterLink
-                to="#"
+                to="/#development"
                 class="flex h-full items-center justify-center px-5 text-center text-base no-underline duration-300 hover:text-[var(--text)]">
                 Development
               </RouterLink>
@@ -80,14 +79,15 @@ import fancyInput from "./fancy-input.vue";
       </li>
     </ul>
     <!-- NAVBAR LINKS FLOATING RIGHT  -->
-    <ul class="float-right inline-flex h-full list-none justify-start p-0">
+    <ul
+      class="float-right inline-flex h-full list-none items-center justify-start p-0">
       <li>
         <!-- <p>MESSAGER</p> -->
       </li>
       <li>
         <RouterLink
           to="/account"
-          class="flex h-full items-center justify-center px-5 text-center text-xl no-underline duration-200 hover:text-[var(--text)]">
+          class="mx-5 flex items-center justify-center text-center text-xl no-underline duration-200 hover:text-[var(--text)]">
           <img
             class="size-10 duration-200 hover:brightness-70"
             src="../assets/account_icon_inv.webp"
