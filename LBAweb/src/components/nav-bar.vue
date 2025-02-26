@@ -1,5 +1,6 @@
 <script setup>
 import { RouterLink } from "vue-router";
+import fancyInput from "./fancy-input.vue";
 </script>
 <template>
   <header
@@ -14,7 +15,7 @@ import { RouterLink } from "vue-router";
           class="mx-5 flex items-center justify-center text-center text-xl">
           <img
             src="../assets/LBA_invert_logo_prot1.webp"
-            alt="HOME"
+            alt="Home"
             class="h-10 w-24 duration-200 hover:brightness-70" />
         </RouterLink>
       </li>
@@ -22,43 +23,49 @@ import { RouterLink } from "vue-router";
       <li class="group relative mx-5">
         <button
           type="button"
-          class="cursor-pointer text-xl duration-300 hover:text-[var(--text)]">
-          LEARN MORE
+          class="flex cursor-pointer items-center text-xl duration-300 group-hover:text-[var(--text)]">
+          Learn More
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+            class="inline-block size-6 transition-transform duration-300 ease-in-out group-hover:rotate-180">
+            <path d="M7.41 8.58 12 13.17l4.59-4.59L18 10l-6 6-6-6z" />
+          </svg>
         </button>
-        <!-- <RouterLink
-          to="#"
-          class="text-xl duration-300 hover:text-[var(--text)]">
-          LEARN MORE
-        </RouterLink> -->
-        <!-- dropdown menu -->
-        <!-- TODO THIS !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
+
+        <!-- Invisible hover bridge to keep the dropdown open -->
         <div
-          class="absolute top-6 h-0 w-fit rounded-2xl border-1 border-[var(--text)]/25 bg-black/60 opacity-0 backdrop-blur-3xl duration-200 ease-in-out group-hover:h-[600%] group-hover:opacity-100">
+          class="pointer-events-none absolute top-full left-0 h-6 w-full group-hover:pointer-events-auto"></div>
+
+        <!-- Dropdown Menu -->
+        <div
+          class="pointer-events-none absolute top-10 left-0 h-0 w-fit rounded-2xl border border-white/20 bg-black/30 opacity-0 shadow-lg backdrop-blur-3xl duration-200 ease-in-out group-hover:pointer-events-auto group-hover:h-[600%] group-hover:opacity-100">
           <ul class="h-full">
-            <!-- dropdown item -->
+            <!-- Dropdown Item -->
             <li class="relative block h-[33.3%]">
               <RouterLink
                 to="/news"
                 class="flex h-full items-center justify-center px-5 text-center text-base duration-300 hover:text-[var(--text)]">
-                NEWS
+                News
               </RouterLink>
             </li>
 
-            <!-- dropdown item -->
+            <!-- Dropdown Item -->
             <li class="relative block h-[33.3%]">
               <RouterLink
                 to="#"
                 class="flex h-full items-center justify-center px-5 text-center text-base no-underline duration-300 hover:text-[var(--text)]">
-                DEVELOPMENT
+                Development
               </RouterLink>
             </li>
 
-            <!-- dropdown item -->
+            <!-- Dropdown Item -->
             <li class="relative block h-[33.3%]">
               <RouterLink
                 to="#"
                 class="flex h-full items-center justify-center px-5 text-center text-base no-underline duration-300 hover:text-[var(--text)]">
-                STEAM WISHLIST
+                Steam Wishlist
               </RouterLink>
             </li>
           </ul>
@@ -67,17 +74,9 @@ import { RouterLink } from "vue-router";
       <li class="relative inline-block">
         <form
           action=""
-          class="flex h-full items-center justify-center px-5 text-center text-xl no-underline duration-200 hover:text-[var(--text)]">
-          <input
-            type="text"
-            class="w-56"
-            placeholder="Browse levels / accounts ..." />
+          class="flex h-full w-64 items-center justify-center px-5 text-center text-xl no-underline duration-200 hover:text-[var(--text)]">
+          <fancy-input label="Browse Levels / Accounts" />
         </form>
-        <!-- <RouterLink
-          to="/account"
-          class="flex h-full items-center justify-center px-5 text-center text-xl text-white no-underline duration-200 hover:text-[var(--text)]">
-          <input type="text" placeholder="Browse levels / accounts ..." />
-        </RouterLink> -->
       </li>
     </ul>
     <!-- NAVBAR LINKS FLOATING RIGHT  -->
