@@ -61,7 +61,8 @@ async function adminPanel() {
 }
 </script>
 <template>
-  <main class="relative flex min-h-screen w-full bg-[var(--accent)] pb-18">
+  <main
+    class="relative flex min-h-screen w-full bg-linear-to-b from-[var(--background-primary)] to-[var(--background-secondary)] pb-18">
     <!-- ADMIN PANEL -->
     <div v-if="user && user.rights === 'admin'">
       <aside
@@ -72,7 +73,7 @@ async function adminPanel() {
         <textarea
           v-model="content"
           placeholder="Content"
-          class="h-1/2 max-h-full min-h-25 w-full resize-y overflow-auto rounded-2xl border border-white/20 bg-black/10 p-2 pb-18 text-base text-white shadow-md backdrop-blur-3xl hover:bg-black/20 hover:shadow-lg focus:bg-black/20 focus:ring-2 focus:ring-white/50 focus:outline-none">
+          class="h-1/2 max-h-[90%] min-h-25 w-full resize-y overflow-auto rounded-2xl border border-white/20 bg-black/10 p-2 pb-18 text-base text-white shadow-md backdrop-blur-3xl hover:bg-black/20 hover:shadow-lg focus:bg-black/20 focus:ring-2 focus:ring-white/50 focus:outline-none">
         </textarea>
         <button
           @click="storeNews"
@@ -103,8 +104,8 @@ async function adminPanel() {
         <div
           v-for="news in newsList"
           :key="news.id"
-          class="border-b-[1px] border-white p-4">
-          <h2 class="text-xl text-[var(--text)]">{{ news.title }}</h2>
+          class="border-b-[1px] border-black p-4">
+          <h2 class="text-xl">{{ news.title }}</h2>
           <small
             >Published: {{ new Date(news.created_at).toLocaleString() }}</small
           >

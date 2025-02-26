@@ -22,7 +22,7 @@ import fancyInput from "./fancy-input.vue";
       <li class="group relative mx-5">
         <button
           type="button"
-          class="flex cursor-pointer items-center text-xl duration-300 group-hover:text-[var(--text)]">
+          class="flex cursor-pointer items-center text-xl duration-300 group-hover:text-[var(--selected-text)]">
           Learn More
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -45,7 +45,7 @@ import fancyInput from "./fancy-input.vue";
             <li class="relative block h-[33.3%]">
               <RouterLink
                 to="/news"
-                class="flex h-full items-center justify-center px-5 text-center text-base duration-300 hover:text-[var(--text)]">
+                class="flex h-full items-center justify-center px-5 text-center text-base duration-300 hover:text-[var(--selected-text)]">
                 News
               </RouterLink>
             </li>
@@ -54,7 +54,7 @@ import fancyInput from "./fancy-input.vue";
             <li class="relative block h-[33.3%]">
               <RouterLink
                 to="/#development"
-                class="flex h-full items-center justify-center px-5 text-center text-base no-underline duration-300 hover:text-[var(--text)]">
+                class="flex h-full items-center justify-center px-5 text-center text-base no-underline duration-300 hover:text-[var(--selected-text)]">
                 Development
               </RouterLink>
             </li>
@@ -63,7 +63,7 @@ import fancyInput from "./fancy-input.vue";
             <li class="relative block h-[33.3%]">
               <RouterLink
                 to="#"
-                class="flex h-full items-center justify-center px-5 text-center text-base no-underline duration-300 hover:text-[var(--text)]">
+                class="flex h-full items-center justify-center px-5 text-center text-base no-underline duration-300 hover:text-[var(--selected-text)]">
                 Steam Wishlist
               </RouterLink>
             </li>
@@ -87,7 +87,7 @@ import fancyInput from "./fancy-input.vue";
       <li>
         <RouterLink
           to="/account"
-          class="mx-5 flex items-center justify-center text-center text-xl no-underline duration-200 hover:text-[var(--text)]">
+          class="mx-5 flex items-center justify-center text-center text-xl no-underline duration-200 hover:text-[var(--selected-text)]">
           <img
             class="size-10 duration-200 hover:brightness-70"
             src="../assets/account_icon_inv.webp"

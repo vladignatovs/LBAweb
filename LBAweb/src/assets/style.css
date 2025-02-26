@@ -32,6 +32,10 @@ html {
   --primary: #2b2b2b;
   --secondary: #ffff66;
   --accent: #0fffff;
+  /* well structured colors */
+  --background-primary: #0fffff;
+  --background-secondary: #ffff66;
+  --selected-text: #d1d1d1;
 }
 
 input:-internal-autofill-selected,
