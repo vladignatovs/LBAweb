@@ -81,9 +81,14 @@ import fancyInput from "./fancy-input.vue";
     <!-- NAVBAR LINKS FLOATING RIGHT  -->
     <ul
       class="float-right inline-flex h-full list-none items-center justify-start p-0">
+      <!-- MESSAGE -->
       <li>
-        <!-- <p>MESSAGER</p> -->
+        <img
+          class="size-10 scale-x-[-1] duration-200 hover:brightness-70"
+          src="../assets/message_icon_inv.webp"
+          alt="Message" />
       </li>
+      <!-- ACCOUNT -->
       <li>
         <RouterLink
           to="/account"
@@ -91,8 +96,7 @@ import fancyInput from "./fancy-input.vue";
           <img
             class="size-10 duration-200 hover:brightness-70"
             src="../assets/account_icon_inv.webp"
-            alt="" />
-          <!-- <p> ACCOUNT</p> -->
+            alt="Account" />
         </RouterLink>
       </li>
     </ul>
