@@ -84,7 +84,7 @@ import fancyInput from "./fancy-input.vue";
       <!-- MESSAGE -->
       <li>
         <img
-          class="size-10 scale-x-[-1] duration-200 hover:brightness-70"
+          class="size-10 duration-200 hover:brightness-70"
           src="../assets/message_icon_inv.webp"
           alt="Message" />
       </li>
