@@ -13,15 +13,6 @@ onMounted(async () => {
     // if timeline and newslist already exist, reinitialize timeline and cancel the wait else wait
     const response = await axios.get("http://127.0.0.1:8000/api/news");
     newsList.value = response.data;
-
-    const checkTL = setInterval(() => {
-      // will be a double if statement because i need to run clearInterval as well if true
-      if (window.TL && newsList.value.length) {
-        initializeTimeline();
-        clearInterval(checkTL);
-      }
-    }, 100);
-
     fetchUserData();
   } catch (e) {
     console.error(e);
@@ -45,51 +36,6 @@ const fetchUserData = async () => {
     localStorage.removeItem("user");
   }
 };
-
-// since im not using json, i need to set events manually, and im putting newsList mapping, where start_date (event value)
-// is taken from news.created_at and text is taken from news.title and news.content (surprisingly markup works just fine)
-
-const transformToTimelineFormat = (newsItems) => {
-  return {
-    events: newsItems.map((news) => ({
-      start_date: {
-        year: new Date(news.created_at).getFullYear(),
-        month: new Date(news.created_at).getMonth() + 1,
-        day: new Date(news.created_at).getDate(), // new Date(news.created_at).getDate()
-      },
-      text: {
-        headline: news.title,
-        text: news.content,
-      },
-    })),
-  };
-};
-
-// creating new timeline instance with newsList mapping
-const initializeTimeline = () => {
-  if (window.TL && newsList.value.length) {
-    timelineInstance.value = new window.TL.Timeline(
-      "timeline-embed",
-      transformToTimelineFormat(newsList.value),
-      {
-        start_at_end: true,
-        default_bg_color: (255, 255, 0),
-        timenav_position: "top",
-        base_class: "",
-        scale_factor: 0.6,
-        zoom_sequence: [], //[0.5, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89]
-      },
-    );
-  }
-};
-
-// Initialize when both script and data are ready
-watch(newsList, async (newVal) => {
-  if (newVal.length) {
-    await nextTick();
-    initializeTimeline();
-  }
-});
 
 // ADMIN PAGE
 const title = ref("");
@@ -152,123 +98,14 @@ async function adminPanel() {
         </svg>
       </button>
     </div>
-    <!-- literally the whole page lol -->
-    <section id="timeline-embed"></section>
+    <section class="mx-auto flex max-w-1/2 flex-col gap-10">
+      <div
+        v-for="news in newsList"
+        :key="news.id"
+        class="relative flex items-center justify-center border-b-2 border-b-white">
+        <h3>{{ news.title }}</h3>
+        <div v-html="news.content"></div>
+      </div>
+    </section>
   </main>
 </template>
-<style scoped>
-/* TAILWIND DOESNT WORK FOR THESE VALUES */
-#timeline-embed {
-  height: 600px;
-  width: 100%;
-}
-
-:deep(.tl-timeaxis-background) {
-  background-color: black;
-  border-top-color: rgba(255, 255, 255, 0.2);
-}
-/* ------------------------------------------ */
-/* TODO: FIGURE OUT WHAT BUTTONS TO PUT, FIX ADMIN PANEL BUTTON OVERLAP ISSUES, FIX ZOOMING IN ISSUES WITH TIMENAV */
-:deep(.tl-menubar-button) {
-  padding: 5px !important;
-}
-:deep(.tl-menubar button:has(span.tl-icon-zoom-in)),
-:deep(.tl-menubar button:has(span.tl-icon-zoom-out)) {
-  display: none !important;
-}
-/* ------------------------------------------ */
-:deep(.tl-icon-goend) {
-  background-image: url("https://api.iconify.design/material-symbols-light:double-arrow-rounded.svg");
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
-  display: inline-block;
-  width: 24px;
-  height: 24px;
-
-  /* hiding original icon */
-  color: transparent;
-}
-
-:deep(.tl-icon-goback) {
-  background-image: url("https://api.iconify.design/material-symbols-light:double-arrow-rounded.svg");
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
-  transform: scaleX(-1);
-  display: inline-block;
-  width: 24px;
-  height: 24px;
-
-  /* hiding original icon */
-  color: transparent;
-}
-
-:deep(.tl-slidenav-icon::before) {
-  content: none;
-}
-:deep(.tl-slidenav-next .tl-slidenav-content-container .tl-slidenav-icon) {
-  background-image: url("https://api.iconify.design/material-symbols-light:arrow-back-ios-new-rounded.svg");
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
-  transform: scaleX(-1);
-  display: inline-block;
-  width: 24px;
-  height: 24px;
-}
-
-:deep(.tl-slidenav-previous .tl-slidenav-content-container .tl-slidenav-icon) {
-  background-image: url("https://api.iconify.design/material-symbols-light:arrow-back-ios-new-rounded.svg");
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
-  display: inline-block;
-  width: 24px;
-  height: 24px;
-}
-:deep(.tl-slidenav-title),
-:deep(.tl-slidenav-description) {
-  color: black !important;
-}
-
-:deep(.tl-headline-date) {
-  font-family: inherit !important;
-  font-size: inherit !important;
-  color: inherit !important;
-}
-
-:deep(.tl-timenav) {
-  background: rgba(0, 0, 0, 0.5);
-  border-top: inherit;
-}
-
-/* ------------------------------------------ */
-
-:deep(.tl-timenav-marker-time) {
-  display: none !important;
-}
-
-:deep(.tl-timenav-marker-content .tl-timenav-marker-text) {
-  font-size: 0 !important;
-}
-
-:deep(.tl-timenav-marker-content .tl-timenav-marker-text::before) {
-  content: attr(data-full-date) !important;
-  font-size: 12px !important;
-  white-space: nowrap;
-}
-
-:deep(.tl-timenav-marker-minor) {
-  display: none !important;
-}
-
-:deep(.tl-menubar-button-zoom),
-:deep(.tl-slidenav) {
-  display: none !important;
-}
-
-:deep(.tl-headline-date) {
-  font-size: 14px !important;
-}
-</style>
