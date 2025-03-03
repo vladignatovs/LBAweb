@@ -30,7 +30,19 @@ class NewsController extends Controller
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'content' => 'required|string',
+            'thumbnail' => 'image|mimes:webp,jpg,jpeg|extensions:webp,jpg,jpeg|max:2048'
         ]);
+
+        // Validation handles the file extension, so now it is safe to save the file in storage
+        // cant use $validated because it is an array, which doesnt have file method
+        if($request->hasFile('thumbnail')) {
+            $path = $request->file('thumbnail')->store('thumbnails', 'public');
+        } else {
+            $path = 'thumbnails/defaultThumbnail.webp'; //DEFAULT LINK
+        }
+
+        // replace file in the array with a path
+        $validated['thumbnail'] = $path;
 
         // Create news post
         $news = News::create($validated);
