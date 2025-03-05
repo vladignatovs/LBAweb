@@ -136,7 +136,7 @@ async function adminPanel() {
         </svg>
       </button>
     </div>
-    <section class="mx-auto min-h-screen w-full">
+    <section class="min-h-screen w-full">
       <!-- news page header -->
       <div
         class="relative flex h-40 justify-center bg-[var(--background-secondary)]">
@@ -144,22 +144,23 @@ async function adminPanel() {
       </div>
       <div
         v-if="newsList.length"
-        class="flex min-h-screen w-full flex-col items-center justify-center gap-10">
+        class="mx-auto grid min-h-screen w-4/5 grid-cols-3 gap-10">
         <div
           v-for="news in newsList"
           :key="news.id"
-          class="max-w-1/2 border-b-2 border-b-white py-10">
-          <!-- idk about text-primary, todo this -->
-          <h3
-            class="color-[var(--text-primary)] mx-auto w-fit text-3xl font-semibold">
-            {{ news.title }}
-          </h3>
-          <div v-html="news.content"></div>
-          <img
-            :src="'http://127.0.0.1:8000/storage/' + news.thumbnail"
-            alt="Default Thumbnail"
-            class="h-auto w-full rounded-lg" />
-          <p class="bg-black/90 text-red-500">{{ news.category }}</p>
+          class="flex items-center justify-center">
+          <a href="" class="hover:brightness-70">
+            <h3
+              class="color-[var(--text-primary)] mx-auto w-fit text-3xl font-semibold">
+              {{ news.title }}
+            </h3>
+            <!-- <div v-html="news.content"></div> -->
+            <img
+              :src="'http://127.0.0.1:8000/storage/' + news.thumbnail"
+              alt="Default Thumbnail"
+              class="relative h-1/2 w-full rounded-lg" />
+            <!-- <p class="bg-black/90 text-red-500">{{ news.category }}</p> -->
+          </a>
         </div>
       </div>
       <div v-else>News unavailable</div>
