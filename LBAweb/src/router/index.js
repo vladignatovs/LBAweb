@@ -32,6 +32,11 @@ const router = createRouter({
       name: "News",
       component: () => import("@/views/NewsList.vue"),
     },
+    {
+      path: "/news/:id",
+      name: "NewsContent",
+      component: () => import("@/views/NewsContent.vue")
+    }
   ],
   scrollBehavior(to) {
     if (to.hash) {

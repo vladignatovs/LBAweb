@@ -149,7 +149,7 @@ async function adminPanel() {
           v-for="news in newsList"
           :key="news.id"
           class="flex items-center justify-center">
-          <a href="" class="hover:brightness-70">
+          <router-link :to="`/news/${news.id}`" class="hover:brightness-70">
             <h3
               class="color-[var(--text-primary)] mx-auto w-fit text-3xl font-semibold">
               {{ news.title }}
@@ -159,8 +159,8 @@ async function adminPanel() {
               :src="'http://127.0.0.1:8000/storage/' + news.thumbnail"
               alt="Default Thumbnail"
               class="relative h-1/2 w-full rounded-lg" />
-            <!-- <p class="bg-black/90 text-red-500">{{ news.category }}</p> -->
-          </a>
+            <p class="bg-black/90 text-red-500">{{ news.category }}</p>
+          </router-link>
         </div>
       </div>
       <div v-else>News unavailable</div>

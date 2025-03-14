@@ -58,7 +58,7 @@
         </div>
       </a>
       <!-- ACCOUNT CARD (MIGHT CHANGE) -->
-      <a href="/account" class="group h-full w-[30%] no-underline">
+      <router-link to="/account" class="group h-full w-[30%] no-underline">
         <div
           class="flex h-full min-h-[300px] flex-col items-center justify-center rounded-2xl bg-linear-to-t from-[var(--primary)] via-[var(--primary)] to-[var(--primary)] text-center text-[var(--text)] duration-500 hover:z-10 hover:scale-105 hover:bg-linear-to-t hover:from-[var(--background-secondary)] hover:via-[var(--background-secondary)] hover:to-[var(--background-secondary)] hover:text-black hover:ease-out">
           <img
@@ -70,7 +70,7 @@
             Create an account for further usage in both our GAME and WEBSITE!
           </p>
         </div>
-      </a>
+      </router-link>
     </section>
     <!-- DEVELOPMENT -->
     <section
