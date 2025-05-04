@@ -33,9 +33,21 @@ html {
   --secondary: #ffff66;
   --accent: #0fffff;
   /* well structured colors */
-  --background-primary: #0fffff;
-  --background-secondary: #ffff66;
-  --selected-text: #d1d1d1;
+  --bg-primary: #0fffff;
+  --bg-secondary: #ffff66;
+  --selected: #d1d1d1;
+}
+
+@theme {
+  --color-text: #d1d1d1;
+  --color-background: #16161d;
+  --color-primary: #2b2b2b;
+  --color-secondary: #ffff66;
+  --color-accent: #0fffff;
+  /* well structured colors */
+  --color-bg-primary: #0fffff;
+  --color-bg-secondary: #ffff66;
+  --color-selected: #d1d1d1;
 }
 
 input:-internal-autofill-selected,

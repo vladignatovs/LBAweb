@@ -25,7 +25,7 @@ defineEmits(["update:modelValue"]);
       required />
     <label
       :for="label.toLowerCase().replace(/\s/g, '-')"
-      class="pointer-events-none absolute top-2 left-3 -translate-y-0 text-sm text-white transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:text-base peer-focus:top-2 peer-focus:-translate-y-0 peer-focus:text-sm peer-focus:text-[var(--selected-text)]">
+      class="peer-focus:text-selected pointer-events-none absolute top-2 left-3 -translate-y-0 text-sm text-white transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:text-base peer-focus:top-2 peer-focus:-translate-y-0 peer-focus:text-sm">
       {{ label }}
     </label>
   </div>

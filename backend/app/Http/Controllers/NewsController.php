@@ -30,7 +30,8 @@ class NewsController extends Controller
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'content' => 'required|string',
-            'thumbnail' => 'image|mimes:webp,jpg,jpeg|extensions:webp,jpg,jpeg|max:2048'
+            'thumbnail' => 'image|mimes:webp,jpg,jpeg|extensions:webp,jpg,jpeg|max:2048',
+            'category'  => 'required|in:other,update,announcement',
         ]);
 
         // Validation handles the file extension, so now it is safe to save the file in storage

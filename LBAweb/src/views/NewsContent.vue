@@ -21,7 +21,7 @@ onMounted(async () => {
 </script>
 <template>
   <main
-    class="relative flex h-full w-full bg-linear-to-b from-[var(--background-primary)] to-[var(--background-secondary)] pb-18">
+    class="from-bg-primary to-bg-secondary relative flex h-full w-full bg-linear-to-b pb-18">
     <div class="m-auto my-6 min-h-screen w-3/4">
       <h3
         class="color-[var(--text-primary)] mx-auto w-fit text-3xl font-semibold">

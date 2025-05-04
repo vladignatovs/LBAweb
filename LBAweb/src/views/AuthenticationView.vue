@@ -117,7 +117,7 @@ const switchMethod = async () => {
       <button
         type="submit"
         class="cursor-pointer rounded-2xl border border-white/10 bg-white/10 px-6 py-3 text-white shadow-md backdrop-blur-xl transition-all hover:bg-white/20 hover:shadow-lg focus:bg-white/20 focus:ring-2 focus:ring-white/50 focus:outline-none active:scale-95">
-        Submit
+        Login
       </button>
     </form>
   </div>
