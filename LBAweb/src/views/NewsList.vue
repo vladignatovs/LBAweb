@@ -1,90 +1,36 @@
 <script setup>
 import { ref, onMounted, computed } from "vue";
 import axios from "axios";
-import fancyInput from "@/components/fancy-input.vue";
-import fancyFileInput from "@/components/fancy-file-input.vue";
+import AdminNewsPanel from "@/components/admin-news-panel.vue";
+import { onBeforeRouteUpdate, useRoute } from "vue-router";
+
+const route = useRoute();
 
 const newsList = ref([]);
-const user = ref(null);
 
 // --- MOUNT ---
-// gets news, also tries to fetchUserData to later check for admin rights
+// gets news
 onMounted(async () => {
   try {
     const newsResp = await axios.get("http://127.0.0.1:8000/api/news");
     newsList.value = newsResp.data;
   } catch (e) {
     console.error("Failed to load news:", e);
-  } finally {
-    await fetchUserData();
   }
 });
 
-// fetches for user data
-async function fetchUserData() {
-  const token = localStorage.getItem("auth_token");
-  if (!token) return; // not logged in
-  try {
-    const resp = await axios.get("http://127.0.0.1:8000/api/user", {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    user.value = resp.data;
-  } catch (e) {
-    // silently fail: leave user as null
-    console.warn("No valid user session:", e);
-    localStorage.removeItem("auth_token");
-    localStorage.removeItem("user");
-  }
-}
-
-// --- ADMIN ---
-const title = ref("");
-const content = ref("");
-const thumbnail = ref(null);
-const category = ref("");
-const message = ref("");
-const adminPanelOpen = ref(false);
-
-// sends request to store news
-async function storeNews() {
-  try {
-    console.log(category.value);
-    await axios.post(
-      "http://127.0.0.1:8000/api/news",
-      {
-        title: title.value,
-        content: content.value,
-        thumbnail: thumbnail.value,
-        category: category.value,
-      },
-      { headers: { "Content-Type": "multipart/form-data" } },
-    );
-    message.value = "News created successfully!";
-    title.value = "";
-    content.value = "";
-    thumbnail.value = null;
-    category.value = "";
-  } catch (e) {
-    console.error(e);
-    message.value = "Failed to create news.";
-  }
-}
-
-// toggles adminPanelOpen state
-function adminPanel() {
-  adminPanelOpen.value = !adminPanelOpen.value;
-}
-
 // --- FILTERING & PAGINATION ---
-const categoryFilter = ref("all");
+const categoryFilter = ref(route.query.category || "all");
 const currentPage = ref(1);
 const itemsPerPage = 9; // TODO: MAKE THIS CUSTOMIZABLE
 
-// gets the categories from the existing list of news (safe and dynamic, however might be unoptimized and overkill)
-const categories = computed(() => {
-  const cats = Array.from(new Set(newsList.value.map((n) => n.category)));
-  return ["all", ...cats];
-});
+// hardcoded categories list
+const categories = [
+  { value: "all", label: "All" },
+  { value: "update", label: "Update" },
+  { value: "announcement", label: "Announcement" },
+  { value: "other", label: "Other" },
+];
 
 // filters news, if all, show whole newsList, else show each news where category = filter
 const filteredNews = computed(() =>
@@ -125,79 +71,33 @@ function categoryColor(cat) {
       return "bg-gray-500";
   }
 }
+
+onBeforeRouteUpdate((to) => {
+  categoryFilter.value = to.query.category || "all";
+  currentPage.value = 1;
+});
 </script>
 
 <template>
   <main class="bg-bg-primary relative min-h-screen px-8 py-6 pb-24 text-white">
-    <!-- ADMIN PANEL -->
-    <div v-if="user && user.rights === 'admin'">
-      <aside
-        :class="adminPanelOpen ? 'translate-x-0' : '-translate-x-full'"
-        class="fixed top-0 left-0 z-40 flex h-screen w-1/3 flex-col items-center justify-center gap-5 bg-black/70 px-5 pt-18 text-white shadow-lg transition-transform duration-300">
-        <h2 class="text-3xl font-bold">Create news</h2>
-        <fancy-input v-model="title" label="Title" />
-        <fancy-file-input
-          v-model="thumbnail"
-          label="Thumbnail"
-          accept=".webp,.jpg,.jpeg"
-          class="file-input" />
-        <div class="relative w-full">
-          <select
-            v-model="category"
-            id="category"
-            class="peer w-full rounded-2xl border border-white/20 bg-black/10 px-3 pt-6 pb-2 text-base text-white shadow-md backdrop-blur-3xl hover:bg-black/20 hover:shadow-lg focus:bg-black/20 focus:ring-2 focus:ring-white/50 focus:outline-none">
-            <option value="" disabled>Select a category</option>
-            <option value="other">Other</option>
-            <option value="update">Update</option>
-            <option value="announcement">Announcement</option>
-          </select>
-          <label
-            for="category"
-            class="peer-focus:text-selected pointer-events-none absolute top-2 left-3 text-sm text-white transition-all">
-            Category
-          </label>
-        </div>
-        <textarea
-          v-model="content"
-          placeholder="Content"
-          class="h-1/2 max-h-[90%] min-h-20 w-full overflow-auto rounded-2xl border border-white/20 bg-black/10 p-2 pb-18 text-base text-white shadow-md backdrop-blur-3xl hover:bg-black/20 hover:shadow-lg focus:bg-black/20 focus:ring-2 focus:ring-white/50 focus:outline-none"></textarea>
-        <button
-          @click="storeNews"
-          class="w-1/2 rounded-2xl border border-white/10 bg-white/10 px-6 py-3 text-white shadow-md backdrop-blur-xl transition-all hover:bg-white/20 hover:shadow-lg focus:bg-white/20 focus:ring-2 focus:ring-white/50 focus:outline-none active:scale-95">
-          Submit
-        </button>
-        <p>{{ message }}</p>
-      </aside>
-      <button
-        @click="adminPanel"
-        class="fixed z-50 m-5 w-fit rounded-2xl border border-white/10 bg-white/10 p-1 text-white shadow-md backdrop-blur-xl transition-all hover:bg-white/20 hover:shadow-lg focus:bg-white/20 focus:ring-2 focus:ring-white/50 focus:outline-none active:scale-95">
-        <svg
-          :class="adminPanelOpen ? 'rotate-180' : 'rotate-0'"
-          xmlns="http://www.w3.org/2000/svg"
-          class="size-6 transition-all duration-200">
-          <path
-            fill="currentColor"
-            d="M16 21.308L6.692 12L16 2.692l1.064 1.064L8.819 12l8.244 8.244z" />
-        </svg>
-      </button>
-    </div>
+    <admin-news-panel />
 
     <!-- CATEGORY FILTERS -->
     <div class="mb-6 flex flex-wrap justify-center gap-2">
       <button
-        v-for="cat in categories"
-        :key="cat"
+        v-for="category in categories"
+        :key="category.value"
         @click="
-          categoryFilter = cat;
+          categoryFilter = category.value;
           setPage(1);
         "
         :class="[
           'rounded-full px-4 py-2 transition',
-          categoryFilter === cat
+          categoryFilter === category.value
             ? 'bg-blue-600 text-white'
             : 'bg-white/20 hover:bg-white/30',
         ]">
-        {{ cat === "all" ? "All" : cat.charAt(0).toUpperCase() + cat.slice(1) }}
+        {{ category.label }}
       </button>
     </div>
 

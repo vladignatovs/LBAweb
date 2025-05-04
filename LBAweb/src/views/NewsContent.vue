@@ -27,6 +27,9 @@ onMounted(async () => {
         class="color-[var(--text-primary)] mx-auto w-fit text-3xl font-semibold">
         {{ news.title }}
       </h3>
+      <!-- <span class="mx-auto w-fit text-sm font-semibold text-gray-300">
+        {{ new Date(news.created_at).toLocaleDateString() }}
+      </span> -->
       <div v-html="news.content"></div>
     </div>
   </main>
