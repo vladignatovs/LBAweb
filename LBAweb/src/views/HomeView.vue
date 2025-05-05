@@ -1,7 +1,7 @@
 <template>
   <main>
     <!-- TITLE -->
-    <section class="bg-bg-primary mx-0 grid gap-12 py-12 text-center text-xl">
+    <section class="bg-primary mx-0 grid gap-12 py-12 text-center text-xl">
       <p class="px-12">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras quis urna
         ante. Nullam tempus, nisl eget elementum tempus, quam orci volutpat
@@ -18,16 +18,16 @@
     </section>
     <!-- NEWS -->
     <section
-      class="bg-bg-secondary text-bg-primary mx-0 grid gap-12 py-12 text-center text-2xl font-bold">
+      class="bg-secondary text-primary mx-0 grid gap-12 py-12 text-center text-2xl font-bold">
       <P>NEWS</P>
     </section>
     <!-- CARDS -->
     <section
-      class="mx-0 flex h-full items-center justify-around gap-12 bg-[var(--background)] p-12 text-center text-xl text-white">
+      class="bg-background mx-0 flex h-full items-center justify-around gap-12 p-12 text-center text-xl text-white">
       <!-- DISCORD CARD -->
       <a href="https://discord.com" class="group h-full w-[30%] no-underline">
         <div
-          class="from-primary via-primary to-primary hover:from-bg-secondary hover:via-bg-secondary hover:to-bg-secondary flex h-full min-h-[300px] flex-col items-center justify-center rounded-2xl bg-linear-to-t text-center text-[var(--text)] duration-500 hover:z-10 hover:scale-105 hover:bg-linear-to-t hover:text-black hover:ease-out">
+          class="from-primary via-primary to-primary hover:from-secondary hover:via-secondary hover:to-secondary text-selected flex h-full min-h-[300px] flex-col items-center justify-center rounded-2xl bg-linear-to-t text-center duration-500 hover:z-10 hover:scale-105 hover:bg-linear-to-t hover:text-black hover:ease-out">
           <img
             src="https://cdn.prod.website-files.com/6257adef93867e50d84d30e2/636e0a6918e57475a843f59f_icon_clyde_black_RGB.svg"
             alt=""
@@ -44,7 +44,7 @@
         href="https://store.steampowered.com"
         class="group h-full w-[30%] no-underline">
         <div
-          class="from-primary via-primary to-primary hover:from-bg-secondary hover:via-bg-secondary hover:to-bg-secondary flex h-full min-h-[300px] flex-col items-center justify-center rounded-2xl bg-linear-to-t text-center text-[var(--text)] duration-500 hover:z-10 hover:scale-105 hover:bg-linear-to-t hover:text-black hover:ease-out">
+          class="from-primary via-primary to-primary hover:from-secondary hover:via-secondary hover:to-secondary text-selected flex h-full min-h-[300px] flex-col items-center justify-center rounded-2xl bg-linear-to-t text-center duration-500 hover:z-10 hover:scale-105 hover:bg-linear-to-t hover:text-black hover:ease-out">
           <img
             src="../assets/steam_logo_icon.webp"
             alt=""
@@ -59,7 +59,7 @@
       <!-- ACCOUNT CARD (MIGHT CHANGE) -->
       <router-link to="/account" class="group h-full w-[30%] no-underline">
         <div
-          class="from-primary via-primary to-primary hover:from-bg-secondary hover:via-bg-secondary hover:to-bg-secondary flex h-full min-h-[300px] flex-col items-center justify-center rounded-2xl bg-linear-to-t text-center text-[var(--text)] duration-500 hover:z-10 hover:scale-105 hover:bg-linear-to-t hover:text-black hover:ease-out">
+          class="from-primary via-primary to-primary hover:from-secondary hover:via-secondary hover:to-secondary text-selected flex h-full min-h-[300px] flex-col items-center justify-center rounded-2xl bg-linear-to-t text-center duration-500 hover:z-10 hover:scale-105 hover:bg-linear-to-t hover:text-black hover:ease-out">
           <img
             src="../assets/account_icon.webp"
             alt=""
@@ -74,7 +74,7 @@
     <!-- DEVELOPMENT -->
     <section
       id="development"
-      class="from-bg-primary to-bg-secondary h-[5000px] bg-linear-to-b from-0% p-12 font-bold">
+      class="from-primary to-secondary h-[5000px] bg-linear-to-b from-0% p-12 font-bold">
       <p>
         Bunch of info about the game, history of development as well as some
         other details, socials (?) and useful links, on scroll moving section

@@ -64,11 +64,11 @@ function setPage(n) {
 function categoryColor(cat) {
   switch (cat) {
     case "update":
-      return "bg-blue-500";
+      return "bg-primary-2";
     case "announcement":
-      return "bg-green-500";
+      return "bg-secondary-2";
     default:
-      return "bg-gray-500";
+      return "bg-gray-300";
   }
 }
 
@@ -79,7 +79,8 @@ onBeforeRouteUpdate((to) => {
 </script>
 
 <template>
-  <main class="bg-bg-primary relative min-h-screen px-8 py-6 pb-24 text-white">
+  <main
+    class="from-primary-2/10 to-background relative min-h-screen bg-linear-120 px-8 py-6 pb-24 text-white">
     <admin-news-panel />
 
     <!-- CATEGORY FILTERS -->
@@ -92,10 +93,10 @@ onBeforeRouteUpdate((to) => {
           setPage(1);
         "
         :class="[
-          'rounded-full px-4 py-2 transition',
+          'rounded-full px-4 py-2 transition hover:cursor-pointer',
           categoryFilter === category.value
-            ? 'bg-blue-600 text-white'
-            : 'bg-white/20 hover:bg-white/30',
+            ? 'bg-primary text-black'
+            : 'bg-white/5 hover:bg-white/10',
         ]">
         {{ category.label }}
       </button>
@@ -104,11 +105,11 @@ onBeforeRouteUpdate((to) => {
     <!-- NEWS GRID -->
     <div
       v-if="pagedNews.length"
-      class="mx-auto grid grid-cols-3 justify-items-center gap-6">
+      class="mx-auto grid w-fit grid-cols-3 justify-items-center gap-6">
       <div v-for="news in pagedNews" :key="news.id" class="h-96 w-80">
         <router-link
           :to="`/news/${news.id}`"
-          class="bg-bg-secondary block h-full overflow-hidden rounded-lg shadow-lg transition hover:shadow-2xl">
+          class="bg-background-2/30 hover:shadow-primary-2/20 block h-full overflow-hidden rounded-lg shadow-lg transition hover:shadow-2xl">
           <!-- Thumbnail -->
           <div class="h-40 w-full overflow-hidden">
             <img
@@ -123,7 +124,7 @@ onBeforeRouteUpdate((to) => {
               {{ new Date(news.created_at).toLocaleDateString() }}
             </span>
             <span
-              class="rounded px-2 py-1 text-xs font-medium text-white"
+              class="rounded px-2 py-1 text-xs font-medium text-black"
               :class="categoryColor(news.category)">
               {{ news.category }}
             </span>
@@ -147,10 +148,10 @@ onBeforeRouteUpdate((to) => {
         :key="n"
         @click="setPage(n)"
         :class="[
-          'rounded px-3 py-1 transition',
+          'rounded px-3 py-1 transition hover:cursor-pointer',
           currentPage === n
-            ? 'bg-blue-600 text-white'
-            : 'bg-white/20 hover:bg-white/30',
+            ? 'bg-primary text-black'
+            : 'bg-white/5 hover:bg-white/10',
         ]">
         {{ n }}
       </button>

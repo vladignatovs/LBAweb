@@ -8,11 +8,7 @@ const news = ref({});
 
 onMounted(async () => {
   try {
-    // fetch for news data, then,
-    // if timeline and newslist already exist, reinitialize timeline and cancel the wait else wait
-    const response = await axios.get(
-      `http://localhost:8000/api/news/${route.params.id}`,
-    );
+    const response = await axios.get(`/news/${route.params.id}`);
     news.value = response.data;
   } catch (e) {
     console.error(e);
@@ -21,10 +17,9 @@ onMounted(async () => {
 </script>
 <template>
   <main
-    class="from-bg-primary to-bg-secondary relative flex h-full w-full bg-linear-to-b pb-18">
+    class="from-primary to-secondary relative flex h-full w-full bg-linear-to-b pb-18">
     <div class="m-auto my-6 min-h-screen w-3/4">
-      <h3
-        class="color-[var(--text-primary)] mx-auto w-fit text-3xl font-semibold">
+      <h3 class="color-selected mx-auto w-fit text-3xl font-semibold">
         {{ news.title }}
       </h3>
       <!-- <span class="mx-auto w-fit text-sm font-semibold text-gray-300">

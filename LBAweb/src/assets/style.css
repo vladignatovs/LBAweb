@@ -22,31 +22,18 @@
 }
 /* BACKGROUND COLOR HERE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! */
 html {
-  background-color: var(--background);
+  background-color: var(--color-background);
 }
 
 /* COLOR SCHEME FROM https://www.realtimecolors.com/?colors=d1d1d1-16161d-2b2b2b-ffff66-0fffff&fonts=Inter-Inter */
-:root {
-  --text: #d1d1d1;
-  --background: #16161d;
-  --primary: #2b2b2b;
-  --secondary: #ffff66;
-  --accent: #0fffff;
-  /* well structured colors */
-  --bg-primary: #0fffff;
-  --bg-secondary: #ffff66;
-  --selected: #d1d1d1;
-}
-
 @theme {
-  --color-text: #d1d1d1;
-  --color-background: #16161d;
-  --color-primary: #2b2b2b;
-  --color-secondary: #ffff66;
-  --color-accent: #0fffff;
+  --color-background: #0f0f1a;
+  --color-background-2: #1f1f2a;
   /* well structured colors */
-  --color-bg-primary: #0fffff;
-  --color-bg-secondary: #ffff66;
+  --color-primary: #0fffff;
+  --color-primary-2: #0eeeee;
+  --color-secondary: #ffff0f;
+  --color-secondary-2: #dddd0d;
   --color-selected: #d1d1d1;
 }
 
