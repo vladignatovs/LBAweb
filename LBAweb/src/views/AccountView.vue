@@ -148,36 +148,36 @@ const logout = async () => {
 </script>
 
 <template>
-  <div class="flex min-h-screen bg-gray-100 text-gray-800">
-    <aside class="w-1/4 bg-gray-800 p-4 text-gray-100">
+  <div class="bg-background text-selected flex min-h-screen">
+    <aside class="bg-background-2 text-selected w-1/4 p-4">
       <h2 class="mb-6 text-2xl font-semibold">Account</h2>
       <nav class="space-y-2">
         <button
-          class="w-full rounded px-3 py-2 text-left hover:bg-gray-700"
-          :class="{ 'bg-gray-700': activeSection === 'profile' }"
+          class="hover:bg-primary/30 w-full rounded px-3 py-2 text-left transition hover:cursor-pointer"
+          :class="{ 'bg-primary-2 text-black': activeSection === 'profile' }"
           @click="activeSection = 'profile'">
           Profile
         </button>
         <button
-          class="w-full rounded px-3 py-2 text-left hover:bg-gray-700"
-          :class="{ 'bg-gray-700': activeSection === 'security' }"
+          class="hover:bg-primary/30 w-full rounded px-3 py-2 text-left transition hover:cursor-pointer"
+          :class="{ 'bg-primary-2 text-black': activeSection === 'security' }"
           @click="activeSection = 'security'">
           Security
         </button>
         <button
-          class="w-full rounded px-3 py-2 text-left hover:bg-gray-700"
-          :class="{ 'bg-gray-700': activeSection === 'avatar' }"
+          class="hover:bg-primary/30 w-full rounded px-3 py-2 text-left transition hover:cursor-pointer"
+          :class="{ 'bg-primary-2 text-black': activeSection === 'avatar' }"
           @click="activeSection = 'avatar'">
           Avatar
         </button>
         <button
-          class="w-full rounded px-3 py-2 text-left hover:bg-gray-700"
-          :class="{ 'bg-gray-700': activeSection === 'levels' }"
+          class="hover:bg-primary/30 w-full rounded px-3 py-2 text-left transition hover:cursor-pointer"
+          :class="{ 'bg-primary-2 text-black': activeSection === 'levels' }"
           @click="activeSection = 'levels'">
           My Levels
         </button>
         <button
-          class="mt-6 w-full border-t border-gray-700 px-3 py-2 text-left hover:bg-gray-700"
+          class="border-primary/30 mt-6 w-full border-t px-3 py-2 text-left hover:cursor-pointer"
           @click="logout">
           Log Out
         </button>
@@ -196,7 +196,7 @@ const logout = async () => {
           <fancy-input v-model="newEmail" label="New Email" />
           <button
             @click="updateEmail"
-            class="rounded bg-blue-600 px-4 py-2 text-white hover:bg-blue-700">
+            class="bg-secondary/50 hover:bg-secondary-2/70 rounded px-4 py-2 text-white hover:cursor-pointer">
             Save Email
           </button>
         </div>
@@ -218,7 +218,7 @@ const logout = async () => {
           label="Confirm New Password" />
         <button
           @click="changePassword"
-          class="rounded bg-blue-600 px-4 py-2 text-white hover:bg-blue-700">
+          class="bg-secondary/50 hover:bg-secondary-2/70 rounded px-4 py-2 text-white hover:cursor-pointer">
           Update Password
         </button>
       </section>
@@ -237,7 +237,7 @@ const logout = async () => {
           accept="image/*" />
         <button
           @click="uploadAvatar"
-          class="rounded bg-blue-600 px-4 py-2 text-white hover:bg-blue-700">
+          class="bg-secondary/50 hover:bg-secondary-2/70 rounded px-4 py-2 text-white hover:cursor-pointer">
           Upload
         </button>
       </section>
