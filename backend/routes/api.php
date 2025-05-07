@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\FriendshipController;
 use App\Http\Middleware\AdminMiddleware;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -10,6 +11,7 @@ use App\Http\Controllers\BlockController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\LevelController;
 use App\Http\Controllers\CompletionController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -61,9 +63,16 @@ Route::middleware('auth:sanctum')->group(function () {
     // Messages: full CRUD (only between friends)
     Route::apiResource('messages', MessageController::class);
 
+    // |-------------------------------------------
+    // MIGHT WANT TO MAKE THEM PUBLIC
+    // List/search users
+    Route::get('/users', [UserController::class, 'index']);
     // Levels: read-only
     Route::apiResource('levels', LevelController::class)
          ->only(['index','show']);
+    // |-------------------------------------------
+    // Friendships: read and delete
+    Route::apiResource('friendships', FriendshipController::class);
 
     // Completions: read-only (user’s own)
     Route::apiResource('completions', CompletionController::class)

@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Level extends Model
 {
-    protected $fillable = ['creator_id','creator_username'];
+    protected $fillable = ['creator_id','creator_name'];
 
     public function creator()
     {

@@ -14,7 +14,7 @@ class BlockController extends Controller
         return Auth::user()
                    ->blocks()
                    ->withPivot('blocked_id')
-                   ->get(['users.id','users.username']);
+                   ->get(['users.id','users.name']);
     }
 
     public function store(Request $request)

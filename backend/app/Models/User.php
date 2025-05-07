@@ -98,7 +98,6 @@ class User extends Authenticatable
     // levels I can see
     public function levels()
     {
-        return $this->belongsToMany(Level::class, 'completions')
-                    ->withTimestamps();
+        return $this->belongsToMany(Level::class, 'completions');
     }
 }

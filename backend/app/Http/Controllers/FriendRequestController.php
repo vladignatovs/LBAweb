@@ -14,7 +14,7 @@ class FriendRequestController extends Controller
         // show incoming requests
         return Auth::user()
                    ->friendRequestsReceived()
-                   ->with('sender:id,username')
+                   ->with('sender:id,name')
                    ->get();
     }
 

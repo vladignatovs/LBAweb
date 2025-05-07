@@ -1,6 +1,18 @@
 <script setup>
-import { RouterLink } from "vue-router";
+import { ref } from "vue";
+import { useRouter } from "vue-router";
 import fancyInput from "./fancy-input.vue";
+
+const router = useRouter();
+const searchQuery = ref("");
+
+// Called when the form is submitted
+function onSubmit() {
+  // Only navigate if the query has at least 2 chars
+  if (searchQuery.value.trim().length >= 2) {
+    router.push({ name: "Browse", query: { q: searchQuery.value.trim() } });
+  }
+}
 </script>
 
 <template>
@@ -97,9 +109,23 @@ import fancyInput from "./fancy-input.vue";
 
       <!-- Search form -->
       <li class="relative inline-block">
-        <form
-          class="flex h-full w-64 items-center justify-center px-5 text-center text-xl duration-200">
-          <fancyInput label="Browse Levels / Accounts" />
+        <form class="flex h-full items-center px-5" @submit.prevent="onSubmit">
+          <fancy-input v-model="searchQuery" label="Browse Levels / Users">
+          </fancy-input>
+          <button
+            type="submit"
+            class="ml-2 rounded-full p-2 transition hover:cursor-pointer hover:bg-white/10"
+            aria-label="Search">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="32"
+              height="32"
+              viewBox="0 0 24 24">
+              <path
+                fill="currentColor"
+                d="m19.6 21l-6.3-6.3q-.75.6-1.725.95T9.5 16q-2.725 0-4.612-1.888T3 9.5t1.888-4.612T9.5 3t4.613 1.888T16 9.5q0 1.1-.35 2.075T14.7 13.3l6.3 6.3zM9.5 14q1.875 0 3.188-1.312T14 9.5t-1.312-3.187T9.5 5T6.313 6.313T5 9.5t1.313 3.188T9.5 14" />
+            </svg>
+          </button>
         </form>
       </li>
     </ul>
