@@ -160,12 +160,14 @@ function setPage(n) {
         class="bg-background-2 rounded p-4 shadow transition hover:shadow-lg">
         <div v-if="item.__type === 'level'">
           <h3 class="font-semibold">{{ item.name }}</h3>
+          <h4>Created by: {{ item.creator_name }}</h4>
           <p class="text-sm text-gray-400">
-            Created: {{ new Date(item.created_at).toLocaleDateString() }}
+            Created at: {{ new Date(item.created_at).toLocaleDateString() }}
           </p>
         </div>
         <div v-else-if="item.__type === 'user'">
           <h3 class="font-semibold">{{ item.name }}</h3>
+          <!-- showing email isnt the best idea, should add different data to show.  -->
           <p class="text-sm text-gray-400">{{ item.email }}</p>
           <div class="mt-4 flex space-x-2">
             <button
