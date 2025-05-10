@@ -50,7 +50,7 @@ async function storeNews() {
 }
 </script>
 <template>
-  <div>
+  <div v-if="isAdmin">
     <aside
       :class="adminPanelOpen ? 'translate-x-0' : '-translate-x-full'"
       class="fixed top-0 left-0 z-40 flex h-screen w-1/3 flex-col items-center justify-center gap-5 bg-black/70 px-5 pt-18 text-white shadow-lg transition-transform duration-300">

@@ -1,7 +1,7 @@
 <script setup>
 import { ref, onMounted, computed } from "vue";
 import axios from "axios";
-import AdminNewsPanel from "@/components/admin-news-panel.vue";
+import AdminNewsPanel from "@/admin/components/admin-news-panel.vue";
 import { onBeforeRouteUpdate, useRoute } from "vue-router";
 
 const route = useRoute();
