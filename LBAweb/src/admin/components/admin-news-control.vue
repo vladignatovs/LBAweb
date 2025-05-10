@@ -1,7 +1,9 @@
 <script setup>
 import { defineProps, defineEmits } from "vue";
 import axios from "axios";
+import { useToast } from "vue-toastification";
 
+const toast = useToast();
 const props = defineProps({
   news: { type: Object, required: true },
 });
@@ -14,11 +16,11 @@ function onEdit() {
 async function onDelete() {
   if (!confirm("Really delete this article?")) return;
   try {
-    await axios.delete(`http://127.0.0.1:8000/api/news/${props.news.id}`);
+    await axios.delete(`/news/${props.news.id}`);
     emit("deleted", props.news.id);
-  } catch (err) {
-    console.error("Delete failed:", err);
-    alert("Failed to delete the article.");
+    toast.success("News article deleted!");
+  } catch (e) {
+    toast.error(`Delete failed: ${e}`);
   }
 }
 </script>

@@ -12,7 +12,7 @@ const newsList = ref([]);
 // gets news
 onMounted(async () => {
   try {
-    const newsResp = await axios.get("http://127.0.0.1:8000/api/news");
+    const newsResp = await axios.get("/news");
     newsList.value = newsResp.data;
   } catch (e) {
     console.error("Failed to load news:", e);

@@ -2,16 +2,17 @@
 import axios from "axios";
 import { ref } from "vue";
 import { useRouter } from "vue-router";
+import { useToast } from "vue-toastification";
 import fancyInput from "@/components/fancy-input.vue";
 const email = ref("");
 const password = ref("");
 
-const error = ref("");
 const router = useRouter();
+const toast = useToast();
 
 const handleLogin = async () => {
   try {
-    const response = await axios.post("http://127.0.0.1:8000/api/login", {
+    const response = await axios.post("/login", {
       email: email.value,
       password: password.value,
     });
@@ -19,10 +20,10 @@ const handleLogin = async () => {
     localStorage.setItem("auth_token", response.data.token);
     localStorage.setItem("user", JSON.stringify(response.data.user));
     // push user to the page where they are already logged in (preferably showing user data for development)
+    toast.success("Logged in successfully!");
     router.push("/account");
   } catch (e) {
-    alert("womp womp");
-    console.error(e);
+    toast.error(e.response?.data?.message ?? "Failed to log in!");
   }
 };
 
@@ -31,7 +32,7 @@ const passwordConfirmation = ref("");
 
 const handleRegister = async () => {
   try {
-    const response = await axios.post("http://127.0.0.1:8000/api/register", {
+    const response = await axios.post("/register", {
       name: name.value,
       email: email.value,
       password: password.value,
@@ -40,17 +41,11 @@ const handleRegister = async () => {
 
     localStorage.setItem("auth_token", response.data.token);
     localStorage.setItem("user", JSON.stringify(response.data.user));
+    toast.success("Registered successfully!");
     // push user to the page where they are already logged in (preferably showing user data for development)
     router.push("/account");
   } catch (e) {
-    alert("womp womp");
-    console.error(e.message);
-    if (e.response) {
-      error.value =
-        e.response.data.message || "Registration failed. Please try again.";
-    } else {
-      error.value = "Nework error. Please check your connection.";
-    }
+    toast.error(e.response?.data?.message ?? "Failed to register an account!");
   }
 };
 
@@ -104,7 +99,6 @@ const switchMethod = async () => {
         Register
       </button>
     </form>
-    <!-- <p v-if="error" class="text-red-500">{{ error }}</p> -->
   </div>
   <!-- LOGIN -->
   <div

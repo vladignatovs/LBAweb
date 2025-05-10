@@ -1,6 +1,7 @@
 import { ref } from "vue";
 import axios from "axios";
 import { useRouter } from "vue-router";
+import { useToast } from "vue-toastification";
 
 /**
  * Encapsulates user info, levels/completions, friendships,
@@ -31,6 +32,7 @@ export function useUserActions() {
 
   // utilities
   const router = useRouter();
+  const toast = useToast();
   function authHeaders() {
     return { Authorization: `Bearer ${localStorage.getItem("auth_token")}` };
   }
@@ -168,38 +170,49 @@ export function useUserActions() {
         sent.value.push({ ...newReq, receiver: userToSendTo });
       }
 
-      console.log(`Friend request sent to user ${id}`);
-      // TODO: update UI state or show a toast
+      toast.success("Friend request sent!");
     } catch (e) {
-      console.error("Failed to send friend request:", e);
-      // TODO: show error feedback
+      toast.error(
+        e.response?.data?.message ?? "Failed to send friend request!",
+      );
     }
   };
 
   const acceptRequest = async (id) => {
-    await axios.patch(
-      `/friend-requests/${id}`,
-      { status: true },
-      { headers: authHeaders() },
-    );
-    pending.value = pending.value.filter((r) => r.id !== id);
+    try {
+      await axios.patch(
+        `/friend-requests/${id}`,
+        { status: true },
+        { headers: authHeaders() },
+      );
+      pending.value = pending.value.filter((r) => r.id !== id);
+      toast.success("Friend request accepted!");
+    } catch {
+      toast.error("Failed to accept friend request!");
+    }
   };
 
   const denyRequest = async (id) => {
-    await axios.patch(
-      `/friend-requests/${id}`,
-      { status: false },
-      { headers: authHeaders() },
-    );
-    pending.value = pending.value.filter((r) => r.id !== id);
+    try {
+      await axios.patch(
+        `/friend-requests/${id}`,
+        { status: false },
+        { headers: authHeaders() },
+      );
+      pending.value = pending.value.filter((r) => r.id !== id);
+      toast.success("Friend request denied!");
+    } catch {
+      toast.error("Failed to deny friend request!");
+    }
   };
 
   const cancelRequest = async (id) => {
     try {
       await axios.delete(`/friend-requests/${id}`, { headers: authHeaders() });
       sent.value = sent.value.filter((r) => r.id !== id);
-    } catch (e) {
-      console.error("Failed to cancel friend request", e);
+      toast.success("Friend request cancelled!");
+    } catch {
+      toast.error("Failed to cancel friend request!");
     }
   };
 
@@ -207,9 +220,9 @@ export function useUserActions() {
     try {
       await axios.delete(`/friendships/${id}`, { headers: authHeaders() });
       friends.value = friends.value.filter((f) => f.id !== id);
-    } catch (e) {
-      console.error("Failed to remove friend", e);
-      throw e;
+      toast.success("Friend removed!");
+    } catch {
+      toast.error("Failed to remove friend!");
     }
   };
 
@@ -228,21 +241,28 @@ export function useUserActions() {
       if (userToBlock) {
         blocked.value.push(userToBlock);
       }
-    } catch (e) {
-      console.error("Failed to block user", e);
+      toast.success("Blocked user!");
+    } catch {
+      toast.error("Failed to block user!");
     }
   };
 
   const unblockUser = async (id) => {
-    await axios.delete(`/blocks/${id}`, { headers: authHeaders() });
-    blocked.value = blocked.value.filter((b) => b.id !== id);
+    try {
+      await axios.delete(`/blocks/${id}`, { headers: authHeaders() });
+      blocked.value = blocked.value.filter((b) => b.id !== id);
+      toast.success("Unblocked user!");
+    } catch {
+      toast.error("Failed to unblock user!");
+    }
   };
 
   const logout = async () => {
     try {
       await axios.post("/logout", {}, { headers: authHeaders() });
-    } catch (e) {
-      console.error(e);
+      toast.success("Logged out!");
+    } catch {
+      toast.error("Failed to logout");
     } finally {
       logoutCleanup();
       router.push("/");

@@ -1,5 +1,6 @@
 <script setup>
 import { ref, onMounted } from "vue";
+import { useToast } from "vue-toastification";
 import axios from "axios";
 import fancyInput from "@/components/fancy-input.vue";
 import fancyFileInput from "@/components/fancy-file-input.vue";
@@ -8,16 +9,17 @@ const title = ref("");
 const content = ref("");
 const thumbnail = ref(null);
 const category = ref("");
-const message = ref("");
 const adminPanelOpen = ref(false);
 const isAdmin = ref(false);
+
+const toast = useToast();
 
 onMounted(async () => {
   const token = localStorage.getItem("auth_token");
   if (!token) return;
 
   try {
-    const { data: user } = await axios.get("http://127.0.0.1:8000/api/user", {
+    const { data: user } = await axios.get("/user", {
       headers: { Authorization: `Bearer ${token}` },
     });
     if (user.rights === "admin") {
@@ -36,15 +38,14 @@ async function storeNews() {
     if (thumbnail.value) form.append("thumbnail", thumbnail.value);
     form.append("category", category.value);
 
-    await axios.post("http://127.0.0.1:8000/api/news", form);
-    message.value = "News created successfully!";
+    await axios.post("/news", form);
+    toast.success("News created successfully!");
     title.value = "";
     content.value = "";
     thumbnail.value = null;
     category.value = "";
   } catch (e) {
-    console.error(e);
-    message.value = "Failed to create news.";
+    toast.error(`Failed to create news!: ${e}`);
   }
 }
 </script>
@@ -85,7 +86,6 @@ async function storeNews() {
         class="w-1/2 rounded-2xl border border-white/10 bg-white/10 px-6 py-3 text-white shadow-md backdrop-blur-xl transition-all hover:bg-white/20 hover:shadow-lg focus:bg-white/20 focus:ring-2 focus:ring-white/50 focus:outline-none active:scale-95">
         Submit
       </button>
-      <p>{{ message }}</p>
     </aside>
 
     <!-- TOGGLE BUTTON -->
