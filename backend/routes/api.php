@@ -52,29 +52,22 @@ Route::middleware('auth:sanctum')->group(function () {
     // STORE FUNCTION ONLY AVAILABLE FOR ADMINS
     Route::post('/news', [NewsController::class, 'store']);
 
-    // Friend-requests: index (incoming), store (send), update (accept/deny), destroy (cancel)
-    Route::apiResource('friend-requests', FriendRequestController::class)
-         ->only(['index','store','update','destroy']);
+    Route::apiResource('friend-requests', FriendRequestController::class)->only(['index','store','update','destroy']);
 
-    // Blocks: index (my blocks), store (block), destroy (unblock)
-    Route::apiResource('blocks', BlockController::class)
-         ->only(['index','store','destroy']);
+    Route::get('friend-requests/pending', [FriendRequestController::class, 'pending']);
+    Route::get('friend-requests/sent', [FriendRequestController::class, 'sent']);
 
-    // Messages: full CRUD (only between friends)
+    Route::apiResource('blocks', BlockController::class)->only(['index','store','destroy']);
+
     Route::apiResource('messages', MessageController::class);
 
     // |-------------------------------------------
     // MIGHT WANT TO MAKE THEM PUBLIC
-    // List/search users
     Route::get('/users', [UserController::class, 'index']);
-    // Levels: read-only
-    Route::apiResource('levels', LevelController::class)
-         ->only(['index','show']);
+    Route::apiResource('levels', LevelController::class)->only(['index','show']);
     // |-------------------------------------------
-    // Friendships: read and delete
-    Route::apiResource('friendships', FriendshipController::class);
 
-    // Completions: read-only (user’s own)
-    Route::apiResource('completions', CompletionController::class)
-         ->only(['index','show']);
+    Route::apiResource('friendships', FriendshipController::class)->only(['index','store','destroy']);;
+
+    Route::apiResource('completions', CompletionController::class)->only(['index','show']);
 });

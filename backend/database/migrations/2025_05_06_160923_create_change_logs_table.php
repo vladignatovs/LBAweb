@@ -18,11 +18,11 @@ return new class extends Migration
             $table->timestamps();
 
             $table->foreign('admin_id')
-                  ->references('id')->on('users')
-                  ->onDelete('cascade');
+                ->references('id')->on('users')
+                ->onDelete('cascade');
             $table->foreign('news_id')
-                  ->references('id')->on('news')
-                  ->onDelete('cascade');
+                ->references('id')->on('news')
+                ->onDelete('cascade');
         });
     }
 

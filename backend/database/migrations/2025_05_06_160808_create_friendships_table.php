@@ -18,11 +18,11 @@ return new class extends Migration
             $table->primary(['friend_id', 'friended_id']);
 
             $table->foreign('friend_id')
-                  ->references('id')->on('users')
-                  ->onDelete('cascade');
+                ->references('id')->on('users')
+                ->onDelete('cascade');
             $table->foreign('friended_id')
-                  ->references('id')->on('users')
-                  ->onDelete('cascade');
+                ->references('id')->on('users')
+                ->onDelete('cascade');
         });
     }
 

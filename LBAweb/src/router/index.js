@@ -40,6 +40,7 @@ const router = createRouter({
     {
       path: "/browse",
       name: "Browse",
+      meta: { requiresAuth: true }, // !!!!!
       component: () => import("@/views/BrowseView.vue"),
     },
   ],

@@ -18,11 +18,11 @@ return new class extends Migration
             $table->primary(['blocker_id', 'blocked_id']);
 
             $table->foreign('blocker_id')
-                  ->references('id')->on('users')
-                  ->onDelete('cascade');
+                ->references('id')->on('users')
+                ->onDelete('cascade');
             $table->foreign('blocked_id')
-                  ->references('id')->on('users')
-                  ->onDelete('cascade');
+                ->references('id')->on('users')
+                ->onDelete('cascade');
         });
     }
 

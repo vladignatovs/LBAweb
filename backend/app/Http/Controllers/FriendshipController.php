@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Services\FriendshipService;
 use App\Models\User;
 
 class FriendshipController extends Controller
@@ -15,27 +16,39 @@ class FriendshipController extends Controller
     {
         $user = $request->user();
 
-        $friends = $user->friends()->get(['users.id','users.name','users.email']);
-
+        $friends = $user->friends();
         return response()->json($friends);
     }
 
     /**
-     * Remove a friend relationship.
-     *
-     * @param  int  $friendId
+     * Create a two‐way friendship.
      */
-    public function destroy(Request $request, $friendId)
+    public function store(Request $request, FriendshipService $service)
     {
-        $user = $request->user();
-        $other = User::findOrFail($friendId);
+        $data = $request->validate([
+            'friend_id' => 'required|exists:users,id|not_in:' . Auth::id(),
+        ]);
 
-        // Detach A → B
-        $user->friends()->detach($friendId);
+        $service->befriend(
+            Auth::user(),
+            User::findOrFail((int) $data['friend_id'])
+        );
 
-        // Detach B → A
-        $other->friends()->detach($user->id);
+        return response()->json(null, 201);
+    }
 
-        return response()->json(null, 204);
+
+    /**
+     * Remove a friend relationship.
+     */
+    public function destroy(User $friendship, FriendshipService $service)
+    {
+        // $friendship actually points to the friend, not the whole friendship
+        $service->unfriend(
+            Auth::user(),
+            $friendship
+        );
+
+        return response()->noContent();
     }
 }

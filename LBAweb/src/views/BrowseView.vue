@@ -1,26 +1,38 @@
 <script setup>
 import { ref, computed, onMounted, watch } from "vue";
 import { useRoute } from "vue-router";
-import axios from "axios";
+import userCard from "@/components/user-card.vue";
+import levelCard from "@/components/level-card.vue";
+import { useUserActions } from "@/composables/useUserActions";
 
-// Reactive state
+const {
+  // user,
+  // friends,
+  // pending,
+  // sent,
+  // blocked,
+  allLevels,
+  allUsers,
+  fetchBrowse,
+  fetchUser,
+  fetchFriends,
+  fetchPendingRequests,
+  fetchSentRequests,
+  fetchBlockedUsers,
+  sendRequest,
+  removeFriend,
+  blockUser,
+  unblockUser,
+  isCurrentUser,
+  isFriend,
+  hasSent,
+  // hasIncoming,
+  isBlocked,
+} = useUserActions();
+
+// — ROUTE & SEARCH STATE —
 const route = useRoute();
 const rawQuery = ref(route.query.q || "");
-const optionFilter = ref("all"); // 'all' | 'levels' | 'users'
-const allLevels = ref([]);
-const allUsers = ref([]);
-
-// Pagination
-const currentPage = ref(1);
-const itemsPerPage = 9;
-
-const options = [
-  { value: "all", label: "All" },
-  { value: "levels", label: "Levels" },
-  { value: "users", label: "Users" },
-];
-
-// Update rawQuery when URL changes
 watch(
   () => route.query.q,
   (q) => {
@@ -29,58 +41,34 @@ watch(
   },
 );
 
-// Fetch data on mount or when query changes
-const fetchData = async () => {
-  try {
-    const [lvRes, usRes] = await Promise.all([
-      axios.get("/levels"),
-      axios.get("/users", {
-        params: { q: rawQuery.value },
-      }),
-    ]);
-    allLevels.value = lvRes.data;
-    allUsers.value = usRes.data;
-  } catch (e) {
-    console.error("Browse fetch error:", e);
-  }
-};
+// — FILTER & PAGINATION STATE —
+const optionFilter = ref("all"); // 'all' | 'levels' | 'users'
+const currentPage = ref(1);
+const itemsPerPage = 9;
+const options = [
+  { value: "all", label: "All" },
+  { value: "levels", label: "Levels" },
+  { value: "users", label: "Users" },
+];
 
-onMounted(fetchData);
-watch(rawQuery, fetchData);
+// — LIFECYCLE: get logged-in user + friend state + browse data —
+onMounted(async () => {
+  await fetchUser();
+  await Promise.all([
+    fetchFriends(),
+    fetchPendingRequests(),
+    fetchSentRequests(),
+    fetchBlockedUsers(),
+  ]);
+  await fetchBrowse(rawQuery.value);
+});
 
-async function sendFriendRequest(userId) {
-  try {
-    const token = localStorage.getItem("auth_token");
-    await axios.post(
-      "/friend-requests",
-      { receiver_id: userId },
-      { headers: { Authorization: `Bearer ${token}` } },
-    );
-    console.log(`Friend request sent to user ${userId}`);
-    // TODO: update UI state or show a toast
-  } catch (e) {
-    console.error("Failed to send friend request:", e);
-    // TODO: show error feedback
-  }
-}
+watch(rawQuery, async () => {
+  currentPage.value = 1;
+  await fetchBrowse(rawQuery.value);
+});
 
-async function blockUser(userId) {
-  try {
-    const token = localStorage.getItem("auth_token");
-    await axios.post(
-      "/blocks",
-      { blocked_id: userId },
-      { headers: { Authorization: `Bearer ${token}` } },
-    );
-    console.log(`Blocked user ${userId}`);
-    // TODO: remove from list or show a toast
-  } catch (e) {
-    console.error("Failed to block user:", e);
-    // TODO: show error feedback
-  }
-}
-
-// Combined & filtered list
+// — COMPUTED FILTERED LISTS & PAGINATION —
 const filteredLevels = computed(() =>
   rawQuery.value
     ? allLevels.value.filter((l) =>
@@ -95,27 +83,20 @@ const filteredUsers = computed(() =>
       )
     : allUsers.value,
 );
+
 const combined = computed(() => {
   if (optionFilter.value === "levels") {
-    return filteredLevels.value.map((l) => ({
-      ...l,
-      __type: "level",
-    }));
+    return filteredLevels.value.map((l) => ({ ...l, __type: "level" }));
   }
   if (optionFilter.value === "users") {
-    return filteredUsers.value.map((u) => ({
-      ...u,
-      __type: "user",
-    }));
+    return filteredUsers.value.map((u) => ({ ...u, __type: "user" }));
   }
-  // "all" mode: mix both types
   return [
     ...filteredLevels.value.map((l) => ({ ...l, __type: "level" })),
     ...filteredUsers.value.map((u) => ({ ...u, __type: "user" })),
   ];
 });
 
-// Pagination logic
 const totalPages = computed(() =>
   Math.ceil(combined.value.length / itemsPerPage),
 );
@@ -156,34 +137,24 @@ function setPage(n) {
     <div v-if="pagedItems.length" class="grid grid-cols-3 gap-6">
       <div
         v-for="item in pagedItems"
-        :key="`${item.__type || item.id}-${item.id}`"
+        :key="`${item.__type}-${item.id}`"
         class="bg-background-2 rounded p-4 shadow transition hover:shadow-lg">
-        <div v-if="item.__type === 'level'">
-          <h3 class="font-semibold">{{ item.name }}</h3>
-          <h4>Created by: {{ item.creator_name }}</h4>
-          <p class="text-sm text-gray-400">
-            Created at: {{ new Date(item.created_at).toLocaleDateString() }}
-          </p>
-        </div>
-        <div v-else-if="item.__type === 'user'">
-          <h3 class="font-semibold">{{ item.name }}</h3>
-          <!-- showing email isnt the best idea, should add different data to show.  -->
-          <p class="text-sm text-gray-400">{{ item.email }}</p>
-          <div class="mt-4 flex space-x-2">
-            <button
-              @click="sendFriendRequest(item.id)"
-              class="bg-primary hover:bg-primary-2 flex-1 rounded px-3 py-1 text-sm font-medium text-black transition">
-              Add Friend
-            </button>
-            <button
-              @click="blockUser(item.id)"
-              class="flex-1 rounded bg-red-600 px-3 py-1 text-sm font-medium text-white transition hover:bg-red-700">
-              Block
-            </button>
-          </div>
-        </div>
+        <level-card v-if="item.__type === 'level'" :level="item" />
+
+        <user-card
+          v-else
+          :user="item"
+          :is-current-user="isCurrentUser(item.id)"
+          :is-friend="isFriend(item.id)"
+          :is-blocked="isBlocked(item.id)"
+          :is-pending="hasSent(item.id)"
+          @add-friend="sendRequest"
+          @remove-friend="removeFriend"
+          @block="blockUser"
+          @unblock="unblockUser" />
       </div>
     </div>
+
     <div v-else class="py-20 text-center">No results found.</div>
 
     <!-- Pagination -->

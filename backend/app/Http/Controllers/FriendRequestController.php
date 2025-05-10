@@ -6,37 +6,110 @@ use Illuminate\Http\Request;
 use App\Models\FriendRequest;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use App\Services\FriendshipService;
 
 class FriendRequestController extends Controller
 {
+    /**
+     * Show all incoming requests that have been responded to.
+     */
     public function index()
     {
-        // show incoming requests
         return Auth::user()
-                   ->friendRequestsReceived()
-                   ->with('sender:id,name')
-                   ->get();
+            ->friendRequestsReceived()
+            ->with('sender:id,name')
+            ->whereNotNull('status')
+            ->get();
     }
 
+    /**
+     * Show all incoming requests that are still pending.
+     */
+    public function pending()
+    {
+        return Auth::user()
+            ->friendRequestsReceived()
+            ->with('sender:id,name')
+            ->whereNull('status')
+            ->get();
+    }
+
+    /**
+     * Show all outgoing requests (that I’ve sent).
+     */
+    public function sent()
+    {
+        return Auth::user()
+            ->friendRequestsSent()
+            ->with('receiver:id,name,email')
+            ->whereNull('status')
+            ->get();
+    }
+
+    /**
+     * Send a new friend request.
+     * Checks for:
+     * 1. Whether sender was blocked by reciever.
+     * 2. Whether sender has already sent a friend request that is still unanswered.
+     * 3. Whether sender and reciever are already friends.
+     */
     public function store(Request $request)
     {
         $data = $request->validate([
-            'receiver_id' => 'required|exists:users,id|not_in:'.Auth::id()
+            'receiver_id' => 'required|exists:users,id|not_in:'.Auth::id(),
         ]);
 
-        // make sure we don’t resend an existing request or friendship
-        if (FriendRequest::where($data)->exists() ||
-            Auth::user()->friends()->where('friended_id', $data['receiver_id'])->exists()) {
-            return response()->json(['message'=>'Already requested or friends'], 422);
+        $meId = Auth::id();
+        $receiverId = $data['receiver_id'];
+
+        // 1) Block check
+        $hasBlocked = DB::table('blocks')
+            ->where('blocker_id', $receiverId)
+            ->where('blocked_id', $meId)
+            ->exists();
+
+        if ($hasBlocked) {
+            return response()->json([
+                'message' => 'You cannot send a friend request to this user.'
+            ], 403);
         }
 
-        $data['sender_id'] = Auth::id();
+        // 2) Pending request check
+        $alreadyPending = FriendRequest::where('sender_id', $meId)
+            ->where('receiver_id', $receiverId)
+            ->whereNull('status')
+            ->exists();
+
+        if ($alreadyPending) {
+            return response()->json([
+                'message' => 'You already have a pending friend request to this user.'
+            ], 422);
+        }
+
+        // 3) Friendship existence check
+        $alreadyFriends = Auth::user()
+            ->friends()
+            ->contains('id', $receiverId);
+
+        if ($alreadyFriends) {
+            return response()->json([
+                'message' => 'You are already friends with this user.'
+            ], 422);
+        }
+
+        // 4) Create the request
+        $data['sender_id'] = $meId;
         $fr = FriendRequest::create($data);
 
         return response()->json($fr, 201);
     }
 
-    public function update(Request $request, FriendRequest $friendRequest)
+
+    /**
+     * Accept or deny an incoming request.
+     */
+    public function update(Request $request, FriendRequest $friendRequest, FriendshipService $service)
     {
         // only the receiver may accept/deny
         abort_unless($friendRequest->receiver_id === Auth::id(), 403);
@@ -47,20 +120,24 @@ class FriendRequestController extends Controller
 
         $friendRequest->update($data);
 
+
         if ($data['status']) {
-            // create friendship both ways
-            Auth::user()->friends()->attach($friendRequest->sender_id);
-            User::findOrFail($friendRequest->sender_id)
-                ->friends()->attach(Auth::id());
+            $me = Auth::user();
+            $sender = $friendRequest->sender()->firstOrFail();
+            $service->befriend($me, $sender);
         }
 
         return response()->json($friendRequest);
     }
 
+    /**
+     * Cancel an outgoing request.
+     */
     public function destroy(FriendRequest $friendRequest)
     {
         // only sender may cancel
         abort_unless($friendRequest->sender_id === Auth::id(), 403);
+
         $friendRequest->delete();
         return response()->noContent();
     }

@@ -17,11 +17,11 @@ return new class extends Migration
             $table->primary(['user_id', 'level_id']);
 
             $table->foreign('user_id')
-                  ->references('id')->on('users')
-                  ->onDelete('cascade');
+                ->references('id')->on('users')
+                ->onDelete('cascade');
             $table->foreign('level_id')
-                  ->references('id')->on('levels')
-                  ->onDelete('cascade');
+                ->references('id')->on('levels')
+                ->onDelete('cascade');
         });
     }
 

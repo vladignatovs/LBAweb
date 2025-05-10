@@ -64,12 +64,10 @@ class User extends Authenticatable
     // my friends (bidirectional pivot)
     public function friends()
     {
-        return $this->belongsToMany(
-            User::class,
-            'friendships',
-            'friend_id',
-            'friended_id'
-        );
+        $firstCol = $this->belongsToMany(User::class, 'friendships', 'friend_id', 'friended_id')->get();
+        $secondCol = $this->belongsToMany(User::class, 'friendships', 'friended_id', 'friend_id')->get();
+
+        return $firstCol->merge($secondCol)->unique('id')->values();
     }
 
     // blocks I’ve made

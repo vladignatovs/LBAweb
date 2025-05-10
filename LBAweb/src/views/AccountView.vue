@@ -1,190 +1,64 @@
 <script setup>
 import { ref, onMounted, watch } from "vue";
-import { useRouter } from "vue-router";
-import axios from "axios";
+import { useUserActions } from "@/composables/useUserActions";
 import fancyInput from "@/components/fancy-input.vue";
 import fancyFileInput from "@/components/fancy-file-input.vue";
+import userCard from "@/components/user-card.vue";
+import levelCard from "@/components/level-card.vue";
+import requestCard from "@/components/request-card.vue";
 
-const router = useRouter();
-const user = ref(null);
+const {
+  user,
+  levels,
+  completions,
+  friends,
+  pending,
+  sent,
+  blocked,
+  fetchUser,
+  fetchLevels,
+  fetchCompletions,
+  fetchFriends,
+  fetchPendingRequests,
+  fetchSentRequests,
+  fetchBlockedUsers,
+  sendRequest,
+  acceptRequest,
+  denyRequest,
+  cancelRequest,
+  removeFriend,
+  blockUser,
+  unblockUser,
+  logout,
+  isCurrentUser,
+  isFriend,
+  isBlocked,
+  hasSent,
+} = useUserActions();
+
 const activeSection = ref("profile");
-// const message = ref("");
-
 const newEmail = ref("");
-
 const currentPassword = ref("");
 const newPassword = ref("");
 const confirmPassword = ref("");
-
 const avatarFile = ref(null);
 
-const levels = ref([]);
-const completions = ref([]);
-const friends = ref([]);
-const incomingRequests = ref([]);
-const blockedUsers = ref([]);
-
-const loaded = {
-  levels: false,
-  completions: false,
-  friends: false,
-  requests: false,
-  blocked: false,
-};
-
-function authHeaders() {
-  return { Authorization: `Bearer ${localStorage.getItem("auth_token")}` };
-}
-
-const fetchUserData = async () => {
-  // check if user is already logged in by using authentication token (could use "user" as well)
-  try {
-    const resp = await axios.get("/user", { headers: authHeaders() });
-    user.value = resp.data;
-    newEmail.value = resp.data.email;
-  } catch (e) {
-    console.error(e);
-    logoutCleanup();
-  }
-};
-
-// ON MOUNTED
-onMounted(fetchUserData);
-
-const fetchLevels = async () => {
-  if (!user.value) return;
-  try {
-    loaded.levels = true;
-    const resp = await axios.get("/levels", { headers: authHeaders() });
-    levels.value = resp.data;
-  } catch (e) {
-    console.error("Could not load levels", e);
-  }
-};
-
-const fetchCompletions = async () => {
-  if (!user.value) return;
-  try {
-    loaded.completions = true;
-    const resp = await axios.get("/completions", { headers: authHeaders() });
-    completions.value = resp.data;
-  } catch (e) {
-    console.error("Could not load completions", e);
-  }
-};
-
-const fetchFriends = async () => {
-  if (loaded.friends) return;
-  try {
-    loaded.friends = true;
-    const { data } = await axios.get("/friendships", {
-      headers: authHeaders(),
-    });
-    friends.value = data;
-  } catch (e) {
-    console.error("Could not load friends", e);
-  }
-};
-
-const fetchIncomingRequests = async () => {
-  if (loaded.requests) return;
-  try {
-    loaded.requests = true;
-    const { data } = await axios.get("/friend-requests", {
-      headers: authHeaders(),
-    });
-    incomingRequests.value = data;
-  } catch (e) {
-    console.error("Could not load completions", e);
-  }
-};
-
-const fetchBlockedUsers = async () => {
-  if (loaded.blocked) return;
-  try {
-    loaded.blocked = true;
-    const { data } = await axios.get("/blocks", { headers: authHeaders() });
-    blockedUsers.value = data;
-  } catch (e) {
-    console.error("Could not load completions", e);
-  }
-};
-
-const removeFriend = async (id) => {
-  await axios.delete(`/friendships/${id}`, { headers: authHeaders() });
-  friends.value = friends.value.filter((f) => f.id !== id);
-};
-
-// const messageFriend = (id) => {
-//   router.push({ name: "MessageThread", params: { userId: id } });
-// };
-
-const acceptRequest = async (id) => {
-  await axios.patch(
-    `/friend-requests/${id}`,
-    { status: true },
-    { headers: authHeaders() },
-  );
-  incomingRequests.value = incomingRequests.value.filter((r) => r.id !== id);
-};
-
-const denyRequest = async (id) => {
-  await axios.patch(
-    `/friend-requests/${id}`,
-    { status: false },
-    { headers: authHeaders() },
-  );
-  incomingRequests.value = incomingRequests.value.filter((r) => r.id !== id);
-};
-
-const unblockUser = async (id) => {
-  await axios.delete(`/blocks/${id}`, { headers: authHeaders() });
-  blockedUsers.value = blockedUsers.value.filter((b) => b.id !== id);
-};
-
-// When activeSection changes, lazy-fetch only the needed list
-watch(activeSection, (section) => {
-  switch (section) {
-    case "levels":
-      fetchLevels();
-      break;
-    case "completions":
-      fetchCompletions();
-      break;
-    case "friends":
-      fetchFriends();
-      break;
-    case "requests":
-      fetchIncomingRequests();
-      break;
-    case "blocked":
-      fetchBlockedUsers();
-      break;
-  }
+onMounted(async () => {
+  await fetchUser();
+  newEmail.value = user.value?.email || "";
 });
 
-const logoutCleanup = () => {
-  localStorage.removeItem("auth_token");
-  localStorage.removeItem("user");
-  user.value = null;
-};
-
-const logout = async () => {
-  // check if user is already logged in by using authentication token (could use "user" as well)
-  const token = localStorage.getItem("auth_token");
-  try {
-    await axios.post(
-      "/logout",
-      {},
-      { headers: { Authorization: `Bearer ${token}` } },
-    );
-  } catch (e) {
-    console.error(e);
-  } finally {
-    logoutCleanup();
-    router.push("/");
+watch(activeSection, (section) => {
+  if (section === "levels") fetchLevels();
+  if (section === "completions") fetchCompletions();
+  if (section === "friends") fetchFriends();
+  if (section === "pendingRequests") fetchPendingRequests();
+  if (section === "sentRequests") fetchSentRequests();
+  if (section === "blocked") {
+    fetchBlockedUsers();
+    fetchSentRequests();
   }
-};
+});
 
 // const updateEmail = async () => {
 //   const token = localStorage.getItem("auth_token");
@@ -301,9 +175,19 @@ const logout = async () => {
         </button>
         <button
           class="hover:bg-primary/30 w-full rounded px-3 py-2 text-left transition hover:cursor-pointer"
-          @click="activeSection = 'requests'"
-          :class="{ 'bg-primary-2 text-black': activeSection === 'requests' }">
-          Friend Requests
+          @click="activeSection = 'pendingRequests'"
+          :class="{
+            'bg-primary-2 text-black': activeSection === 'pendingRequests',
+          }">
+          Pending Friend Requests
+        </button>
+        <button
+          class="hover:bg-primary/30 w-full rounded px-3 py-2 text-left transition hover:cursor-pointer"
+          @click="activeSection = 'sentRequests'"
+          :class="{
+            'bg-primary-2 text-black': activeSection === 'sentRequests',
+          }">
+          Sent Friend Requests
         </button>
         <button
           class="hover:bg-primary/30 w-full rounded px-3 py-2 text-left transition hover:cursor-pointer"
@@ -379,42 +263,26 @@ const logout = async () => {
 
       <section v-if="activeSection === 'levels'" class="space-y-4">
         <h2 class="text-2xl font-semibold">My Levels</h2>
-        <div v-if="levels.length" class="overflow-x-auto">
-          <table class="min-w-full rounded shadow">
-            <thead class="bg-background-2">
-              <tr>
-                <th class="px-4 py-2 text-left">Level Name</th>
-                <th class="px-4 py-2 text-left">Created At</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="lvl in levels" :key="lvl.id" class="border-t">
-                <td class="px-4 py-2">{{ lvl.name }}</td>
-                <td class="px-4 py-2">
-                  {{ new Date(lvl.created_at).toLocaleDateString() }}
-                </td>
-              </tr>
-            </tbody>
-          </table>
+        <div v-if="levels.length" class="space-y-4">
+          <div
+            v-for="lvl in levels"
+            :key="lvl.id"
+            class="bg-background-2 flex items-center justify-between rounded p-4">
+            <level-card :level="lvl" />
+          </div>
         </div>
         <div v-else>No levels registered yet.</div>
       </section>
 
       <section v-if="activeSection === 'completions'" class="space-y-4">
         <h2 class="text-2xl font-semibold">My Completions</h2>
-        <div v-if="completions.length" class="overflow-x-auto">
-          <table class="min-w-full rounded shadow">
-            <thead class="bg-background-2">
-              <tr>
-                <th class="px-4 py-2 text-left">Completed Level</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="comp in completions" :key="comp.id" class="border-t">
-                <td class="px-4 py-2">{{ comp.name }}</td>
-              </tr>
-            </tbody>
-          </table>
+        <div v-if="completions.length" class="space-y-4">
+          <div
+            v-for="comp in completions"
+            :key="comp.id"
+            class="bg-background-2 flex items-center justify-between rounded p-4">
+            <level-card :level="comp" />
+          </div>
         </div>
         <div v-else>No completions yet.</div>
       </section>
@@ -426,71 +294,68 @@ const logout = async () => {
             v-for="f in friends"
             :key="f.id"
             class="bg-background-2 flex items-center justify-between rounded p-4">
-            <div>
-              <p class="font-semibold">{{ f.name }}</p>
-              <p class="text-sm text-gray-400">{{ f.email }}</p>
-            </div>
-            <div class="space-x-2">
-              <button
-                @click="messageFriend(f.id)"
-                class="bg-secondary rounded px-3 py-1 text-white">
-                Message
-              </button>
-              <button
-                @click="removeFriend(f.id)"
-                class="rounded bg-red-600 px-3 py-1 text-white">
-                Remove
-              </button>
-            </div>
+            <user-card
+              :user="f"
+              :is-friend="true"
+              :is-blocked="isBlocked(f.id)"
+              :is-current-user="isCurrentUser(f.id)"
+              @block="blockUser"
+              @unblock="unblockUser"
+              @remove-friend="removeFriend" />
           </div>
         </div>
         <p v-else>No friends yet.</p>
       </section>
 
-      <section v-if="activeSection === 'requests'">
+      <section v-if="activeSection === 'pendingRequests'">
         <h2 class="mb-4 text-2xl font-semibold">Friend Requests</h2>
-        <div v-if="incomingRequests.length" class="space-y-4">
+        <div v-if="pending.length" class="space-y-4">
           <div
-            v-for="r in incomingRequests"
+            v-for="r in pending"
             :key="r.id"
             class="bg-background-2 flex items-center justify-between rounded p-4">
-            <div>
-              <p class="font-semibold">{{ r.sender.name }}</p>
-              <p class="text-sm text-gray-400">{{ r.sender.email }}</p>
-            </div>
-            <div class="space-x-2">
-              <button
-                @click="acceptRequest(r.id)"
-                class="bg-primary rounded px-3 py-1 text-black">
-                Accept
-              </button>
-              <button
-                @click="denyRequest(r.id)"
-                class="rounded bg-red-600 px-3 py-1 text-white">
-                Deny
-              </button>
-            </div>
+            <request-card
+              :user="r.sender"
+              :received="true"
+              @accept="acceptRequest(r.id)"
+              @deny="denyRequest(r.id)" />
           </div>
         </div>
         <p v-else>No incoming requests.</p>
       </section>
 
+      <section v-if="activeSection === 'sentRequests'">
+        <h2 class="mb-4 text-2xl font-semibold">Sent Friend Requests</h2>
+        <div v-if="sent.length" class="space-y-4">
+          <div
+            v-for="r in sent"
+            :key="r.id"
+            class="bg-background-2 flex items-center justify-between rounded p-4">
+            <request-card
+              :user="r.receiver"
+              :received="false"
+              @cancel="cancelRequest(r.id)" />
+          </div>
+        </div>
+        <p v-else>No outgoing requests.</p>
+      </section>
+
       <section v-if="activeSection === 'blocked'">
         <h2 class="mb-4 text-2xl font-semibold">Blocked Users</h2>
-        <div v-if="blockedUsers.length" class="space-y-4">
+        <div v-if="blocked.length" class="space-y-4">
           <div
-            v-for="b in blockedUsers"
+            v-for="b in blocked"
             :key="b.id"
             class="bg-background-2 flex items-center justify-between rounded p-4">
-            <div>
-              <p class="font-semibold">{{ b.name }}</p>
-              <p class="text-sm text-gray-400">{{ b.email }}</p>
-            </div>
-            <button
-              @click="unblockUser(b.id)"
-              class="bg-secondary rounded px-3 py-1 text-white">
-              Unblock
-            </button>
+            <user-card
+              :user="b"
+              :is-friend="isFriend(b.id)"
+              :is-blocked="true"
+              :is-current-user="isCurrentUser(b.id)"
+              :is-pending="hasSent(b.id)"
+              @unblock="unblockUser"
+              @add-friend="sendRequest"
+              @remove-friend="removeFriend" />
           </div>
         </div>
         <p v-else>No one blocked.</p>
