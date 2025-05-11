@@ -123,7 +123,7 @@ onBeforeRouteUpdate((to) => {
           setPage(1);
         "
         :class="[
-          'rounded-full px-4 py-2 transition hover:cursor-pointer',
+          'rounded-full px-4 py-2 transition',
           categoryFilter === category.value
             ? 'bg-primary text-black'
             : 'bg-white/5 hover:bg-white/10',
@@ -156,7 +156,7 @@ onBeforeRouteUpdate((to) => {
         :key="n"
         @click="setPage(n)"
         :class="[
-          'rounded px-3 py-1 transition hover:cursor-pointer',
+          'rounded px-3 py-1 transition',
           currentPage === n
             ? 'bg-primary text-black'
             : 'bg-white/5 hover:bg-white/10',

@@ -124,7 +124,7 @@ function setPage(n) {
           setPage(1);
         "
         :class="[
-          'rounded-full px-4 py-2 transition hover:cursor-pointer',
+          'rounded-full px-4 py-2 transition',
           optionFilter === option.value
             ? 'bg-primary text-black'
             : 'bg-white/5 hover:bg-white/10',

@@ -136,31 +136,31 @@ watch(activeSection, (section) => {
       <h2 class="mb-6 text-2xl font-semibold">Account</h2>
       <nav class="space-y-2">
         <button
-          class="hover:bg-primary/30 w-full rounded px-3 py-2 text-left transition hover:cursor-pointer"
+          class="hover:bg-primary/30 w-full rounded px-3 py-2 text-left transition"
           :class="{ 'bg-primary-2 text-black': activeSection === 'profile' }"
           @click="activeSection = 'profile'">
           Profile
         </button>
         <button
-          class="hover:bg-primary/30 w-full rounded px-3 py-2 text-left transition hover:cursor-pointer"
+          class="hover:bg-primary/30 w-full rounded px-3 py-2 text-left transition"
           :class="{ 'bg-primary-2 text-black': activeSection === 'security' }"
           @click="activeSection = 'security'">
           Security
         </button>
         <button
-          class="hover:bg-primary/30 w-full rounded px-3 py-2 text-left transition hover:cursor-pointer"
+          class="hover:bg-primary/30 w-full rounded px-3 py-2 text-left transition"
           :class="{ 'bg-primary-2 text-black': activeSection === 'avatar' }"
           @click="activeSection = 'avatar'">
           Avatar
         </button>
         <button
-          class="hover:bg-primary/30 w-full rounded px-3 py-2 text-left transition hover:cursor-pointer"
+          class="hover:bg-primary/30 w-full rounded px-3 py-2 text-left transition"
           :class="{ 'bg-primary-2 text-black': activeSection === 'levels' }"
           @click="activeSection = 'levels'">
           My Levels
         </button>
         <button
-          class="hover:bg-primary/30 w-full rounded px-3 py-2 text-left transition hover:cursor-pointer"
+          class="hover:bg-primary/30 w-full rounded px-3 py-2 text-left transition"
           :class="{
             'bg-primary-2 text-black': activeSection === 'completions',
           }"
@@ -168,13 +168,13 @@ watch(activeSection, (section) => {
           My Completions
         </button>
         <button
-          class="hover:bg-primary/30 w-full rounded px-3 py-2 text-left transition hover:cursor-pointer"
+          class="hover:bg-primary/30 w-full rounded px-3 py-2 text-left transition"
           @click="activeSection = 'friends'"
           :class="{ 'bg-primary-2 text-black': activeSection === 'friends' }">
           Friends
         </button>
         <button
-          class="hover:bg-primary/30 w-full rounded px-3 py-2 text-left transition hover:cursor-pointer"
+          class="hover:bg-primary/30 w-full rounded px-3 py-2 text-left transition"
           @click="activeSection = 'pendingRequests'"
           :class="{
             'bg-primary-2 text-black': activeSection === 'pendingRequests',
@@ -182,7 +182,7 @@ watch(activeSection, (section) => {
           Pending Friend Requests
         </button>
         <button
-          class="hover:bg-primary/30 w-full rounded px-3 py-2 text-left transition hover:cursor-pointer"
+          class="hover:bg-primary/30 w-full rounded px-3 py-2 text-left transition"
           @click="activeSection = 'sentRequests'"
           :class="{
             'bg-primary-2 text-black': activeSection === 'sentRequests',
@@ -190,13 +190,13 @@ watch(activeSection, (section) => {
           Sent Friend Requests
         </button>
         <button
-          class="hover:bg-primary/30 w-full rounded px-3 py-2 text-left transition hover:cursor-pointer"
+          class="hover:bg-primary/30 w-full rounded px-3 py-2 text-left transition"
           @click="activeSection = 'blocked'"
           :class="{ 'bg-primary-2 text-black': activeSection === 'blocked' }">
           Blocked
         </button>
         <button
-          class="border-primary/30 mt-6 w-full border-t px-3 py-2 text-left hover:cursor-pointer"
+          class="border-primary/30 mt-6 w-full border-t px-3 py-2 text-left"
           @click="logout">
           Log Out
         </button>
@@ -215,7 +215,7 @@ watch(activeSection, (section) => {
           <fancy-input v-model="newEmail" label="New Email" />
           <button
             @click="updateEmail"
-            class="bg-secondary/50 hover:bg-secondary-2/70 rounded px-4 py-2 text-white hover:cursor-pointer">
+            class="bg-secondary/50 hover:bg-secondary-2/70 rounded px-4 py-2 text-white">
             Save Email
           </button>
         </div>
@@ -237,7 +237,7 @@ watch(activeSection, (section) => {
           label="Confirm New Password" />
         <button
           @click="changePassword"
-          class="bg-secondary/50 hover:bg-secondary-2/70 rounded px-4 py-2 text-white hover:cursor-pointer">
+          class="bg-secondary/50 hover:bg-secondary-2/70 rounded px-4 py-2 text-white">
           Update Password
         </button>
       </section>
@@ -256,7 +256,7 @@ watch(activeSection, (section) => {
           accept="image/*" />
         <button
           @click="uploadAvatar"
-          class="bg-secondary/50 hover:bg-secondary-2/70 rounded px-4 py-2 text-white hover:cursor-pointer">
+          class="bg-secondary/50 hover:bg-secondary-2/70 rounded px-4 py-2 text-white">
           Upload
         </button>
       </section>

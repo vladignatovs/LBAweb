@@ -1,7 +1,9 @@
 import { createRouter, createWebHistory } from "vue-router";
-
+import { useToast } from "vue-toastification";
 import HomeView from "@/views/HomeView.vue";
 import AccountView from "@/views/AccountView.vue";
+
+const toast = useToast();
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -63,6 +65,8 @@ router.beforeEach((to, from, next) => {
   const token = localStorage.getItem("auth_token");
 
   if (to.meta.requiresAuth && !token) {
+    if (to.path === "/browse")
+      toast.error("You need an account to use that feature!");
     next("/authentication");
   } else {
     next();

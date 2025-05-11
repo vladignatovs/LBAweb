@@ -114,7 +114,7 @@ function onSubmit() {
           </fancy-input>
           <button
             type="submit"
-            class="ml-2 rounded-full p-2 transition hover:cursor-pointer hover:bg-white/10"
+            class="ml-2 rounded-full p-2 transition hover:bg-white/10"
             aria-label="Search">
             <svg
               xmlns="http://www.w3.org/2000/svg"

@@ -24,6 +24,9 @@
 html {
   background-color: var(--color-background);
 }
+button {
+  @apply hover:cursor-pointer;
+}
 
 /* COLOR SCHEME FROM https://www.realtimecolors.com/?colors=d1d1d1-16161d-2b2b2b-ffff66-0fffff&fonts=Inter-Inter */
 @theme {
