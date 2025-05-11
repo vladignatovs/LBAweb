@@ -1,3 +1,22 @@
+<script setup>
+import { ref, onMounted, computed } from "vue";
+import axios from "axios";
+import NewsCard from "@/components/news-card.vue";
+
+const newsList = ref([]);
+const latestNews = computed(() => newsList.value[0] || null);
+const smallNews = computed(() => newsList.value.slice(1, 4));
+
+onMounted(async () => {
+  try {
+    const { data } = await axios.get("/news");
+    newsList.value = data;
+  } catch (e) {
+    console.error("Failed loading news", e);
+  }
+});
+</script>
+
 <template>
   <main>
     <!-- TITLE -->
@@ -17,9 +36,38 @@
       </p>
     </section>
     <!-- NEWS -->
+    <!-- NEWS PANEL -->
     <section
-      class="bg-secondary text-primary mx-0 grid gap-12 py-12 text-center text-2xl font-bold">
-      <P>NEWS</P>
+      class="from-primary-2/10 to-background mx-0 bg-linear-120 py-12 text-white">
+      <div class="mx-4 flex flex-col gap-12 lg:flex-row">
+        <!-- LEFT: 1/3 width -->
+        <div class="flex w-full flex-col justify-center px-4 lg:w-1/4">
+          <h2 class="mb-4 text-3xl font-bold">NEWS</h2>
+          <p class="text-lg font-light">
+            Follow our latest exciting events regarding the development of
+            "Lights, Beats, Action!" and be part of our community!
+          </p>
+        </div>
+
+        <!-- RIGHT: 2/3 width -->
+        <div class="w-full space-y-12 lg:w-3/4">
+          <!-- Big + small cards same as above -->
+          <div
+            v-if="latestNews"
+            class="bg-background-2/30 block h-116 overflow-hidden rounded-lg shadow-lg transition hover:shadow-2xl">
+            <news-card :news="latestNews" :big="true" />
+          </div>
+          <div
+            class="grid grid-cols-1 justify-items-center gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            <div
+              v-for="item in smallNews"
+              :key="item.id"
+              class="grid h-76 w-full max-w-xs overflow-hidden rounded-lg shadow-lg transition hover:shadow-2xl">
+              <news-card :news="item" />
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
     <!-- CARDS -->
     <section

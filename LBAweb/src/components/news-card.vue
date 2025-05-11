@@ -5,6 +5,7 @@ import adminNewsControl from "@/admin/components/admin-news-control.vue";
 const props = defineProps({
   news: { type: Object, required: true },
   isAdmin: { type: Boolean, required: true },
+  big: Boolean,
 });
 const emit = defineEmits(["edit", "delete"]);
 
@@ -35,7 +36,9 @@ function categoryColor(cat) {
   <div class="relative h-full">
     <router-link :to="`/news/${news.id}`">
       <!-- Thumbnail -->
-      <div class="h-40 w-full overflow-hidden">
+      <div
+        class="w-full overflow-hidden"
+        :class="{ 'h-4/5': big, 'h-40': !big }">
         <img
           :src="`http://127.0.0.1:8000/storage/${news.thumbnail}`"
           alt="Thumbnail"
@@ -54,7 +57,7 @@ function categoryColor(cat) {
 
       <!-- Title -->
       <div class="px-4">
-        <h3 class="truncate-4 text-lg font-semibold">
+        <h3 class="truncate-2 text-lg font-semibold">
           {{ news.title }}
         </h3>
       </div>
@@ -72,7 +75,7 @@ function categoryColor(cat) {
   </div>
 </template>
 <style scoped>
-.truncate-4 {
+.truncate-2 {
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
