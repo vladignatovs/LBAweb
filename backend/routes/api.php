@@ -49,8 +49,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/user',  [AuthController::class, 'user']);
     Route::post('/logout', [AuthController::class, 'logout']);
 
-    // STORE FUNCTION ONLY AVAILABLE FOR ADMINS
-    Route::post('/news', [NewsController::class, 'store']);
+    // FUNCTIONS ONLY AVAILABLE FOR ADMINS
+    // TODO: MAKE PROPER ADMIN MIDDLEWARE
+    Route::apiResource('news', NewsController::class)->only(['store', 'update', 'destroy']);
 
     Route::apiResource('friend-requests', FriendRequestController::class)->only(['index','store','update','destroy']);
 

@@ -2,22 +2,57 @@
 import { ref, onMounted, computed } from "vue";
 import axios from "axios";
 import AdminNewsPanel from "@/admin/components/admin-news-panel.vue";
+import newsCard from "@/components/news-card.vue";
 import { onBeforeRouteUpdate, useRoute } from "vue-router";
+import { useAdminActions } from "@/admin/composables/useAdminActions";
 
+// utils
 const route = useRoute();
-
+const selectedNews = ref(null);
+const adminPanelOpen = ref(false);
 const newsList = ref([]);
+const { fetchUser, isAdmin } = useAdminActions();
 
 // --- MOUNT ---
 // gets news
 onMounted(async () => {
   try {
+    await fetchUser();
     const newsResp = await axios.get("/news");
     newsList.value = newsResp.data;
   } catch (e) {
     console.error("Failed to load news:", e);
   }
 });
+
+// --- CONNECTING METHODS ---
+function addToList(newItem) {
+  newsList.value.unshift(newItem);
+}
+
+function openCreatePanel() {
+  selectedNews.value = null; // ensure we’re in “create” mode
+  adminPanelOpen.value = true;
+}
+
+function openEditPanel(news) {
+  selectedNews.value = news;
+  adminPanelOpen.value = true;
+}
+
+// function onPanelToggle(isOpen) {
+//   adminPanelOpen.value = isOpen;
+//   if (!isOpen) selectedNews.value = null;
+// }
+
+function removeFromList(id) {
+  newsList.value = newsList.value.filter((n) => n.id !== id);
+}
+
+function patchInList(updated) {
+  const idx = newsList.value.findIndex((n) => n.id === updated.id);
+  if (idx !== -1) newsList.value[idx] = updated;
+}
 
 // --- FILTERING & PAGINATION ---
 const categoryFilter = ref(route.query.category || "all");
@@ -60,18 +95,6 @@ function setPage(n) {
   }
 }
 
-// sets color of category bg
-function categoryColor(cat) {
-  switch (cat) {
-    case "update":
-      return "bg-primary-2";
-    case "announcement":
-      return "bg-secondary-2";
-    default:
-      return "bg-gray-300";
-  }
-}
-
 onBeforeRouteUpdate((to) => {
   categoryFilter.value = to.query.category || "all";
   currentPage.value = 1;
@@ -81,7 +104,14 @@ onBeforeRouteUpdate((to) => {
 <template>
   <main
     class="from-primary-2/10 to-background relative min-h-screen bg-linear-120 px-8 py-6 pb-24 text-white">
-    <admin-news-panel />
+    <button @click="openCreatePanel">Create News</button>
+    <admin-news-panel
+      v-if="isAdmin"
+      v-model:open="adminPanelOpen"
+      :news-to-edit="selectedNews"
+      @create="addToList"
+      @update="patchInList" />
+    <!-- @update:open="onPanelToggle" -->
 
     <!-- CATEGORY FILTERS -->
     <div class="mb-6 flex flex-wrap justify-center gap-2">
@@ -106,37 +136,15 @@ onBeforeRouteUpdate((to) => {
     <div
       v-if="pagedNews.length"
       class="mx-auto grid w-fit grid-cols-3 justify-items-center gap-6">
-      <div v-for="news in pagedNews" :key="news.id" class="h-96 w-80">
-        <router-link
-          :to="`/news/${news.id}`"
-          class="bg-background-2/30 hover:shadow-primary-2/20 block h-full overflow-hidden rounded-lg shadow-lg transition hover:shadow-2xl">
-          <!-- Thumbnail -->
-          <div class="h-40 w-full overflow-hidden">
-            <img
-              :src="`http://127.0.0.1:8000/storage/${news.thumbnail}`"
-              alt="Thumbnail"
-              class="h-full w-full object-cover object-center" />
-          </div>
-
-          <!-- Date & Category Badge -->
-          <div class="mb-2 flex items-center justify-between p-4">
-            <span class="text-sm text-gray-300">
-              {{ new Date(news.created_at).toLocaleDateString() }}
-            </span>
-            <span
-              class="rounded px-2 py-1 text-xs font-medium text-black"
-              :class="categoryColor(news.category)">
-              {{ news.category }}
-            </span>
-          </div>
-
-          <!-- Title -->
-          <div class="px-4">
-            <h3 class="text-lg leading-snug font-semibold text-white">
-              {{ news.title }}
-            </h3>
-          </div>
-        </router-link>
+      <div
+        v-for="news in pagedNews"
+        :key="news.id"
+        class="bg-background-2/30 block h-76 w-80 overflow-hidden rounded-lg shadow-lg transition hover:shadow-2xl">
+        <news-card
+          :isAdmin="isAdmin"
+          :news="news"
+          @edit="openEditPanel"
+          @delete="removeFromList" />
       </div>
     </div>
     <div v-else class="py-20 text-center">No news available.</div>

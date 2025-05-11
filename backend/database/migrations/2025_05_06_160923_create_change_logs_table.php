@@ -15,7 +15,8 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('admin_id');
             $table->unsignedBigInteger('news_id');
-            $table->timestamps();
+            $table->string('action', 10);
+            $table->timestamp('action_date')->useCurrent();
 
             $table->foreign('admin_id')
                 ->references('id')->on('users')

@@ -31,7 +31,7 @@ class NewsController extends Controller
             'title' => 'required|string|max:255',
             'content' => 'required|string',
             'thumbnail' => 'image|mimes:webp,jpg,jpeg|extensions:webp,jpg,jpeg|max:2048',
-            'category'  => 'required|in:other,update,announcement',
+            'category' => 'required|in:other,update,announcement',
         ]);
 
         // Validation handles the file extension, so now it is safe to save the file in storage
@@ -58,5 +58,48 @@ class NewsController extends Controller
      */
     public function show($id) {
         return response()->json(News::findOrFail($id));
+    }
+
+    /**
+     * Update an existing news article (admin-only).
+     */
+    public function update(Request $request, $id)
+    {
+        if (!Auth::check() || Auth::user()->rights !== 'admin') {
+            return response()->json(['message' => 'Forbidden'], 403);
+        }
+
+        $news = News::findOrFail($id);
+
+        $validated = $request->validate([
+            'title' => 'sometimes|required|string|max:255',
+            'content' => 'sometimes|required|string',
+            'thumbnail' => 'sometimes|image|mimes:webp,jpg,jpeg|max:2048',
+            'category' => 'sometimes|required|in:other,update,announcement',
+        ]);
+
+        if ($request->hasFile('thumbnail')) {
+            $validated['thumbnail'] = $request->file('thumbnail')
+                ->store('thumbnails', 'public');
+        }
+
+        $news->update($validated);
+
+        return response()->json($news);
+    }
+
+    /**
+     * Delete a news article (admin-only).
+     */
+    public function destroy($id)
+    {
+        if (!Auth::check() || Auth::user()->rights !== 'admin') {
+            return response()->json(['message' => 'Forbidden'], 403);
+        }
+
+        $news = News::findOrFail($id);
+        $news->delete();
+
+        return response()->json(['message' => 'Deleted'], 200);
     }
 }
