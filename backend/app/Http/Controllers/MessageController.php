@@ -9,26 +9,25 @@ use Illuminate\Support\Facades\Auth;
 
 class MessageController extends Controller
 {
-    public function index()
-    {
-        // list all messages between me and a friend
-        $friendId = request('with');
-        abort_unless(
-            Auth::user()->friends()->where('friended_id',$friendId)->exists(),
-            403
-        );
+public function index()
+{
+    $friendId = request('with');
 
-        return Message::where(function($q) use($friendId){
-                    $q->where('sender_id',Auth::id())
-                      ->where('receiver_id',$friendId);
-                })
-                ->orWhere(function($q) use($friendId){
-                    $q->where('sender_id',$friendId)
-                      ->where('receiver_id',Auth::id());
-                })
-                ->get();
-    }
+    $friends = Auth::user()->friends();  // Collection
 
+    abort_unless(
+        $friends->contains('id', $friendId),
+        403
+    );
+
+    return Message::where(function($q) use($friendId){
+        $q->where('sender_id',Auth::id())
+            ->where('receiver_id',$friendId);
+    })->orWhere(function($q) use($friendId){
+        $q->where('sender_id',$friendId)
+            ->where('receiver_id',Auth::id());
+    })->get();
+}
     public function store(Request $request)
     {
         $data = $request->validate([
@@ -38,7 +37,7 @@ class MessageController extends Controller
 
         // only friends can message
         abort_unless(
-            Auth::user()->friends()->where('friended_id',$data['receiver_id'])->exists(),
+            Auth::user()->friends()->contains('id',$data['receiver_id']),
             403
         );
 

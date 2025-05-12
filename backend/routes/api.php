@@ -45,7 +45,6 @@ Route::get('/news/{id}', [NewsController::class, 'show']);
 Route::middleware('auth:sanctum')->group(function () {
 
     // user info & logout
-    // checks for authentication token first, then authcontroller user method which just returns user (could just check for localstorage from frontend (?))
     Route::get('/user',  [AuthController::class, 'user']);
     Route::post('/logout', [AuthController::class, 'logout']);
 

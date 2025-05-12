@@ -15,7 +15,6 @@ const {
   pending,
   sent,
   blocked,
-  fetchUser,
   fetchLevels,
   fetchCompletions,
   fetchFriends,
@@ -44,7 +43,6 @@ const confirmPassword = ref("");
 const avatarFile = ref(null);
 
 onMounted(async () => {
-  await fetchUser();
   newEmail.value = user.value?.email || "";
 });
 
@@ -59,75 +57,6 @@ watch(activeSection, (section) => {
     fetchSentRequests();
   }
 });
-
-// const updateEmail = async () => {
-//   const token = localStorage.getItem("auth_token");
-//   try {
-//     await axios.patch(
-//       "http://127.0.0.1:8000/api/user/email",
-//       { email: newEmail.value },
-//       { headers: { Authorization: `Bearer ${token}` } },
-//     );
-//     message.value = "Email updated!";
-//     user.value.email = newEmail.value;
-//   } catch (e) {
-//     console.error(e);
-//     message.value = "Failed to update email.";
-//   }
-// };
-
-// const changePassword = async () => {
-//   if (newPassword.value !== confirmPassword.value) {
-//     message.value = "Passwords do not match.";
-//     return;
-//   }
-//   const token = localStorage.getItem("auth_token");
-//   try {
-//     await axios.patch(
-//       "http://127.0.0.1:8000/api/user/password",
-//       {
-//         current_password: currentPassword.value,
-//         password: newPassword.value,
-//         password_confirmation: confirmPassword.value,
-//       },
-//       { headers: { Authorization: `Bearer ${token}` } },
-//     );
-//     message.value = "Password changed!";
-//     currentPassword.value = "";
-//     newPassword.value = "";
-//     confirmPassword.value = "";
-//   } catch (e) {
-//     console.error(e);
-//     message.value = "Failed to change password.";
-//   }
-// };
-
-// const uploadAvatar = async () => {
-//   if (!avatarFile.value) {
-//     message.value = "Select a file first.";
-//     return;
-//   }
-//   const token = localStorage.getItem("auth_token");
-//   const form = new FormData();
-//   form.append("avatar", avatarFile.value);
-//   try {
-//     const resp = await axios.post(
-//       "http://127.0.0.1:8000/api/user/avatar",
-//       form,
-//       {
-//         headers: {
-//           Authorization: `Bearer ${token}`,
-//           "Content-Type": "multipart/form-data",
-//         },
-//       },
-//     );
-//     user.value.avatar = resp.data.avatar;
-//     message.value = "Avatar updated!";
-//   } catch (e) {
-//     console.error(e);
-//     message.value = "Failed to upload avatar.";
-//   }
-// };
 </script>
 
 <template>

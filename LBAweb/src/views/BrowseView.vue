@@ -14,7 +14,6 @@ const {
   allLevels,
   allUsers,
   fetchBrowse,
-  fetchUser,
   fetchFriends,
   fetchPendingRequests,
   fetchSentRequests,
@@ -53,7 +52,6 @@ const options = [
 
 // — LIFECYCLE: get logged-in user + friend state + browse data —
 onMounted(async () => {
-  await fetchUser();
   await Promise.all([
     fetchFriends(),
     fetchPendingRequests(),

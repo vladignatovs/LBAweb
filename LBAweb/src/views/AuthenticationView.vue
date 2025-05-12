@@ -1,58 +1,47 @@
 <script setup>
-import axios from "axios";
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { useToast } from "vue-toastification";
 import fancyInput from "@/components/fancy-input.vue";
-const email = ref("");
-const password = ref("");
-
+import { useAuthStore } from "@/stores/useAuthStore";
 const router = useRouter();
 const toast = useToast();
-
-const handleLogin = async () => {
-  try {
-    const response = await axios.post("/login", {
-      email: email.value,
-      password: password.value,
-    });
-
-    localStorage.setItem("auth_token", response.data.token);
-    localStorage.setItem("user", JSON.stringify(response.data.user));
-    // push user to the page where they are already logged in (preferably showing user data for development)
-    toast.success("Logged in successfully!");
-    router.push("/account");
-  } catch (e) {
-    toast.error(e.response?.data?.message ?? "Failed to log in!");
-  }
-};
+const auth = useAuthStore();
 
 const name = ref("");
+const email = ref("");
+const password = ref("");
 const passwordConfirmation = ref("");
 
-const handleRegister = async () => {
-  try {
-    const response = await axios.post("/register", {
-      name: name.value,
-      email: email.value,
-      password: password.value,
-      password_confirmation: passwordConfirmation.value,
-    });
-
-    localStorage.setItem("auth_token", response.data.token);
-    localStorage.setItem("user", JSON.stringify(response.data.user));
-    toast.success("Registered successfully!");
-    // push user to the page where they are already logged in (preferably showing user data for development)
-    router.push("/account");
-  } catch (e) {
-    toast.error(e.response?.data?.message ?? "Failed to register an account!");
-  }
-};
-
 const register = ref(false);
-
 const registerButton = ref("visible");
 const loginButton = ref("hidden");
+
+async function handleLogin() {
+  try {
+    await auth.login(email.value, password.value);
+    toast.success("Logged in successfully!");
+    router.push({ name: "Account" });
+  } catch (e) {
+    toast.error(e.response?.data?.message || "Login failed");
+  }
+}
+
+// handle register
+async function handleRegister() {
+  try {
+    await auth.register(
+      name.value,
+      email.value,
+      password.value,
+      passwordConfirmation.value,
+    );
+    toast.success("Registered successfully!");
+    router.push({ name: "Account" });
+  } catch (e) {
+    toast.error(e.response?.data?.message || "Registration failed");
+  }
+}
 
 const switchMethod = async () => {
   register.value = !register.value;

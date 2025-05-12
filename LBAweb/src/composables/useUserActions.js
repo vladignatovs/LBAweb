@@ -2,6 +2,8 @@ import { ref } from "vue";
 import axios from "axios";
 import { useRouter } from "vue-router";
 import { useToast } from "vue-toastification";
+import { useAuthStore } from "@/stores/useAuthStore";
+import { storeToRefs } from "pinia";
 
 /**
  * Encapsulates user info, levels/completions, friendships,
@@ -9,13 +11,16 @@ import { useToast } from "vue-toastification";
  * Named exports let you pick only what you need :contentReference[oaicite:4]{index=4}.
  */
 export function useUserActions() {
-  const user = ref(null);
+  const auth = useAuthStore();
+  const { user } = storeToRefs(auth);
+
   const levels = ref([]);
   const completions = ref([]);
   const friends = ref([]);
   const pending = ref([]);
   const sent = ref([]);
   const blocked = ref([]);
+  const messages = ref([]);
 
   const allLevels = ref([]);
   const allUsers = ref([]);
@@ -33,14 +38,6 @@ export function useUserActions() {
   // utilities
   const router = useRouter();
   const toast = useToast();
-  function authHeaders() {
-    return { Authorization: `Bearer ${localStorage.getItem("auth_token")}` };
-  }
-  function logoutCleanup() {
-    localStorage.removeItem("auth_token");
-    localStorage.removeItem("user");
-    user.value = null;
-  }
 
   // |---------------------------------------------------------------------------------------------------
   // | FETCHES  FETCHES  FETCHES  FETCHES  FETCHES  FETCHES  FETCHES  FETCHES  FETCHES  FETCHES  FETCHES
@@ -59,22 +56,12 @@ export function useUserActions() {
     }
   };
 
-  const fetchUser = async () => {
-    // check if user is already logged in by using authentication token (could use "user" as well)
-    try {
-      const resp = await axios.get("/user", { headers: authHeaders() });
-      user.value = resp.data;
-    } catch (e) {
-      console.error(e);
-      logoutCleanup();
-    }
-  };
-
   const fetchLevels = async () => {
     if (!user.value) return;
+    if (loaded.levels) return;
     try {
       loaded.levels = true;
-      const resp = await axios.get("/levels", { headers: authHeaders() });
+      const resp = await axios.get("/levels");
       levels.value = resp.data;
     } catch (e) {
       console.error("Could not load levels", e);
@@ -83,9 +70,10 @@ export function useUserActions() {
 
   const fetchCompletions = async () => {
     if (!user.value) return;
+    if (loaded.completions) return;
     try {
       loaded.completions = true;
-      const resp = await axios.get("/completions", { headers: authHeaders() });
+      const resp = await axios.get("/completions");
       completions.value = resp.data;
     } catch (e) {
       console.error("Could not load completions", e);
@@ -98,9 +86,7 @@ export function useUserActions() {
       loaded.friends = true;
       // forcefully loading blocked to allow blocking/unblocking
       if (!loaded.blocked) await fetchBlockedUsers();
-      const { data } = await axios.get("/friendships", {
-        headers: authHeaders(),
-      });
+      const { data } = await axios.get("/friendships");
       friends.value = data;
     } catch (e) {
       console.error("Could not load friends", e);
@@ -111,9 +97,7 @@ export function useUserActions() {
     if (loaded.pending) return;
     try {
       loaded.pending = true;
-      const { data } = await axios.get("/friend-requests/pending", {
-        headers: authHeaders(),
-      });
+      const { data } = await axios.get("/friend-requests/pending");
       pending.value = data;
     } catch (e) {
       console.error("Could not load completions", e);
@@ -124,9 +108,7 @@ export function useUserActions() {
     if (loaded.sent) return;
     try {
       loaded.sent = true;
-      const { data } = await axios.get("/friend-requests/sent", {
-        headers: authHeaders(),
-      });
+      const { data } = await axios.get("/friend-requests/sent");
       sent.value = data;
     } catch (e) {
       console.error("Could not load sent requests", e);
@@ -139,10 +121,22 @@ export function useUserActions() {
       loaded.blocked = true;
       // forcefully loading friends to allow adding/removing friends
       if (!loaded.friends) await fetchFriends();
-      const { data } = await axios.get("/blocks", { headers: authHeaders() });
+      const { data } = await axios.get("/blocks");
       blocked.value = data;
     } catch (e) {
       console.error("Could not load completions", e);
+    }
+  };
+
+  const fetchMessages = async (friendId) => {
+    try {
+      const { data } = await axios.get("/messages", {
+        params: { with: friendId },
+      });
+      messages.value = data;
+    } catch (e) {
+      toast.error("Could not load messages.");
+      console.error(e);
     }
   };
 
@@ -156,11 +150,9 @@ export function useUserActions() {
 
   const sendRequest = async (id) => {
     try {
-      const { data: newReq } = await axios.post(
-        "/friend-requests",
-        { receiver_id: id },
-        { headers: authHeaders() },
-      );
+      const { data: newReq } = await axios.post("/friend-requests", {
+        receiver_id: id,
+      });
 
       const userToSendTo =
         blocked.value.find((b) => b.id === id) ||
@@ -180,11 +172,7 @@ export function useUserActions() {
 
   const acceptRequest = async (id) => {
     try {
-      await axios.patch(
-        `/friend-requests/${id}`,
-        { status: true },
-        { headers: authHeaders() },
-      );
+      await axios.patch(`/friend-requests/${id}`, { status: true });
       pending.value = pending.value.filter((r) => r.id !== id);
       toast.success("Friend request accepted!");
     } catch {
@@ -194,11 +182,7 @@ export function useUserActions() {
 
   const denyRequest = async (id) => {
     try {
-      await axios.patch(
-        `/friend-requests/${id}`,
-        { status: false },
-        { headers: authHeaders() },
-      );
+      await axios.patch(`/friend-requests/${id}`, { status: false });
       pending.value = pending.value.filter((r) => r.id !== id);
       toast.success("Friend request denied!");
     } catch {
@@ -208,7 +192,7 @@ export function useUserActions() {
 
   const cancelRequest = async (id) => {
     try {
-      await axios.delete(`/friend-requests/${id}`, { headers: authHeaders() });
+      await axios.delete(`/friend-requests/${id}`);
       sent.value = sent.value.filter((r) => r.id !== id);
       toast.success("Friend request cancelled!");
     } catch {
@@ -218,7 +202,7 @@ export function useUserActions() {
 
   const removeFriend = async (id) => {
     try {
-      await axios.delete(`/friendships/${id}`, { headers: authHeaders() });
+      await axios.delete(`/friendships/${id}`);
       friends.value = friends.value.filter((f) => f.id !== id);
       toast.success("Friend removed!");
     } catch {
@@ -228,11 +212,7 @@ export function useUserActions() {
 
   const blockUser = async (id) => {
     try {
-      await axios.post(
-        "/blocks",
-        { blocked_id: id },
-        { headers: authHeaders() },
-      );
+      await axios.post("/blocks", { blocked_id: id });
 
       const userToBlock =
         friends.value.find((f) => f.id === id) ||
@@ -249,7 +229,7 @@ export function useUserActions() {
 
   const unblockUser = async (id) => {
     try {
-      await axios.delete(`/blocks/${id}`, { headers: authHeaders() });
+      await axios.delete(`/blocks/${id}`);
       blocked.value = blocked.value.filter((b) => b.id !== id);
       toast.success("Unblocked user!");
     } catch {
@@ -258,16 +238,53 @@ export function useUserActions() {
   };
 
   const logout = async () => {
+    await auth.logout();
+    router.push({ name: "Home" });
+  };
+
+  const sendMessage = async ({ receiver_id, message_text }) => {
     try {
-      await axios.post("/logout", {}, { headers: authHeaders() });
-      toast.success("Logged out!");
-    } catch {
-      toast.error("Failed to logout");
-    } finally {
-      logoutCleanup();
-      router.push("/");
+      const { data } = await axios.post("/messages", {
+        receiver_id,
+        message_text,
+      });
+      messages.value.push(data);
+      return data;
+    } catch (e) {
+      toast.error(e.response?.data?.message || "Failed to send message");
+      throw e;
     }
   };
+
+  const editMessage = async (id, message_text) => {
+    try {
+      const { data } = await axios.patch(`/messages/${id}`, { message_text });
+      return data;
+    } catch (e) {
+      toast.error("Failed to edit message");
+      throw e;
+    }
+  };
+
+  const deleteMessage = async (id) => {
+    try {
+      await axios.delete(`/messages/${id}`);
+      messages.value = messages.value.filter((m) => m.id !== id);
+      return true;
+    } catch (e) {
+      toast.error("Failed to delete message");
+      throw e;
+    }
+  };
+
+  // const getMessagesFor = (friendId) => {
+  //   const me = user.value?.id;
+  //   return messages.value.filter(
+  //     (m) =>
+  //       (m.sender_id === friendId && m.receiver_id === me) ||
+  //       (m.sender_id === me && m.receiver_id === friendId),
+  //   );
+  // };
 
   // helpers
   // NOTE: BEFORE USING MUST LOAD IN ACCORDING LIST/OBJECT
@@ -276,6 +293,7 @@ export function useUserActions() {
   const hasSent = (id) => sent.value.some((r) => r.receiver_id === id);
   const hasIncoming = (id) => pending.value.some((r) => r.sender.id === id);
   const isBlocked = (id) => blocked.value.some((b) => b.id === id);
+  const hasFriends = () => friends.value.length > 0;
 
   return {
     // state
@@ -286,17 +304,18 @@ export function useUserActions() {
     pending,
     sent,
     blocked,
+    messages,
     allLevels,
     allUsers,
     // fetchers
     fetchBrowse,
-    fetchUser,
     fetchLevels,
     fetchCompletions,
     fetchFriends,
     fetchPendingRequests: fetchPending,
     fetchSentRequests: fetchSent,
     fetchBlockedUsers,
+    fetchMessages,
     // actions
     sendRequest,
     acceptRequest,
@@ -306,11 +325,15 @@ export function useUserActions() {
     blockUser,
     unblockUser,
     logout,
+    sendMessage,
+    editMessage,
+    deleteMessage,
     // helpers
     isCurrentUser,
     isFriend,
     hasSent,
     hasIncoming,
     isBlocked,
+    hasFriends,
   };
 }

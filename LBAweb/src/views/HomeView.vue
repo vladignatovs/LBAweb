@@ -55,7 +55,7 @@ onMounted(async () => {
           <div
             v-if="latestNews"
             class="bg-background-2/30 block h-116 overflow-hidden rounded-lg shadow-lg transition hover:shadow-2xl">
-            <news-card :news="latestNews" :big="true" />
+            <news-card :news="latestNews" :big="true" :isAdmin="false" />
           </div>
           <div
             class="grid grid-cols-1 justify-items-center gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -63,7 +63,7 @@ onMounted(async () => {
               v-for="item in smallNews"
               :key="item.id"
               class="grid h-76 w-full max-w-xs overflow-hidden rounded-lg shadow-lg transition hover:shadow-2xl">
-              <news-card :news="item" />
+              <news-card :news="item" :isAdmin="false" />
             </div>
           </div>
         </div>

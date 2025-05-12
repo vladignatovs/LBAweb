@@ -11,13 +11,12 @@ const route = useRoute();
 const selectedNews = ref(null);
 const adminPanelOpen = ref(false);
 const newsList = ref([]);
-const { fetchUser, isAdmin } = useAdminActions();
+const { isAdmin } = useAdminActions();
 
 // --- MOUNT ---
 // gets news
 onMounted(async () => {
   try {
-    await fetchUser();
     const newsResp = await axios.get("/news");
     newsList.value = newsResp.data;
   } catch (e) {

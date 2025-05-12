@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import { useToast } from "vue-toastification";
 import HomeView from "@/views/HomeView.vue";
 import AccountView from "@/views/AccountView.vue";
-
+import { useAuthStore } from "@/stores/useAuthStore";
 const toast = useToast();
 
 const router = createRouter({
@@ -61,15 +61,24 @@ const router = createRouter({
   },
 });
 
-router.beforeEach((to, from, next) => {
-  const token = localStorage.getItem("auth_token");
+router.beforeEach(async (to, from, next) => {
+  const auth = useAuthStore();
 
-  if (to.meta.requiresAuth && !token) {
+  if (auth.isLoggedIn && !auth.user) {
+    try {
+      await auth.fetchUser();
+    } catch {
+      auth.logout();
+      return next("/authentication");
+    }
+  }
+
+  if (to.meta.requiresAuth && !auth.isLoggedIn) {
     if (to.path === "/browse")
       toast.error("You need an account to use that feature!");
-    next("/authentication");
+    return next("/authentication");
   } else {
-    next();
+    return next();
   }
 });
 

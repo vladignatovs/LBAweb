@@ -1,11 +1,18 @@
 <script setup>
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 import { useRouter } from "vue-router";
 import fancyInput from "./fancy-input.vue";
+import { useUserActions } from "@/composables/useUserActions";
+import messengerSidebar from "./messenger-sidebar.vue";
+
+const { hasFriends, fetchFriends } = useUserActions();
+
+onMounted(async () => {
+  await fetchFriends();
+});
 
 const router = useRouter();
 const searchQuery = ref("");
-
 // Called when the form is submitted
 function onSubmit() {
   // Only navigate if the query has at least 2 chars
@@ -13,6 +20,8 @@ function onSubmit() {
     router.push({ name: "Browse", query: { q: searchQuery.value.trim() } });
   }
 }
+
+const sidebarOpen = ref(false);
 </script>
 
 <template>
@@ -133,11 +142,14 @@ function onSubmit() {
     <!-- NAVBAR LINKS FLOATING RIGHT  (unchanged) -->
     <ul
       class="float-right inline-flex h-full list-none items-center justify-start p-0">
-      <li>
+      <li
+        v-if="hasFriends()"
+        @click="sidebarOpen = true"
+        class="cursor-pointer">
         <img
           class="size-10 duration-200 hover:brightness-70"
           src="../assets/message_icon_inv.webp"
-          alt="Message" />
+          alt="Messages" />
       </li>
       <li>
         <RouterLink
@@ -151,4 +163,5 @@ function onSubmit() {
       </li>
     </ul>
   </header>
+  <messenger-sidebar :open="sidebarOpen" @close="sidebarOpen = false" />
 </template>

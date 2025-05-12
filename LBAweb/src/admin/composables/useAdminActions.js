@@ -1,15 +1,14 @@
 import { computed } from "vue";
 import axios from "axios";
-import { useUserActions } from "@/composables/useUserActions";
 import { useToast } from "vue-toastification";
-
+import { useAuthStore } from "@/stores/useAuthStore";
+import { storeToRefs } from "pinia";
 export function useAdminActions() {
   // utilites
-  const { user, fetchUser } = useUserActions();
+  const auth = useAuthStore();
+  const { user } = storeToRefs(auth);
+
   const toast = useToast();
-  function authHeaders() {
-    return { Authorization: `Bearer ${localStorage.getItem("auth_token")}` };
-  }
 
   // |---------------------------------------------------------------------------------------------------
   // | ACTIONS  ACTIONS  ACTIONS  ACTIONS  ACTIONS  ACTIONS  ACTIONS  ACTIONS  ACTIONS  ACTIONS  ACTIONS
@@ -18,9 +17,7 @@ export function useAdminActions() {
   // formData: instance of FormData with title, content, category and maybe thumbnail
   async function createNews(formData) {
     try {
-      const { data } = await axios.post("/news", formData, {
-        headers: authHeaders(),
-      });
+      const { data } = await axios.post("/news", formData);
       toast.success("News created!");
       return data;
     } catch (e) {
@@ -45,7 +42,7 @@ export function useAdminActions() {
   async function deleteNews(id) {
     if (!confirm("Really delete this news?")) return;
     try {
-      await axios.delete(`/news/${id}`, authHeaders());
+      await axios.delete(`/news/${id}`);
       toast.success("News deleted!");
       return true;
     } catch (e) {
@@ -60,8 +57,6 @@ export function useAdminActions() {
   return {
     // state
     isAdmin,
-    // fetchers
-    fetchUser,
     // actions
     createNews,
     updateNews,
