@@ -66,7 +66,7 @@ router.beforeEach(async (to, from, next) => {
 
   if (auth.isLoggedIn && !auth.user) {
     try {
-      await auth.fetchUser();
+      await auth.fetchUserRelationships();
     } catch {
       auth.logout();
       return next("/authentication");

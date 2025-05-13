@@ -23,4 +23,28 @@ class UserController extends Controller
 
         return response()->json($users);
     }
+
+    public function relationships(Request $request)
+    {
+        $user = $request->user()->load([
+            'friendsRelation',
+            'friendsRelationInverse',
+            'blocks',
+            'friendRequestsReceived.sender',
+            'friendRequestsSent.receiver',
+        ]);
+
+        $friends = $user->friendsRelation
+            ->merge($user->friendsRelationInverse)
+            ->unique('id')
+            ->values();
+
+        return response()->json([
+            'user'    => $user->only(['id', 'name', 'email', 'rights']),
+            'friends' => $friends,
+            'blocked' => $user->blocks,
+            'pending' => $user->friendRequestsReceived,
+            'sent'    => $user->friendRequestsSent,
+        ]);
+    }
 }

@@ -52,13 +52,17 @@ class User extends Authenticatable
     // friend requests I’ve sent
     public function friendRequestsSent()
     {
-        return $this->hasMany(FriendRequest::class, 'sender_id');
+        return $this->hasMany(FriendRequest::class, 'sender_id')
+            ->whereNull('status')
+            ->with('receiver:id,name,email');
     }
 
     // friend requests I’ve received
     public function friendRequestsReceived()
     {
-        return $this->hasMany(FriendRequest::class, 'receiver_id');
+        return $this->hasMany(FriendRequest::class, 'receiver_id')
+            ->whereNull('status')
+            ->with('sender:id,name');
     }
 
     // my friends (bidirectional pivot)
@@ -68,6 +72,26 @@ class User extends Authenticatable
         $secondCol = $this->belongsToMany(User::class, 'friendships', 'friended_id', 'friend_id')->get();
 
         return $firstCol->merge($secondCol)->unique('id')->values();
+    }
+
+    public function friendsRelation()
+    {
+        return $this->belongsToMany(
+            User::class,
+            'friendships',
+            'friended_id',
+            'friend_id'
+        );
+    }
+
+    public function friendsRelationInverse()
+    {
+        return $this->belongsToMany(
+            User::class,
+            'friendships',
+            'friend_id',
+            'friended_id'
+        );
     }
 
     // blocks I’ve made

@@ -17,10 +17,6 @@ const {
   blocked,
   fetchLevels,
   fetchCompletions,
-  fetchFriends,
-  fetchPendingRequests,
-  fetchSentRequests,
-  fetchBlockedUsers,
   sendRequest,
   acceptRequest,
   denyRequest,
@@ -49,13 +45,6 @@ onMounted(async () => {
 watch(activeSection, (section) => {
   if (section === "levels") fetchLevels();
   if (section === "completions") fetchCompletions();
-  if (section === "friends") fetchFriends();
-  if (section === "pendingRequests") fetchPendingRequests();
-  if (section === "sentRequests") fetchSentRequests();
-  if (section === "blocked") {
-    fetchBlockedUsers();
-    fetchSentRequests();
-  }
 });
 </script>
 

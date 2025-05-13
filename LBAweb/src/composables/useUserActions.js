@@ -12,27 +12,18 @@ import { storeToRefs } from "pinia";
  */
 export function useUserActions() {
   const auth = useAuthStore();
-  const { user } = storeToRefs(auth);
+  const { user, friends, pending, sent, blocked } = storeToRefs(auth);
 
   const levels = ref([]);
   const completions = ref([]);
-  const friends = ref([]);
-  const pending = ref([]);
-  const sent = ref([]);
-  const blocked = ref([]);
   const messages = ref([]);
 
   const allLevels = ref([]);
   const allUsers = ref([]);
 
   const loaded = {
-    user: false,
     levels: false,
     completions: false,
-    friends: false,
-    pending: false,
-    sent: false,
-    blocked: false,
   };
 
   // utilities
@@ -40,7 +31,7 @@ export function useUserActions() {
   const toast = useToast();
 
   // |---------------------------------------------------------------------------------------------------
-  // | FETCHES  FETCHES  FETCHES  FETCHES  FETCHES  FETCHES  FETCHES  FETCHES  FETCHES  FETCHES  FETCHES
+  // | FETCHES
   // |---------------------------------------------------------------------------------------------------
 
   const fetchBrowse = async (query) => {
@@ -80,54 +71,6 @@ export function useUserActions() {
     }
   };
 
-  const fetchFriends = async () => {
-    if (loaded.friends) return;
-    try {
-      loaded.friends = true;
-      // forcefully loading blocked to allow blocking/unblocking
-      if (!loaded.blocked) await fetchBlockedUsers();
-      const { data } = await axios.get("/friendships");
-      friends.value = data;
-    } catch (e) {
-      console.error("Could not load friends", e);
-    }
-  };
-
-  const fetchPending = async () => {
-    if (loaded.pending) return;
-    try {
-      loaded.pending = true;
-      const { data } = await axios.get("/friend-requests/pending");
-      pending.value = data;
-    } catch (e) {
-      console.error("Could not load completions", e);
-    }
-  };
-
-  const fetchSent = async () => {
-    if (loaded.sent) return;
-    try {
-      loaded.sent = true;
-      const { data } = await axios.get("/friend-requests/sent");
-      sent.value = data;
-    } catch (e) {
-      console.error("Could not load sent requests", e);
-    }
-  };
-
-  const fetchBlockedUsers = async () => {
-    if (loaded.blocked) return;
-    try {
-      loaded.blocked = true;
-      // forcefully loading friends to allow adding/removing friends
-      if (!loaded.friends) await fetchFriends();
-      const { data } = await axios.get("/blocks");
-      blocked.value = data;
-    } catch (e) {
-      console.error("Could not load completions", e);
-    }
-  };
-
   const fetchMessages = async (friendId) => {
     try {
       const { data } = await axios.get("/messages", {
@@ -141,12 +84,8 @@ export function useUserActions() {
   };
 
   // |---------------------------------------------------------------------------------------------------
-  // | ACTIONS  ACTIONS  ACTIONS  ACTIONS  ACTIONS  ACTIONS  ACTIONS  ACTIONS  ACTIONS  ACTIONS  ACTIONS
+  // | ACTIONS
   // |---------------------------------------------------------------------------------------------------
-
-  // const messageFriend = (id) => {
-  //   router.push({ name: "MessageThread", params: { userId: id } });
-  // };
 
   const sendRequest = async (id) => {
     try {
@@ -311,10 +250,6 @@ export function useUserActions() {
     fetchBrowse,
     fetchLevels,
     fetchCompletions,
-    fetchFriends,
-    fetchPendingRequests: fetchPending,
-    fetchSentRequests: fetchSent,
-    fetchBlockedUsers,
     fetchMessages,
     // actions
     sendRequest,

@@ -25,16 +25,21 @@ function onCancel() {
     <div class="mt-4 space-x-2">
       <template v-if="received">
         <button
+          v-loading
           @click="onAccept"
           class="bg-primary rounded px-3 py-1 text-black">
           Accept
         </button>
-        <button @click="onDeny" class="rounded bg-red-600 px-3 py-1 text-white">
+        <button
+          v-loading
+          @click="onDeny"
+          class="rounded bg-red-600 px-3 py-1 text-white">
           Deny
         </button>
       </template>
       <template v-else>
         <button
+          v-loading
           @click="onCancel"
           class="rounded bg-red-600 px-3 py-1 text-white">
           Cancel

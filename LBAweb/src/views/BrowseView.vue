@@ -6,18 +6,9 @@ import levelCard from "@/components/level-card.vue";
 import { useUserActions } from "@/composables/useUserActions";
 
 const {
-  // user,
-  // friends,
-  // pending,
-  // sent,
-  // blocked,
   allLevels,
   allUsers,
   fetchBrowse,
-  fetchFriends,
-  fetchPendingRequests,
-  fetchSentRequests,
-  fetchBlockedUsers,
   sendRequest,
   removeFriend,
   blockUser,
@@ -52,12 +43,6 @@ const options = [
 
 // — LIFECYCLE: get logged-in user + friend state + browse data —
 onMounted(async () => {
-  await Promise.all([
-    fetchFriends(),
-    fetchPendingRequests(),
-    fetchSentRequests(),
-    fetchBlockedUsers(),
-  ]);
   await fetchBrowse(rawQuery.value);
 });
 

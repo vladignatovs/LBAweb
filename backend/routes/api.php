@@ -48,6 +48,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/user',  [AuthController::class, 'user']);
     Route::post('/logout', [AuthController::class, 'logout']);
 
+    Route::get('/user/relationships', [UserController::class, 'relationships']);
+
     // FUNCTIONS ONLY AVAILABLE FOR ADMINS
     // TODO: MAKE PROPER ADMIN MIDDLEWARE
     Route::apiResource('news', NewsController::class)->only(['store', 'update', 'destroy']);

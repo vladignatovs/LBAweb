@@ -7,13 +7,6 @@ const props = defineProps({
   isPending: Boolean,
 });
 
-// defineProps({
-//   user:       { type: Object, required: true },
-//   currentId:  { type: Number, required: true },
-//   friendIds:  { type: Array,   default: () => [] },
-//   blockedIds: { type: Array,   default: () => [] },
-// })
-
 const emit = defineEmits([
   "add-friend",
   "remove-friend",
@@ -48,11 +41,13 @@ function onMessage() {
       <!-- if we're already friends, show Message + Remove; otherwise Add Friend -->
       <template v-if="isFriend">
         <button
+          v-loading
           @click="onMessage"
           class="flex-1 rounded bg-blue-200 px-3 py-1 text-sm font-medium text-black transition hover:bg-blue-300">
           Message
         </button>
         <button
+          v-loading
           @click="onRemoveFriend"
           class="flex-1 rounded bg-yellow-400 px-3 py-1 text-sm font-medium text-black transition hover:bg-yellow-500">
           Remove Friend
@@ -67,6 +62,7 @@ function onMessage() {
       </template>
       <template v-else>
         <button
+          v-loading
           @click="onAddFriend"
           class="bg-primary hover:bg-primary-2 flex-1 rounded px-3 py-1 text-sm font-medium text-black transition">
           Add Friend
@@ -75,6 +71,7 @@ function onMessage() {
 
       <template v-if="isBlocked">
         <button
+          v-loading
           @click="onUnblock"
           class="flex-1 rounded bg-red-600 px-3 py-1 text-sm font-medium text-white transition hover:bg-red-700">
           Unblock
@@ -82,6 +79,7 @@ function onMessage() {
       </template>
       <template v-else>
         <button
+          v-loading
           @click="onBlock"
           class="flex-1 rounded bg-red-600 px-3 py-1 text-sm font-medium text-white transition hover:bg-red-700">
           Block

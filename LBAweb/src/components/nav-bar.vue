@@ -1,15 +1,11 @@
 <script setup>
-import { onMounted, ref } from "vue";
+import { ref } from "vue";
 import { useRouter } from "vue-router";
 import fancyInput from "./fancy-input.vue";
 import { useUserActions } from "@/composables/useUserActions";
 import messengerSidebar from "./messenger-sidebar.vue";
 
-const { hasFriends, fetchFriends } = useUserActions();
-
-onMounted(async () => {
-  await fetchFriends();
-});
+const { hasFriends } = useUserActions();
 
 const router = useRouter();
 const searchQuery = ref("");

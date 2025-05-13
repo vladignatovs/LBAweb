@@ -51,7 +51,6 @@ export function useAdminActions() {
   }
 
   // helpers
-  // NOTE: BEFORE USING MUST FETCH USER
   const isAdmin = computed(() => user.value?.rights === "admin");
 
   return {

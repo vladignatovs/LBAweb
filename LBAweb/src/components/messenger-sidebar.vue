@@ -1,5 +1,5 @@
 <script setup>
-import { ref, watch, onMounted } from "vue";
+import { ref, watch } from "vue";
 import { useUserActions } from "@/composables/useUserActions";
 import { useAuthStore } from "@/stores/useAuthStore";
 import { storeToRefs } from "pinia";
@@ -9,7 +9,6 @@ const emit = defineEmits(["close"]);
 const {
   friends,
   hasFriends,
-  fetchFriends,
   fetchMessages,
   messages,
   sendMessage,
@@ -19,13 +18,8 @@ const {
 
 const auth = useAuthStore();
 const { user } = storeToRefs(auth);
-
 const activeFriendId = ref(null);
 const newMessageText = ref("");
-
-onMounted(async () => {
-  await fetchFriends();
-});
 
 // reset when closed
 watch(
@@ -92,12 +86,13 @@ function formatTimestamp(ts) {
       <li
         v-for="friend in friends"
         :key="friend.id"
-        @click="selectFriend(friend)"
-        :class="{
-          'bg-background/30': friend.id === activeFriendId,
-        }"
-        class="cursor-pointer p-2 hover:bg-gray-50/10">
-        {{ friend.name }}
+        :class="{ 'bg-background/30': friend.id === activeFriendId }">
+        <button
+          v-loading
+          @click="selectFriend(friend)"
+          class="w-full cursor-pointer p-2 text-left hover:bg-gray-50/10">
+          {{ friend.name }}
+        </button>
       </li>
     </ul>
 
@@ -131,18 +126,19 @@ function formatTimestamp(ts) {
           </div>
         </div>
       </div>
-
       <!-- new message form (does not scroll) -->
-      <form @submit.prevent="handleSend" class="flex flex-none p-4">
-        <input
-          v-model="newMessageText"
-          type="text"
-          placeholder="Type a message..."
-          class="flex-1 rounded-l border px-3 py-2 focus:outline-none" />
-        <button type="submit" class="rounded-r bg-blue-600 px-4 text-white">
-          Send
-        </button>
-      </form>
+      <fieldset v-loading>
+        <form @submit.prevent="handleSend" class="flex flex-none p-4">
+          <input
+            v-model="newMessageText"
+            type="text"
+            placeholder="Type a message..."
+            class="flex-1 rounded-l border px-3 py-2 focus:outline-none" />
+          <button type="submit" class="rounded-r bg-blue-600 px-4 text-white">
+            Send
+          </button>
+        </form>
+      </fieldset>
     </div>
   </div>
 </template>
