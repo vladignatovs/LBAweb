@@ -3,6 +3,7 @@ import { ref, watch } from "vue";
 import { useUserActions } from "@/composables/useUserActions";
 import { useAuthStore } from "@/stores/useAuthStore";
 import { storeToRefs } from "pinia";
+import axios from "axios";
 const props = defineProps({ open: Boolean });
 const emit = defineEmits(["close"]);
 
@@ -29,6 +30,15 @@ watch(
       activeFriendId.value = null;
       messages.value = [];
       newMessageText.value = "";
+    }
+  },
+);
+
+watch(
+  () => auth.token,
+  (newToken) => {
+    if (newToken) {
+      axios.defaults.headers.common.Authorization = `Bearer ${newToken}`;
     }
   },
 );

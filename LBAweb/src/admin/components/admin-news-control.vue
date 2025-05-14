@@ -15,24 +15,21 @@ const onEdit = () => {
 };
 
 const onDelete = async () => {
+  if (!confirm("Are you sure you want to delete these news?")) return;
+
   emit("delete", props.news.id);
   await deleteNews(props.news.id);
 };
 </script>
 <template>
-  <div class="absolute top-2 right-2 z-10 flex space-x-2 bg-black">
+  <div class="absolute right-2 bottom-2 z-10 flex space-x-2">
     <!-- Edit button -->
-    <button @click="onEdit" aria-label="Edit" class="h-6 w-6 hover:opacity-75">
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke="currentColor">
+    <button @click="onEdit" aria-label="Edit" class="size-6 hover:opacity-75">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <!-- Icon from Material Design Icons by Pictogrammers - https://github.com/Templarian/MaterialDesign/blob/master/LICENSE -->
         <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          d="M11 5H6a2 2 0 00-2 2v11.99A2 2 0 006 21h11.99a2 2 0 002-2v-5m-7.5-7.5l7.5 7.5m0 0L13.5 21" />
+          fill="currentColor"
+          d="m14.06 9l.94.94L5.92 19H5v-.92zm3.6-6c-.25 0-.51.1-.7.29l-1.83 1.83l3.75 3.75l1.83-1.83c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.2-.2-.45-.29-.71-.29m-3.6 3.19L3 17.25V21h3.75L17.81 9.94z" />
       </svg>
     </button>
 
@@ -40,17 +37,12 @@ const onDelete = async () => {
     <button
       @click="onDelete"
       aria-label="Delete"
-      class="h-6 w-6 hover:opacity-75">
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke="currentColor">
+      class="size-6 hover:opacity-75">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <!-- Icon from Material Design Icons by Pictogrammers - https://github.com/Templarian/MaterialDesign/blob/master/LICENSE -->
         <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5-4h4 m-4 0a1 1 0 00-1 1v1h6V4a1 1 0 00-1-1m-4 0h4" />
+          fill="currentColor"
+          d="M6 19a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V7H6zM8 9h8v10H8zm7.5-5l-1-1h-5l-1 1H5v2h14V4z" />
       </svg>
     </button>
   </div>

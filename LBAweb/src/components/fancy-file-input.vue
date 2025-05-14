@@ -41,15 +41,15 @@ const clearFile = () => {
       v-if="modelValue"
       @click.stop="clearFile"
       class="absolute top-0 right-0 z-50 h-full cursor-pointer p-1 text-red-400 transition-all duration-200 hover:text-red-200">
-      <!-- Added fixed size and padding -->
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 24 24"
-        class="size-4/5">
-        <!-- Make SVG fill button space -->
+        width="32"
+        height="32"
+        viewBox="0 0 24 24">
+        <!-- Icon from Material Design Icons by Pictogrammers - https://github.com/Templarian/MaterialDesign/blob/master/LICENSE -->
         <path
           fill="currentColor"
-          d="M14 8h4l-4-4zm1.9 12.866l-.688-.689l2.1-2.1l-2.1-2.1l.688-.689l2.1 2.1l2.1-2.1l.689.689l-2.075 2.1l2.075 2.1l-.689.689L18 18.79zM6.616 21q-.691 0-1.153-.462T5 19.385V4.615q0-.69.463-1.152T6.616 3H14.5L19 7.5v4.812q-.263-.06-.507-.09q-.243-.03-.518-.03q-2.442 0-4.151 1.709t-1.708 4.151q0 .74.207 1.528q.208.787.63 1.42z" />
+          d="m7 19l5-5l1.88 1.88c-.55.91-.88 1.98-.88 3.12zm3-8.5C10 9.67 9.33 9 8.5 9S7 9.67 7 10.5S7.67 12 8.5 12s1.5-.67 1.5-1.5m3.09 9.5H6V4h7v5h5v4.09c.33-.05.66-.09 1-.09s.67.04 1 .09V8l-6-6H6a2 2 0 0 0-2 2v16c0 1.11.89 2 2 2h7.81c-.35-.61-.6-1.28-.72-2m8.03-4.54L19 17.59l-2.12-2.12l-1.41 1.41L17.59 19l-2.12 2.12l1.41 1.42L19 20.41l2.12 2.13l1.42-1.42L20.41 19l2.13-2.12z" />
       </svg>
     </button>
     <label

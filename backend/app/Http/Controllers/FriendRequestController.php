@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Friendship;
 use Illuminate\Http\Request;
 use App\Models\FriendRequest;
 use App\Models\User;
@@ -120,14 +121,20 @@ class FriendRequestController extends Controller
 
         $friendRequest->update($data);
 
+        $newFriend = null;
 
         if ($data['status']) {
             $me = Auth::user();
             $sender = $friendRequest->sender()->firstOrFail();
             $service->befriend($me, $sender);
+
+            $newFriend = $sender;
         }
 
-        return response()->json($friendRequest);
+        return response()->json([
+            'friendRequest' => $friendRequest,
+            'newFriend' => $newFriend, // sender if status = true, else null
+        ]);
     }
 
     /**

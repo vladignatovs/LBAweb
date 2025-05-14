@@ -41,12 +41,19 @@ export const useAuthStore = defineStore(
       try {
         await axios.post("/logout");
       } catch (e) {
-        console.error("Backend logout failed", e);
+        if (e.response?.status !== 401) {
+          console.error("Backend logout failed", e);
+        }
       } finally {
         token.value = null;
         user.value = null;
+        friends.value = [];
+        blocked.value = [];
+        sent.value = [];
+        pending.value = [];
         localStorage.removeItem("auth_token");
         delete axios.defaults.headers.common.Authorization;
+        console.log("Logged out!");
       }
     }
 

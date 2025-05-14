@@ -74,14 +74,16 @@ async function handleSubmit() {
     <!-- TOGGLE BUTTON -->
     <button
       @click="emit('update:open', !open)"
-      class="fixed z-50 m-5 rounded-2xl border border-white/10 bg-white/10 p-1 text-white shadow-md backdrop-blur-xl transition-all hover:bg-white/20 focus:ring-2 focus:ring-white/50 active:scale-95">
+      class="fixed z-50 m-5 rounded-2xl border border-white/10 bg-white/10 text-white shadow-md backdrop-blur-xl transition-all hover:bg-white/20 focus:ring-2 focus:ring-white/50 active:scale-95">
       <svg
         :class="open ? 'rotate-180' : 'rotate-0'"
+        class="size-8 transition-all duration-200"
         xmlns="http://www.w3.org/2000/svg"
-        class="size-6 transition-all duration-200">
+        viewBox="0 0 24 24">
+        <!-- Icon from Material Design Icons by Pictogrammers - https://github.com/Templarian/MaterialDesign/blob/master/LICENSE -->
         <path
           fill="currentColor"
-          d="M16 21.308L6.692 12L16 2.692l1.064 1.064L8.819 12l8.244 8.244z" />
+          d="M2 12a10 10 0 0 0 10 10a10 10 0 0 0 10-10A10 10 0 0 0 12 2A10 10 0 0 0 2 12m2 0a8 8 0 0 1 8-8a8 8 0 0 1 8 8a8 8 0 0 1-8 8a8 8 0 0 1-8-8m6 5l5-5l-5-5z" />
       </svg>
     </button>
 

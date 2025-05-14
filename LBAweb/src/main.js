@@ -8,6 +8,8 @@ import "vue-toastification/dist/index.css";
 import axios from "axios";
 import { useAuthStore } from "./stores/useAuthStore";
 import { useLoadingStore } from "./stores/useLoadingStore";
+import Pusher from "pusher-js";
+import Echo from "laravel-echo";
 
 // DEFAULT PATH
 axios.defaults.baseURL = "http://127.0.0.1:8000/api";
@@ -70,3 +72,24 @@ axios.interceptors.response.use(
     return Promise.reject(error);
   },
 );
+
+window.Pusher = Pusher;
+Pusher.logToConsole = true;
+window.Echo = new Echo({
+  broadcaster: "pusher",
+  key: import.meta.env.VITE_PUSHER_APP_KEY,
+  cluster: import.meta.env.VITE_PUSHER_APP_CLUSTER,
+  // authEndpoint: "http://127.0.0.1:8000/api/broadcasting/auth",
+  // enabledTransports: ["ws", "wss"],
+  // auth: {
+  //   headers: {
+  //     Authorization: `Bearer ${token.value}`,
+  //   },
+  // },
+  channelAuthorization: {
+    endpoint: "http://127.0.0.1:8000/api/broadcasting/auth",
+    headersProvider: () => ({
+      Authorization: `Bearer ${auth.token}`,
+    }),
+  },
+});

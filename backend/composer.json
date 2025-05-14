@@ -12,7 +12,7 @@
         "laravel/tinker": "^2.9",
         "laravel/ui": "^4.6",
         "predis/predis": "^2.3",
-        "pusher/pusher-php-server": "*"
+        "pusher/pusher-php-server": "^7.2"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",

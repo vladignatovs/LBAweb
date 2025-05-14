@@ -74,8 +74,8 @@ const switchMethod = async () => {
     v-if="register"
     class="absolute top-0 right-0 flex h-screen w-1/2 flex-col items-center justify-center transition-all">
     <div class="absolute z-[-10] size-full bg-black/60 backdrop-blur-3xl"></div>
-    <fieldset v-loading>
-      <form @submit.prevent="handleRegister" class="flex w-1/2 flex-col gap-3">
+    <fieldset v-loading class="w-1/2">
+      <form @submit.prevent="handleRegister" class="flex flex-col gap-3">
         <fancy-input v-model="name" label="Username" />
         <fancy-input v-model="email" type="email" label="Email" />
         <fancy-input v-model="password" type="password" label="Password" />
@@ -96,8 +96,8 @@ const switchMethod = async () => {
     v-else
     class="absolute top-0 left-0 flex h-screen w-1/2 flex-col items-center justify-center transition-all">
     <div class="absolute z-[-10] size-full bg-black/60 backdrop-blur-3xl"></div>
-    <fieldset v-loading>
-      <form @submit.prevent="handleLogin" class="flex w-1/2 flex-col gap-3">
+    <fieldset v-loading class="w-1/2">
+      <form @submit.prevent="handleLogin" class="flex flex-col gap-3">
         <fancy-input v-model="email" type="email" label="Email" />
         <fancy-input v-model="password" type="password" label="Password" />
         <button

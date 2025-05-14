@@ -17,6 +17,7 @@ export function useUserActions() {
   const levels = ref([]);
   const completions = ref([]);
   const messages = ref([]);
+  let currentChannel = null;
 
   const allLevels = ref([]);
   const allUsers = ref([]);
@@ -29,6 +30,10 @@ export function useUserActions() {
   // utilities
   const router = useRouter();
   const toast = useToast();
+
+  function toBroadcastFormat(userId, friendId) {
+    return [userId, friendId].sort().join("-");
+  }
 
   // |---------------------------------------------------------------------------------------------------
   // | FETCHES
@@ -71,17 +76,40 @@ export function useUserActions() {
     }
   };
 
-  const fetchMessages = async (friendId) => {
-    try {
-      const { data } = await axios.get("/messages", {
-        params: { with: friendId },
-      });
-      messages.value = data;
-    } catch (e) {
-      toast.error("Could not load messages.");
-      console.error(e);
+  async function fetchMessages(friendId) {
+    const history = await axios.get(`/messages?with=${friendId}`);
+    messages.value = history.data;
+
+    // unsubs from any previous broadcasting channel
+    if (currentChannel) {
+      window.Echo.leave(`chat.${currentChannel}`);
     }
-  };
+
+    currentChannel = toBroadcastFormat(auth.user.id, friendId);
+    console.log(currentChannel);
+    // subs to a new broadcasting channel,
+    // also listens to 3 message events to broadcast
+    window.Echo.private(`chat.${currentChannel}`)
+      .subscribed(() => {
+        console.log("Subscribed to chat." + currentChannel);
+      })
+      .listen("MessageSent", (e) => {
+        console.log("Got MessageSent:", e);
+        messages.value.push(e);
+      })
+      .listen("MessageEdited", (e) => {
+        console.log("Got MessageEdited:", e);
+        const updatedMessageId = messages.value.findIndex((m) => m.id === e.id);
+        if (updatedMessageId !== -1) {
+          messages.value[updatedMessageId].message_text = e.new_text;
+          messages.value[updatedMessageId].updated_at = e.edited_at;
+        }
+      })
+      .listen("MessageDeleted", (e) => {
+        console.log("Got MessageDeleted:", e);
+        messages.value = messages.value.filter((m) => m.id !== e.id);
+      });
+  }
 
   // |---------------------------------------------------------------------------------------------------
   // | ACTIONS
@@ -111,8 +139,13 @@ export function useUserActions() {
 
   const acceptRequest = async (id) => {
     try {
-      await axios.patch(`/friend-requests/${id}`, { status: true });
+      const { data } = await axios.patch(`/friend-requests/${id}`, {
+        status: true,
+      });
       pending.value = pending.value.filter((r) => r.id !== id);
+      if (data.newFriend) {
+        friends.value.push(data.newFriend);
+      }
       toast.success("Friend request accepted!");
     } catch {
       toast.error("Failed to accept friend request!");
@@ -187,7 +220,6 @@ export function useUserActions() {
         receiver_id,
         message_text,
       });
-      messages.value.push(data);
       return data;
     } catch (e) {
       toast.error(e.response?.data?.message || "Failed to send message");
@@ -215,15 +247,6 @@ export function useUserActions() {
       throw e;
     }
   };
-
-  // const getMessagesFor = (friendId) => {
-  //   const me = user.value?.id;
-  //   return messages.value.filter(
-  //     (m) =>
-  //       (m.sender_id === friendId && m.receiver_id === me) ||
-  //       (m.sender_id === me && m.receiver_id === friendId),
-  //   );
-  // };
 
   // helpers
   // NOTE: BEFORE USING MUST LOAD IN ACCORDING LIST/OBJECT

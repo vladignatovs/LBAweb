@@ -40,7 +40,6 @@ export function useAdminActions() {
   }
 
   async function deleteNews(id) {
-    if (!confirm("Really delete this news?")) return;
     try {
       await axios.delete(`/news/${id}`);
       toast.success("News deleted!");
