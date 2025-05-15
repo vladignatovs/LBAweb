@@ -12,6 +12,7 @@ use App\Http\Controllers\MessageController;
 use App\Http\Controllers\LevelController;
 use App\Http\Controllers\CompletionController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\BrowseController;
 
 /*
 |--------------------------------------------------------------------------
@@ -54,6 +55,7 @@ Route::middleware('auth:sanctum')->group(function () {
     // TODO: MAKE PROPER ADMIN MIDDLEWARE
     Route::apiResource('news', NewsController::class)->only(['store', 'update', 'destroy']);
 
+    Route::get('/browse', [BrowseController::class, 'index']);
     Route::apiResource('friend-requests', FriendRequestController::class)->only(['index','store','update','destroy']);
 
     Route::get('friend-requests/pending', [FriendRequestController::class, 'pending']);
@@ -63,13 +65,11 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::apiResource('messages', MessageController::class);
 
-    // |-------------------------------------------
-    // MIGHT WANT TO MAKE THEM PUBLIC
     Route::get('/users', [UserController::class, 'index']);
     Route::apiResource('levels', LevelController::class)->only(['index','show']);
-    // |-------------------------------------------
 
     Route::apiResource('friendships', FriendshipController::class)->only(['index','store','destroy']);;
 
     Route::apiResource('completions', CompletionController::class)->only(['index','show']);
+    Route::get('/createdLevels', [UserController::class, 'createdLevels']);
 });

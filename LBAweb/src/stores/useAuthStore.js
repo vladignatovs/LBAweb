@@ -37,6 +37,17 @@ export const useAuthStore = defineStore(
       axios.defaults.headers.common.Authorization = `Bearer ${newToken}`;
     }
 
+    function logoutFrontend() {
+      token.value = null;
+      user.value = null;
+      friends.value = [];
+      blocked.value = [];
+      sent.value = [];
+      pending.value = [];
+      localStorage.removeItem("auth_token");
+      delete axios.defaults.headers.common.Authorization;
+    }
+
     async function logout() {
       try {
         await axios.post("/logout");
@@ -45,14 +56,7 @@ export const useAuthStore = defineStore(
           console.error("Backend logout failed", e);
         }
       } finally {
-        token.value = null;
-        user.value = null;
-        friends.value = [];
-        blocked.value = [];
-        sent.value = [];
-        pending.value = [];
-        localStorage.removeItem("auth_token");
-        delete axios.defaults.headers.common.Authorization;
+        logoutFrontend();
         console.log("Logged out!");
       }
     }
@@ -97,6 +101,7 @@ export const useAuthStore = defineStore(
       login,
       register,
       logout,
+      logoutFrontend,
     };
   },
   {

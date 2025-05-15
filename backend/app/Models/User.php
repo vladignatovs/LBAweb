@@ -118,8 +118,14 @@ class User extends Authenticatable
     }
 
     // levels I can see
-    public function levels()
+    public function completedLevels()
     {
         return $this->belongsToMany(Level::class, 'completions');
+    }
+
+    // created levels
+    public function createdLevels()
+    {
+        return $this->hasMany(Level::class, 'creator_id');
     }
 }

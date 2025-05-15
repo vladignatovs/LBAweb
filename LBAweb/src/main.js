@@ -11,16 +11,11 @@ import { useLoadingStore } from "./stores/useLoadingStore";
 import Pusher from "pusher-js";
 import Echo from "laravel-echo";
 
-// DEFAULT PATH
-axios.defaults.baseURL = "http://127.0.0.1:8000/api";
-
 // APP CREATION
 const app = createApp(App);
-
 app.directive("loading", {
   mounted(el) {
     const loading = useLoadingStore();
-    // whenever loading changes, toggle `disabled`
     watch(
       () => loading.isLoading,
       (is) => {
@@ -31,7 +26,6 @@ app.directive("loading", {
     );
   },
 });
-
 app.use(createPinia());
 app.use(router);
 app.use(Toast, {
@@ -48,6 +42,7 @@ const { token } = storeToRefs(auth);
 export const loadingQueue = ref(0);
 const loading = useLoadingStore();
 
+axios.defaults.baseURL = "http://127.0.0.1:8000/api";
 axios.interceptors.request.use(
   (config) => {
     loading.add();
@@ -68,6 +63,7 @@ axios.interceptors.response.use(
     return response;
   },
   (error) => {
+    if (error.response && error.response.status === 401) auth.logoutFrontend();
     loading.remove();
     return Promise.reject(error);
   },

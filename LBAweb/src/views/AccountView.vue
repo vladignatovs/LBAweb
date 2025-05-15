@@ -15,7 +15,7 @@ const {
   pending,
   sent,
   blocked,
-  fetchLevels,
+  fetchCreatedLevels,
   fetchCompletions,
   sendRequest,
   acceptRequest,
@@ -43,7 +43,7 @@ onMounted(async () => {
 });
 
 watch(activeSection, (section) => {
-  if (section === "levels") fetchLevels();
+  if (section === "levels") fetchCreatedLevels();
   if (section === "completions") fetchCompletions();
 });
 </script>

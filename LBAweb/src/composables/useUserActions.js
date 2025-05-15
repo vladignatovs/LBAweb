@@ -14,7 +14,7 @@ export function useUserActions() {
   const auth = useAuthStore();
   const { user, friends, pending, sent, blocked } = storeToRefs(auth);
 
-  const levels = ref([]);
+  const createdLevels = ref([]);
   const completions = ref([]);
   const messages = ref([]);
   let currentChannel = null;
@@ -41,31 +41,28 @@ export function useUserActions() {
 
   const fetchBrowse = async (query) => {
     try {
-      const [lvRes, usRes] = await Promise.all([
-        axios.get("/levels"),
-        axios.get("/users", { params: { q: query } }),
-      ]);
-      allLevels.value = lvRes.data;
-      allUsers.value = usRes.data;
+      const { data } = await axios.get("/browse", {
+        params: { q: query },
+      });
+      allLevels.value = data.levels;
+      allUsers.value = data.users;
     } catch (e) {
       console.error("Browse fetch error:", e);
     }
   };
 
-  const fetchLevels = async () => {
-    if (!user.value) return;
+  const fetchCreatedLevels = async () => {
     if (loaded.levels) return;
     try {
       loaded.levels = true;
-      const resp = await axios.get("/levels");
-      levels.value = resp.data;
+      const { data } = await axios.get("/createdLevels");
+      createdLevels.value = data;
     } catch (e) {
       console.error("Could not load levels", e);
     }
   };
 
   const fetchCompletions = async () => {
-    if (!user.value) return;
     if (loaded.completions) return;
     try {
       loaded.completions = true;
@@ -214,7 +211,7 @@ export function useUserActions() {
     router.push({ name: "Home" });
   };
 
-  const sendMessage = async ({ receiver_id, message_text }) => {
+  const sendMessage = async (receiver_id, message_text) => {
     try {
       const { data } = await axios.post("/messages", {
         receiver_id,
@@ -249,7 +246,6 @@ export function useUserActions() {
   };
 
   // helpers
-  // NOTE: BEFORE USING MUST LOAD IN ACCORDING LIST/OBJECT
   const isCurrentUser = (id) => user.value?.id === id;
   const isFriend = (id) => friends.value.some((f) => f.id === id);
   const hasSent = (id) => sent.value.some((r) => r.receiver_id === id);
@@ -260,7 +256,7 @@ export function useUserActions() {
   return {
     // state
     user,
-    levels,
+    levels: createdLevels,
     completions,
     friends,
     pending,
@@ -271,7 +267,7 @@ export function useUserActions() {
     allUsers,
     // fetchers
     fetchBrowse,
-    fetchLevels,
+    fetchCreatedLevels,
     fetchCompletions,
     fetchMessages,
     // actions

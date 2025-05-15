@@ -8,7 +8,6 @@ use Illuminate\Http\Request;
 class UserController extends Controller
 {
     /**
-     * GET /api/users
      * Optional ?q= parameter to search by name.
      */
     public function index(Request $request)
@@ -46,5 +45,10 @@ class UserController extends Controller
             'pending' => $user->friendRequestsReceived,
             'sent'    => $user->friendRequestsSent,
         ]);
+    }
+
+    public function createdLevels(Request $request)
+    {
+        return $request->user()->createdLevels()->get();
     }
 }

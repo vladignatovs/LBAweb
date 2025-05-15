@@ -10,14 +10,14 @@ class CompletionController extends Controller
     public function index()
     {
         // show my completions
-        return Auth::user()->levels()->get();
+        return Auth::user()->completedLevels()->get();
     }
 
     public function show($levelId)
     {
         // show whether I’ve completed a specific level
         return Auth::user()
-                   ->levels()
+                   ->completedLevels()
                    ->where('level_id',$levelId)
                    ->exists();
     }
