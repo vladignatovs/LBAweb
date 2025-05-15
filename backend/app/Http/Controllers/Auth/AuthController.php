@@ -45,24 +45,20 @@ class AuthController extends Controller {
      * @return mixed|\Illuminate\Http\JsonResponse
      */
     public function register(Request $request) {
-        // Validate the request
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
         ]);
 
-        // Create the user
         $user = User::create([
             'name' => $validatedData['name'],
             'email' => $validatedData['email'],
             'password' => Hash::make($validatedData['password']),
         ]);
 
-        // Generate a token for the user
         $token = $user->createToken('auth_token')->plainTextToken;
 
-        // Return the token and user data
         return response()->json([
             'token' => $token,
             'user' => $user,
@@ -75,7 +71,7 @@ class AuthController extends Controller {
     }
 
     /**
-     * Logs out all the users from the system and the database (i think)
+     * Logs out all the users from the system in the database (i think)
      * @param \Illuminate\Http\Request $request
      * @return mixed|\Illuminate\Http\JsonResponse
      */

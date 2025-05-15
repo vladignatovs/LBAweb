@@ -5,11 +5,6 @@ import { useToast } from "vue-toastification";
 import { useAuthStore } from "@/stores/useAuthStore";
 import { storeToRefs } from "pinia";
 
-/**
- * Encapsulates user info, levels/completions, friendships,
- * friend-requests, and blocks in one composable.
- * Named exports let you pick only what you need :contentReference[oaicite:4]{index=4}.
- */
 export function useUserActions() {
   const auth = useAuthStore();
   const { user, friends, pending, sent, blocked } = storeToRefs(auth);
@@ -55,7 +50,7 @@ export function useUserActions() {
     if (loaded.levels) return;
     try {
       loaded.levels = true;
-      const { data } = await axios.get("/createdLevels");
+      const { data } = await axios.get("user/created-levels");
       createdLevels.value = data;
     } catch (e) {
       console.error("Could not load levels", e);
@@ -111,6 +106,59 @@ export function useUserActions() {
   // |---------------------------------------------------------------------------------------------------
   // | ACTIONS
   // |---------------------------------------------------------------------------------------------------
+
+  const updateName = async (name) => {
+    try {
+      const { data } = await axios.patch("/user/name", { name });
+      user.value.name = data.name;
+      toast.success("Name updated!");
+    } catch (e) {
+      toast.error(e.response?.data?.message || "Failed to update name.");
+    }
+  };
+
+  const updateEmail = async (email, currentPassword) => {
+    try {
+      const { data } = await axios.patch("/user/email", {
+        email,
+        current_password: currentPassword,
+      });
+      // reflect it locally
+      user.value.email = data.email;
+      toast.success("Email updated successfully!");
+    } catch (e) {
+      toast.error(e.response?.data?.message ?? "Failed to update email!");
+    }
+  };
+
+  const changePassword = async (currentPwd, newPwd, confirmPwd) => {
+    try {
+      await axios.patch("/user/password", {
+        current_password: currentPwd,
+        new_password: newPwd,
+        new_password_confirmation: confirmPwd,
+      });
+      toast.success("Password changed successfully!");
+    } catch (e) {
+      toast.error(e.response?.data?.message ?? "Failed to change password!");
+    }
+  };
+
+  const deleteAccount = async () => {
+    if (
+      !confirm(
+        "Are you sure you want to delete your account? This cannot be undone.",
+      )
+    )
+      return;
+    try {
+      await axios.delete("/user");
+      toast.success("Account deleted successfully!");
+      await logout(); // will throw 401 but will logout as expected
+    } catch (e) {
+      toast.error(e.response?.data?.message ?? "Failed to delete account!");
+    }
+  };
 
   const sendRequest = async (id) => {
     try {
@@ -271,6 +319,10 @@ export function useUserActions() {
     fetchCompletions,
     fetchMessages,
     // actions
+    updateName,
+    updateEmail,
+    changePassword,
+    deleteAccount,
     sendRequest,
     acceptRequest,
     denyRequest,

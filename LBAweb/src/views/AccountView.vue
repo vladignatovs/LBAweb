@@ -2,7 +2,6 @@
 import { ref, onMounted, watch } from "vue";
 import { useUserActions } from "@/composables/useUserActions";
 import fancyInput from "@/components/fancy-input.vue";
-import fancyFileInput from "@/components/fancy-file-input.vue";
 import userCard from "@/components/user-card.vue";
 import levelCard from "@/components/level-card.vue";
 import requestCard from "@/components/request-card.vue";
@@ -17,6 +16,10 @@ const {
   blocked,
   fetchCreatedLevels,
   fetchCompletions,
+  updateName,
+  updateEmail,
+  changePassword,
+  deleteAccount,
   sendRequest,
   acceptRequest,
   denyRequest,
@@ -36,7 +39,7 @@ const newEmail = ref("");
 const currentPassword = ref("");
 const newPassword = ref("");
 const confirmPassword = ref("");
-const avatarFile = ref(null);
+const newName = ref("");
 
 onMounted(async () => {
   newEmail.value = user.value?.email || "";
@@ -49,7 +52,7 @@ watch(activeSection, (section) => {
 </script>
 
 <template>
-  <div class="bg-background text-selected flex min-h-screen">
+  <div class="bg-background text-selected flex min-h-screen pb-18">
     <aside class="bg-background-2 text-selected w-1/4 p-4">
       <h2 class="mb-6 text-2xl font-semibold">Account</h2>
       <nav class="space-y-2">
@@ -59,18 +62,18 @@ watch(activeSection, (section) => {
           @click="activeSection = 'profile'">
           Profile
         </button>
-        <button
+        <!-- <button
           class="hover:bg-primary/30 w-full rounded px-3 py-2 text-left transition"
           :class="{ 'bg-primary-2 text-black': activeSection === 'security' }"
           @click="activeSection = 'security'">
           Security
-        </button>
-        <button
+        </button> -->
+        <!-- <button
           class="hover:bg-primary/30 w-full rounded px-3 py-2 text-left transition"
           :class="{ 'bg-primary-2 text-black': activeSection === 'avatar' }"
           @click="activeSection = 'avatar'">
           Avatar
-        </button>
+        </button> -->
         <button
           class="hover:bg-primary/30 w-full rounded px-3 py-2 text-left transition"
           :class="{ 'bg-primary-2 text-black': activeSection === 'levels' }"
@@ -123,44 +126,72 @@ watch(activeSection, (section) => {
 
     <main class="flex-1 p-8">
       <h1 class="mb-4 text-3xl font-bold">Dashboard</h1>
-      <!-- <p v-if="message" class="mb-4 text-green-600">{{ message }}</p> -->
 
-      <section v-if="activeSection === 'profile'" class="space-y-4">
-        <h2 class="text-2xl font-semibold">Profile Info</h2>
+      <section v-if="activeSection === 'profile'" class="max-w-lg space-y-6">
+        <h2 class="text-2xl font-semibold">Profile & Security</h2>
+
+        <!-- Name & current email display -->
         <p><strong>Name:</strong> {{ user?.name }}</p>
         <p><strong>Email:</strong> {{ user?.email }}</p>
-        <div class="max-w-sm space-y-2">
-          <fancy-input v-model="newEmail" label="New Email" />
+
+        <!-- Update Name -->
+        <div class="space-y-2">
+          <fancy-input v-model="newName" label="Display Name" />
           <button
-            @click="updateEmail"
+            @click="updateName(newName)"
             class="bg-secondary/50 hover:bg-secondary-2/70 rounded px-4 py-2 text-white">
-            Save Email
+            Update Name
+          </button>
+        </div>
+
+        <!-- Update Email -->
+        <div class="space-y-2">
+          <fancy-input v-model="newEmail" type="email" label="New Email" />
+          <fancy-input
+            v-model="currentPassword"
+            type="password"
+            label="Current Password" />
+          <button
+            @click="updateEmail(newEmail, currentPassword)"
+            class="bg-secondary/50 hover:bg-secondary-2/70 rounded px-4 py-2 text-white">
+            Update Email
+          </button>
+        </div>
+
+        <!-- Change Password -->
+        <div class="space-y-2">
+          <fancy-input
+            v-model="currentPassword"
+            type="password"
+            label="Current Password" />
+          <fancy-input
+            v-model="newPassword"
+            type="password"
+            label="New Password" />
+          <fancy-input
+            v-model="confirmPassword"
+            type="password"
+            label="Confirm New Password" />
+          <button
+            @click="
+              changePassword(currentPassword, newPassword, confirmPassword)
+            "
+            class="bg-secondary/50 hover:bg-secondary-2/70 rounded px-4 py-2 text-white">
+            Change Password
+          </button>
+        </div>
+
+        <!-- Delete Account -->
+        <div>
+          <button
+            @click="deleteAccount"
+            class="rounded bg-red-600 px-4 py-2 text-white hover:bg-red-700">
+            Delete Account
           </button>
         </div>
       </section>
 
-      <section v-if="activeSection === 'security'" class="max-w-md space-y-4">
-        <h2 class="text-2xl font-semibold">Change Password</h2>
-        <fancy-input
-          v-model="currentPassword"
-          type="password"
-          label="Current Password" />
-        <fancy-input
-          v-model="newPassword"
-          type="password"
-          label="New Password" />
-        <fancy-input
-          v-model="confirmPassword"
-          type="password"
-          label="Confirm New Password" />
-        <button
-          @click="changePassword"
-          class="bg-secondary/50 hover:bg-secondary-2/70 rounded px-4 py-2 text-white">
-          Update Password
-        </button>
-      </section>
-
-      <section v-if="activeSection === 'avatar'" class="max-w-sm space-y-4">
+      <!-- <section v-if="activeSection === 'avatar'" class="max-w-sm space-y-4">
         <h2 class="text-2xl font-semibold">Profile Picture</h2>
         <div v-if="user?.avatar" class="mb-4">
           <img
@@ -177,7 +208,7 @@ watch(activeSection, (section) => {
           class="bg-secondary/50 hover:bg-secondary-2/70 rounded px-4 py-2 text-white">
           Upload
         </button>
-      </section>
+      </section> -->
 
       <section v-if="activeSection === 'levels'" class="space-y-4">
         <h2 class="text-2xl font-semibold">My Levels</h2>

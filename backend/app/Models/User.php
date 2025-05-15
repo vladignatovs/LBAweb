@@ -117,7 +117,7 @@ class User extends Authenticatable
         return $this->hasMany(Message::class, 'receiver_id');
     }
 
-    // levels I can see
+    // levels I completed
     public function completedLevels()
     {
         return $this->belongsToMany(Level::class, 'completions');

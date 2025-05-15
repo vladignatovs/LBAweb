@@ -32,7 +32,6 @@ Route::get('/redis-test', function () {
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
-// TODO: TEST, MAKE SURE TO CHANGE THIS LATER, SHOULDN'T HAVE SEPARATED LINKS (maybe)
 // public news access
 Route::get('/news', [NewsController::class, 'index']);
 Route::get('/news/{id}', [NewsController::class, 'show']);
@@ -45,31 +44,41 @@ Route::get('/news/{id}', [NewsController::class, 'show']);
 
 Route::middleware('auth:sanctum')->group(function () {
 
-    // user info & logout
-    Route::get('/user',  [AuthController::class, 'user']);
+    // Route::get('/user',  [AuthController::class, 'user']);
     Route::post('/logout', [AuthController::class, 'logout']);
 
     Route::get('/user/relationships', [UserController::class, 'relationships']);
+    Route::get('/user/created-levels', [UserController::class, 'createdLevels']);
 
-    // FUNCTIONS ONLY AVAILABLE FOR ADMINS
-    // TODO: MAKE PROPER ADMIN MIDDLEWARE
-    Route::apiResource('news', NewsController::class)->only(['store', 'update', 'destroy']);
+
+    Route::patch('/user/name', [UserController::class, 'updateName']);
+    Route::patch('/user/email', [UserController::class, 'updateEmail']);
+    Route::patch('/user/password', [UserController::class, 'updatePassword']);
+    Route::delete('/user', [UserController::class, 'destroy']);
+
+    // uselesss show
+    Route::apiResource('completions', CompletionController::class)->only(['index','show']);
 
     Route::get('/browse', [BrowseController::class, 'index']);
+
+    // useless index
     Route::apiResource('friend-requests', FriendRequestController::class)->only(['index','store','update','destroy']);
 
-    Route::get('friend-requests/pending', [FriendRequestController::class, 'pending']);
-    Route::get('friend-requests/sent', [FriendRequestController::class, 'sent']);
+    // Route::get('friend-requests/pending', [FriendRequestController::class, 'pending']);
+    // Route::get('friend-requests/sent', [FriendRequestController::class, 'sent']);
 
+    // useless index
     Route::apiResource('blocks', BlockController::class)->only(['index','store','destroy']);
 
     Route::apiResource('messages', MessageController::class);
 
-    Route::get('/users', [UserController::class, 'index']);
-    Route::apiResource('levels', LevelController::class)->only(['index','show']);
+    // Route::get('/users', [UserController::class, 'index']);
+    // Route::apiResource('levels', LevelController::class)->only(['index','show']);
 
+    // useless index, store
     Route::apiResource('friendships', FriendshipController::class)->only(['index','store','destroy']);;
 
-    Route::apiResource('completions', CompletionController::class)->only(['index','show']);
-    Route::get('/createdLevels', [UserController::class, 'createdLevels']);
+    // FUNCTIONS ONLY AVAILABLE FOR ADMINS
+    // TODO: MAKE PROPER ADMIN MIDDLEWARE
+    Route::apiResource('news', NewsController::class)->only(['store', 'update', 'destroy']);
 });
