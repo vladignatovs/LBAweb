@@ -16,4 +16,14 @@ class ChangeLog extends Model
     ];
 
     protected $dates = ['action_date'];
+
+    public function admin()
+    {
+        return $this->belongsTo(User::class, 'admin_id');
+    }
+
+    public function news()
+    {
+        return $this->belongsTo(News::class, 'news_id');
+    }
 }

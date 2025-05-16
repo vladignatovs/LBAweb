@@ -5,6 +5,7 @@ import fancyInput from "@/components/fancy-input.vue";
 import userCard from "@/components/user-card.vue";
 import levelCard from "@/components/level-card.vue";
 import requestCard from "@/components/request-card.vue";
+import { useAdminActions } from "@/admin/composables/useAdminActions";
 
 const {
   user,
@@ -34,6 +35,17 @@ const {
   hasSent,
 } = useUserActions();
 
+const {
+  users,
+  changeLogs,
+  fetchUsers,
+  fetchChangeLogs,
+  updateUser,
+  deleteUser,
+  terminateAllSessions,
+  isAdmin,
+} = useAdminActions();
+
 const activeSection = ref("profile");
 const newEmail = ref("");
 const currentPassword = ref("");
@@ -48,6 +60,8 @@ onMounted(async () => {
 watch(activeSection, (section) => {
   if (section === "levels") fetchCreatedLevels();
   if (section === "completions") fetchCompletions();
+  if (section === "adminUsers") fetchUsers();
+  if (section === "adminLogs") fetchChangeLogs();
 });
 </script>
 
@@ -62,18 +76,6 @@ watch(activeSection, (section) => {
           @click="activeSection = 'profile'">
           Profile
         </button>
-        <!-- <button
-          class="hover:bg-primary/30 w-full rounded px-3 py-2 text-left transition"
-          :class="{ 'bg-primary-2 text-black': activeSection === 'security' }"
-          @click="activeSection = 'security'">
-          Security
-        </button> -->
-        <!-- <button
-          class="hover:bg-primary/30 w-full rounded px-3 py-2 text-left transition"
-          :class="{ 'bg-primary-2 text-black': activeSection === 'avatar' }"
-          @click="activeSection = 'avatar'">
-          Avatar
-        </button> -->
         <button
           class="hover:bg-primary/30 w-full rounded px-3 py-2 text-left transition"
           :class="{ 'bg-primary-2 text-black': activeSection === 'levels' }"
@@ -116,6 +118,26 @@ watch(activeSection, (section) => {
           :class="{ 'bg-primary-2 text-black': activeSection === 'blocked' }">
           Blocked
         </button>
+        <template v-if="isAdmin">
+          <hr class="border-primary/30 my-4" />
+          <h3 class="mb-2 text-lg font-medium">Admin Panel</h3>
+          <button
+            class="hover:bg-primary/30 w-full rounded px-3 py-2 text-left transition"
+            :class="{
+              'bg-primary-2 text-black': activeSection === 'adminUsers',
+            }"
+            @click="activeSection = 'adminUsers'">
+            Manage Users
+          </button>
+          <button
+            class="hover:bg-primary/30 w-full rounded px-3 py-2 text-left transition"
+            :class="{
+              'bg-primary-2 text-black': activeSection === 'adminLogs',
+            }"
+            @click="activeSection = 'adminLogs'">
+            Change Logs
+          </button>
+        </template>
         <button
           class="border-primary/30 mt-6 w-full border-t px-3 py-2 text-left"
           @click="logout">
@@ -190,25 +212,6 @@ watch(activeSection, (section) => {
           </button>
         </div>
       </section>
-
-      <!-- <section v-if="activeSection === 'avatar'" class="max-w-sm space-y-4">
-        <h2 class="text-2xl font-semibold">Profile Picture</h2>
-        <div v-if="user?.avatar" class="mb-4">
-          <img
-            :src="`http://127.0.0.1:8000/storage/${user.avatar}`"
-            alt="Current avatar"
-            class="h-32 w-32 rounded-full object-cover" />
-        </div>
-        <fancy-file-input
-          v-model="avatarFile"
-          label="Choose new avatar"
-          accept="image/*" />
-        <button
-          @click="uploadAvatar"
-          class="bg-secondary/50 hover:bg-secondary-2/70 rounded px-4 py-2 text-white">
-          Upload
-        </button>
-      </section> -->
 
       <section v-if="activeSection === 'levels'" class="space-y-4">
         <h2 class="text-2xl font-semibold">My Levels</h2>
@@ -308,6 +311,90 @@ watch(activeSection, (section) => {
           </div>
         </div>
         <p v-else>No one blocked.</p>
+      </section>
+
+      <section
+        v-if="activeSection === 'adminUsers' && isAdmin"
+        class="space-y-6">
+        <div class="flex items-center justify-between">
+          <h2 class="text-2xl font-semibold">Manage Users</h2>
+          <button
+            class="rounded bg-red-600 px-4 py-2 text-white hover:bg-red-700"
+            @click="terminateAllSessions">
+            Terminate All Sessions
+          </button>
+        </div>
+
+        <div v-for="(group, rights) in users" :key="rights" class="mb-8">
+          <h3 class="mb-2 text-xl font-medium capitalize">{{ rights }}</h3>
+          <table class="w-full table-auto border-collapse">
+            <thead>
+              <tr class="bg-background-2">
+                <th class="p-2 text-left">ID</th>
+                <th class="p-2 text-left">Name</th>
+                <th class="p-2 text-left">Email</th>
+                <th class="p-2 text-left">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="u in group" :key="u.id" class="even:bg-background-2">
+                <td class="p-2">{{ u.id }}</td>
+                <td class="p-2">
+                  <fancy-input
+                    v-model="u.name"
+                    class="w-full"
+                    @blur="updateUser(u.id, { name: u.name })" />
+                </td>
+                <td class="p-2">
+                  <fancy-input
+                    v-model="u.email"
+                    type="email"
+                    class="w-full"
+                    @blur="updateUser(u.id, { email: u.email })" />
+                </td>
+                <td class="space-x-2 p-2">
+                  <button
+                    class="bg-secondary/50 hover:bg-secondary-2/70 rounded px-3 py-1 text-white"
+                    @click="deleteUser(u.id)">
+                    Delete
+                  </button>
+                  <button
+                    class="bg-secondary/50 hover:bg-secondary-2/70 rounded px-3 py-1 text-white"
+                    @click="
+                      updateUser(u.id, { password: prompt('New password:') })
+                    ">
+                    Reset Password
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section
+        v-if="activeSection === 'adminLogs' && isAdmin"
+        class="space-y-4">
+        <h2 class="text-2xl font-semibold">News Change Logs</h2>
+
+        <div v-if="changeLogs.length">
+          <ul class="space-y-2">
+            <li
+              v-for="log in changeLogs"
+              :key="log.id"
+              class="bg-background-2 rounded p-4">
+              <p>
+                <strong>{{ log.admin.name }}</strong>
+                {{ log.action }}D the news item
+                <em>"{{ log.news.title }}"</em>
+              </p>
+              <p class="text-sm text-gray-500">
+                {{ new Date(log.action_date).toLocaleString() }}
+              </p>
+            </li>
+          </ul>
+        </div>
+        <p v-else>No change logs yet.</p>
       </section>
     </main>
   </div>

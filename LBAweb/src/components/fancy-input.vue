@@ -11,7 +11,7 @@ defineProps({
   },
 });
 
-defineEmits(["update:modelValue"]);
+defineEmits(["update:modelValue", "blur"]);
 </script>
 <template>
   <div class="relative w-full">
@@ -22,6 +22,7 @@ defineEmits(["update:modelValue"]);
       placeholder=""
       :value="modelValue"
       @input="$emit('update:modelValue', $event.target.value)"
+      @blur="$emit('blur', $event)"
       required />
     <label
       :for="label.toLowerCase().replace(/\s/g, '-')"

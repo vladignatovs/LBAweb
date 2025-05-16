@@ -13,6 +13,7 @@ use App\Http\Controllers\LevelController;
 use App\Http\Controllers\CompletionController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\BrowseController;
+use App\Http\Controllers\AdminController;
 
 /*
 |--------------------------------------------------------------------------
@@ -81,4 +82,15 @@ Route::middleware('auth:sanctum')->group(function () {
     // FUNCTIONS ONLY AVAILABLE FOR ADMINS
     // TODO: MAKE PROPER ADMIN MIDDLEWARE
     Route::apiResource('news', NewsController::class)->only(['store', 'update', 'destroy']);
+});
+
+Route::middleware(['auth:sanctum', AdminMiddleware::class])
+    ->prefix('admin')
+    ->group(function() {
+
+    Route::get('/users', [AdminController::class, 'index']);
+    Route::patch('/users/{user}', [AdminController::class, 'update']);
+    Route::delete('/users/{user}', [AdminController::class, 'destroy']);
+    Route::post('/terminate-sessions', [AdminController::class, 'terminateSessions']);
+    Route::get('/change-logs', [AdminController::class, 'changeLogs']);
 });
