@@ -1,4 +1,7 @@
 <script setup>
+import { useMessengerStore } from "@/stores/useMessengerStore";
+const messenger = useMessengerStore();
+
 const props = defineProps({
   user: { type: Object, required: true },
   isCurrentUser: Boolean,
@@ -7,13 +10,7 @@ const props = defineProps({
   isPending: Boolean,
 });
 
-const emit = defineEmits([
-  "add-friend",
-  "remove-friend",
-  "block",
-  "unblock",
-  "message",
-]);
+const emit = defineEmits(["add-friend", "remove-friend", "block", "unblock"]);
 
 // util functions which emit and use this cards users id
 function onAddFriend() {
@@ -29,7 +26,8 @@ function onUnblock() {
   emit("unblock", props.user.id);
 }
 function onMessage() {
-  emit("message", props.user.id);
+  messenger.openMessenger();
+  messenger.openChat(props.user.id);
 }
 </script>
 <template>

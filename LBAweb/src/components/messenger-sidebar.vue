@@ -4,6 +4,8 @@ import { useUserActions } from "@/composables/useUserActions";
 import { useAuthStore } from "@/stores/useAuthStore";
 import { storeToRefs } from "pinia";
 import axios from "axios";
+import { useMessengerStore } from "@/stores/useMessengerStore";
+
 const props = defineProps({ open: Boolean });
 const emit = defineEmits(["close"]);
 
@@ -16,10 +18,10 @@ const {
   editMessage,
   deleteMessage,
 } = useUserActions();
+const messenger = useMessengerStore();
 
 const auth = useAuthStore();
 const { user } = storeToRefs(auth);
-const activeFriendId = ref(null);
 const newMessageText = ref("");
 
 // reset when closed
@@ -27,7 +29,7 @@ watch(
   () => props.open,
   (isOpen) => {
     if (!isOpen) {
-      activeFriendId.value = null;
+      messenger.closeChat();
       messages.value = [];
       newMessageText.value = "";
     }
@@ -43,18 +45,26 @@ watch(
   },
 );
 
+watch(
+  () => messenger.activeFriendId,
+  async (newId) => {
+    if (newId !== null) {
+      await fetchMessages(newId);
+    } else {
+      messages.value = [];
+    }
+  },
+);
+
 async function selectFriend(friend) {
-  activeFriendId.value = friend.id;
+  messenger.openChat();
   await fetchMessages(friend.id);
 }
 
 async function handleSend() {
   const text = newMessageText.value.trim();
-  if (!text || !activeFriendId.value) return;
-  const msg = await sendMessage({
-    receiver_id: activeFriendId.value,
-    message_text: text,
-  });
+  if (!text || !messenger.activeFriendId.value) return;
+  const msg = await sendMessage(messenger.activeFriendId.value, text);
   // ensure it’s in our list
   if (!messages.value.find((m) => m.id === msg.id)) {
     messages.value.push(msg);
@@ -96,7 +106,7 @@ function formatTimestamp(ts) {
       <li
         v-for="friend in friends"
         :key="friend.id"
-        :class="{ 'bg-background/30': friend.id === activeFriendId }">
+        :class="{ 'bg-background/30': friend.id === messenger.activeFriendId }">
         <button
           v-loading
           @click="selectFriend(friend)"

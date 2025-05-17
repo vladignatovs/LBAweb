@@ -12,9 +12,9 @@ class BlockController extends Controller
     public function index()
     {
         return Auth::user()
-                   ->blocks()
-                   ->withPivot('blocked_id')
-                   ->get(['users.id','users.name','users.email']); // EMAIL SHOULD NOT BE IN FINAL VER, DONT HAVE ANY VALUES TO SHOWCASE RN
+            ->blocks()
+            ->withPivot('blocked_id')
+            ->get(['users.id','users.name','users.email']); // EMAIL SHOULD NOT BE IN FINAL VER, DONT HAVE ANY VALUES TO SHOWCASE RN
     }
 
     public function store(Request $request)

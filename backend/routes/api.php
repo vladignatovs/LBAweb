@@ -77,20 +77,17 @@ Route::middleware('auth:sanctum')->group(function () {
     // Route::apiResource('levels', LevelController::class)->only(['index','show']);
 
     // useless index, store
-    Route::apiResource('friendships', FriendshipController::class)->only(['index','store','destroy']);;
-
-    // FUNCTIONS ONLY AVAILABLE FOR ADMINS
-    // TODO: MAKE PROPER ADMIN MIDDLEWARE
-    Route::apiResource('news', NewsController::class)->only(['store', 'update', 'destroy']);
+    Route::apiResource('friendships', FriendshipController::class)->only(['index','store','destroy']);
 });
 
 Route::middleware(['auth:sanctum', AdminMiddleware::class])
-    ->prefix('admin')
-    ->group(function() {
+->prefix('admin')
+->group(function() {
 
     Route::get('/users', [AdminController::class, 'index']);
     Route::patch('/users/{user}', [AdminController::class, 'update']);
     Route::delete('/users/{user}', [AdminController::class, 'destroy']);
     Route::post('/terminate-sessions', [AdminController::class, 'terminateSessions']);
+    Route::apiResource('news', NewsController::class)->only(['store', 'update', 'destroy']);
     Route::get('/change-logs', [AdminController::class, 'changeLogs']);
 });

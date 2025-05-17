@@ -28,7 +28,7 @@ export function useAdminActions() {
   async function createNews(formData) {
     confirmAdmin();
     try {
-      const { data } = await axios.post("/news", formData);
+      const { data } = await axios.post("/admin/news", formData);
       toast.success("News created!");
       return data;
     } catch (e) {
@@ -41,7 +41,7 @@ export function useAdminActions() {
     confirmAdmin();
     try {
       formData.append("_method", "PATCH");
-      const { data } = await axios.post(`/news/${id}`, formData, {
+      const { data } = await axios.post(`/admin/news/${id}`, formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
       toast.success("News updated!");
@@ -54,7 +54,7 @@ export function useAdminActions() {
   async function deleteNews(id) {
     confirmAdmin();
     try {
-      await axios.delete(`/news/${id}`);
+      await axios.delete(`/admin/news/${id}`);
       toast.success("News deleted!");
       return true;
     } catch (e) {

@@ -3,9 +3,11 @@ import { ref } from "vue";
 import { useRouter } from "vue-router";
 import fancyInput from "./fancy-input.vue";
 import { useUserActions } from "@/composables/useUserActions";
+import { useMessengerStore } from "@/stores/useMessengerStore";
 import messengerSidebar from "./messenger-sidebar.vue";
 
 const { hasFriends } = useUserActions();
+const messenger = useMessengerStore();
 
 const router = useRouter();
 const searchQuery = ref("");
@@ -16,8 +18,6 @@ function onSubmit() {
     router.push({ name: "Browse", query: { q: searchQuery.value.trim() } });
   }
 }
-
-const sidebarOpen = ref(false);
 </script>
 
 <template>
@@ -141,7 +141,7 @@ const sidebarOpen = ref(false);
       class="float-right inline-flex h-full list-none items-center justify-start p-0">
       <li
         v-if="hasFriends()"
-        @click="sidebarOpen = true"
+        @click="messenger.openMessenger()"
         class="cursor-pointer">
         <img
           class="size-10 duration-200 hover:brightness-70"
@@ -160,5 +160,7 @@ const sidebarOpen = ref(false);
       </li>
     </ul>
   </header>
-  <messenger-sidebar :open="sidebarOpen" @close="sidebarOpen = false" />
+  <messenger-sidebar
+    :open="messenger.isOpen"
+    @close="messenger.closeMessenger" />
 </template>

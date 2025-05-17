@@ -34,7 +34,7 @@ class MessageController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'receiver_id'=>'required|exists:users,id',
+            'receiver_id'=>'required|integer|exists:users,id',
             'message_text'=>'required|string'
         ]);
 

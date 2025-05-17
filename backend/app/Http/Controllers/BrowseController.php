@@ -16,11 +16,11 @@ class BrowseController extends Controller
         $search = $request->query('q', '');
 
         $users = User::when($search, function ($qry) use ($search) {
-                $qry->where('name', 'like', "%{$search}%");
+                $qry->where('name', 'ilike', "%{$search}%");
             })->select(['id', 'name', 'email'])->get();
 
         $levels = Level::when($search, function($query) use ($search) {
-            $query->where('name', 'like', "%{$search}%");
+            $query->where('name', 'ilike', "%{$search}%");
         })->select(['id','name','creator_name', 'created_at'])->get();
 
         return response()->json([
