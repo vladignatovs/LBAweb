@@ -27,13 +27,13 @@ function onCancel() {
         <button
           v-loading
           @click="onAccept"
-          class="bg-primary rounded px-3 py-1 text-black">
+          class="bg-primary hover:bg-primary/60 rounded px-3 py-1 text-black">
           Accept
         </button>
         <button
           v-loading
           @click="onDeny"
-          class="rounded bg-red-600 px-3 py-1 text-white">
+          class="bg-danger-2 hover:bg-danger-2/60 rounded px-3 py-1 text-white">
           Deny
         </button>
       </template>
@@ -41,7 +41,7 @@ function onCancel() {
         <button
           v-loading
           @click="onCancel"
-          class="rounded bg-red-600 px-3 py-1 text-white">
+          class="bg-danger-2 hover:bg-danger-2/60 rounded px-3 py-1 text-white">
           Cancel
         </button>
       </template>

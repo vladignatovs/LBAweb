@@ -25,7 +25,7 @@ class AuthController extends Controller {
 
         if (!Auth::attempt($credentials)) {
             \Log::error('Invalid credentials');
-            return response()->json(['error' => 'Invalid credentials'], 401);
+            return response()->json(['message' => 'Invalid credentials.'], 401);
         }
 
         $user = User::where('email', $request->email)->first();

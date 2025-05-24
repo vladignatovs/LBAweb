@@ -17,8 +17,8 @@ class CompletionController extends Controller
     public function show($levelId)
     {
         return Auth::user()
-                   ->completedLevels()
-                   ->where('level_id',$levelId)
-                   ->exists();
+            ->completedLevels()
+            ->where('level_id',$levelId)
+            ->exists();
     }
 }

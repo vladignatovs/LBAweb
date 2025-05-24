@@ -29,10 +29,10 @@ function addToList(newItem) {
   newsList.value.unshift(newItem);
 }
 
-function openCreatePanel() {
-  selectedNews.value = null; // ensure we’re in “create” mode
-  adminPanelOpen.value = true;
-}
+// function openCreatePanel() {
+//   selectedNews.value = null;
+//   adminPanelOpen.value = true;
+// }
 
 function openEditPanel(news) {
   selectedNews.value = news;
@@ -103,11 +103,10 @@ onBeforeRouteUpdate((to) => {
 <template>
   <main
     class="from-primary-2/10 to-background relative min-h-screen bg-linear-120 px-8 py-6 pb-24 text-white">
-    <button @click="openCreatePanel">Create News</button>
     <admin-news-panel
       v-if="isAdmin"
       v-model:open="adminPanelOpen"
-      :news-to-edit="selectedNews"
+      v-model:news-to-edit="selectedNews"
       @create="addToList"
       @update="patchInList" />
     <!-- @update:open="onPanelToggle" -->

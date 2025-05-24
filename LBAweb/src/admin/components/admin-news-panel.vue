@@ -11,6 +11,7 @@ const props = defineProps({
 
 const emit = defineEmits([
   "update:open", // for v-model:open
+  "update:newsToEdit",
   "create",
   "update",
 ]);
@@ -74,16 +75,16 @@ async function handleSubmit() {
     <!-- TOGGLE BUTTON -->
     <button
       @click="emit('update:open', !open)"
-      class="fixed z-50 m-5 rounded-2xl border border-white/10 bg-white/10 text-white shadow-md backdrop-blur-xl transition-all hover:bg-white/20 focus:ring-2 focus:ring-white/50 active:scale-95">
+      class="fixed z-50 rounded-2xl bg-white/10 text-white shadow-md backdrop-blur-xl transition-all hover:bg-white/20 active:scale-95">
       <svg
-        :class="open ? 'rotate-180' : 'rotate-0'"
-        class="size-8 transition-all duration-200"
         xmlns="http://www.w3.org/2000/svg"
+        :class="open ? 'rotate-180' : 'rotate-0'"
+        class="size-8 p-1 transition-all duration-200"
         viewBox="0 0 24 24">
         <!-- Icon from Material Design Icons by Pictogrammers - https://github.com/Templarian/MaterialDesign/blob/master/LICENSE -->
         <path
           fill="currentColor"
-          d="M2 12a10 10 0 0 0 10 10a10 10 0 0 0 10-10A10 10 0 0 0 12 2A10 10 0 0 0 2 12m2 0a8 8 0 0 1 8-8a8 8 0 0 1 8 8a8 8 0 0 1-8 8a8 8 0 0 1-8-8m6 5l5-5l-5-5z" />
+          d="M20 11v2H8l5.5 5.5l-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5L8 11z" />
       </svg>
     </button>
 
@@ -92,7 +93,7 @@ async function handleSubmit() {
       :class="open ? 'translate-x-0' : '-translate-x-full'"
       class="fixed top-0 left-0 z-40 flex h-screen w-1/3 flex-col items-center justify-center gap-5 bg-black/70 px-5 pt-18 text-white shadow-lg transition-transform duration-300">
       <!-- Panel Title -->
-      <h2 class="text-3xl font-bold">
+      <h2 class="pt-2 text-3xl font-bold">
         {{ props.newsToEdit ? "Edit News" : "Create News" }}
       </h2>
 
@@ -131,12 +132,20 @@ async function handleSubmit() {
         class="h-1/2 max-h-[90%] min-h-20 w-full overflow-auto rounded-2xl border border-white/20 bg-black/10 p-2 pb-18 text-base text-white shadow-md backdrop-blur-3xl hover:bg-black/20 focus:bg-black/20 focus:ring-2 focus:ring-white/50 focus:outline-none">
       </textarea>
 
-      <!-- Submit Button -->
-      <button
-        @click="handleSubmit"
-        class="w-1/2 rounded-2xl border border-white/10 bg-white/10 px-6 py-3 text-white shadow-md backdrop-blur-xl transition-all hover:bg-white/20 focus:ring-2 focus:ring-white/50 active:scale-95">
-        {{ props.newsToEdit ? "Update" : "Submit" }}
-      </button>
+      <!-- Controls -->
+      <div class="flex flex-row gap-2 pb-2">
+        <button
+          v-if="props.newsToEdit !== null"
+          @click="emit('update:newsToEdit', null)"
+          class="rounded-2xl border border-white/10 bg-white/10 px-6 py-3 shadow-md backdrop-blur-xl transition-all hover:bg-white/20 focus:ring-2 focus:ring-white/50 active:scale-95">
+          Clear
+        </button>
+        <button
+          @click="handleSubmit"
+          class="rounded-2xl border border-white/10 bg-white/10 px-6 py-3 shadow-md backdrop-blur-xl transition-all hover:bg-white/20 focus:ring-2 focus:ring-white/50 active:scale-95">
+          {{ props.newsToEdit ? "Update" : "Create" }}
+        </button>
+      </div>
     </aside>
   </div>
 </template>

@@ -21,14 +21,15 @@ function onSubmit() {
 </script>
 
 <template>
-  <header class="sticky top-0 z-50 h-18 items-center text-xl text-white">
+  <header
+    class="sticky top-0 z-50 flex h-18 flex-nowrap items-center justify-between text-xl text-white">
     <!-- bg filler -->
     <div class="fixed z-[-10] h-18 w-full bg-black/60 backdrop-blur-3xl"></div>
 
     <!-- NAVBAR LINKS FLOATING LEFT  -->
     <ul class="inline-flex h-full list-none items-center justify-start p-0">
       <!-- Logo -->
-      <li class="inline-block">
+      <li class="inline-block flex-shrink-0">
         <RouterLink
           to="/"
           class="mx-5 flex items-center justify-center text-xl">
@@ -136,19 +137,18 @@ function onSubmit() {
       </li>
     </ul>
 
-    <!-- NAVBAR LINKS FLOATING RIGHT  (unchanged) -->
-    <ul
-      class="float-right inline-flex h-full list-none items-center justify-start p-0">
+    <!-- NAVBAR LINKS FLOATING RIGHT -->
+    <ul class="flex h-full list-none flex-nowrap items-center p-0">
       <li
         v-if="hasFriends()"
         @click="messenger.openMessenger()"
-        class="cursor-pointer">
+        class="flex-shrink-0 cursor-pointer">
         <img
           class="size-10 duration-200 hover:brightness-70"
           src="../assets/message_icon_inv.webp"
           alt="Messages" />
       </li>
-      <li>
+      <li class="flex-shrink-0">
         <RouterLink
           to="/account"
           class="hover:text-selected mx-5 flex items-center justify-center text-center text-xl no-underline duration-200">

@@ -41,6 +41,8 @@ button:disabled {
   --color-primary-2: #0eeeee;
   --color-secondary: #ffff0f;
   --color-secondary-2: #dddd0d;
+  --color-danger: #ff0854;
+  --color-danger-2: #ee0854;
   --color-selected: #d1d1d1;
 }
 

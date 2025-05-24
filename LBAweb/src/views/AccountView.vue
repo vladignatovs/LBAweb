@@ -161,53 +161,65 @@ watch(activeSection, (section) => {
           <fancy-input v-model="newName" label="Display Name" />
           <button
             @click="updateName(newName)"
-            class="bg-secondary/50 hover:bg-secondary-2/70 rounded px-4 py-2 text-white">
+            class="bg-secondary-2 hover:bg-secondary-2/60 rounded px-4 py-2 text-black">
             Update Name
           </button>
         </div>
 
         <!-- Update Email -->
-        <div class="space-y-2">
+        <form
+          @submit.prevent="updateEmail(newEmail, currentPassword)"
+          class="space-y-2">
           <fancy-input v-model="newEmail" type="email" label="New Email" />
           <fancy-input
             v-model="currentPassword"
             type="password"
-            label="Current Password" />
+            label="Password"
+            autocomplete="current-password" />
           <button
-            @click="updateEmail(newEmail, currentPassword)"
-            class="bg-secondary/50 hover:bg-secondary-2/70 rounded px-4 py-2 text-white">
+            type="submit"
+            class="bg-secondary-2 hover:bg-secondary-2/60 rounded px-4 py-2 text-black">
             Update Email
           </button>
-        </div>
+        </form>
 
         <!-- Change Password -->
-        <div class="space-y-2">
+        <form
+          @submit.prevent="
+            changePassword(currentPassword, newPassword, confirmPassword)
+          "
+          autocomplete="off"
+          class="space-y-2">
           <fancy-input
+            id="current-password"
             v-model="currentPassword"
             type="password"
-            label="Current Password" />
+            label="Current Password"
+            autocomplete="current-password" />
           <fancy-input
+            id="new-password"
             v-model="newPassword"
             type="password"
-            label="New Password" />
+            label="New Password"
+            autocomplete="new-password" />
           <fancy-input
+            id="confirm-new-password"
             v-model="confirmPassword"
             type="password"
-            label="Confirm New Password" />
+            label="Confirm New Password"
+            autocomplete="new-password" />
           <button
-            @click="
-              changePassword(currentPassword, newPassword, confirmPassword)
-            "
-            class="bg-secondary/50 hover:bg-secondary-2/70 rounded px-4 py-2 text-white">
+            type="submit"
+            class="bg-secondary-2 hover:bg-secondary-2/60 rounded px-4 py-2 text-black">
             Change Password
           </button>
-        </div>
+        </form>
 
         <!-- Delete Account -->
         <div>
           <button
             @click="deleteAccount"
-            class="rounded bg-red-600 px-4 py-2 text-white hover:bg-red-700">
+            class="bg-danger hover:bg-danger/60 rounded px-4 py-2 text-white">
             Delete Account
           </button>
         </div>
@@ -319,7 +331,7 @@ watch(activeSection, (section) => {
         <div class="flex items-center justify-between">
           <h2 class="text-2xl font-semibold">Manage Users</h2>
           <button
-            class="rounded bg-red-600 px-4 py-2 text-white hover:bg-red-700"
+            class="bg-danger hover:bg-danger/60 rounded px-4 py-2 text-white"
             @click="terminateAllSessions">
             Terminate All Sessions
           </button>
@@ -354,12 +366,12 @@ watch(activeSection, (section) => {
                 </td>
                 <td class="space-x-2 p-2">
                   <button
-                    class="bg-secondary/50 hover:bg-secondary-2/70 rounded px-3 py-1 text-white"
+                    class="bg-secondary-2 hover:bg-secondary-2/60 rounded px-3 py-1 text-black"
                     @click="deleteUser(u.id)">
                     Delete
                   </button>
                   <button
-                    class="bg-secondary/50 hover:bg-secondary-2/70 rounded px-3 py-1 text-white"
+                    class="bg-secondary-2 hover:bg-secondary-2/60 rounded px-3 py-1 text-black"
                     @click="
                       updateUser(u.id, { password: prompt('New password:') })
                     ">

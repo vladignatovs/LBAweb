@@ -8,7 +8,7 @@ Route::get('/', function () {
 
 use Illuminate\Support\Facades\Auth;
 
-Auth::routes();
+// Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 

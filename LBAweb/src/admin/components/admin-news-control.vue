@@ -6,7 +6,7 @@ const props = defineProps({
   news: { type: Object, required: true },
 });
 
-const emit = defineEmits("edit", "delete");
+const emit = defineEmits(["edit", "delete"]);
 
 const { deleteNews } = useAdminActions();
 

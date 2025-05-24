@@ -41,20 +41,20 @@ function onMessage() {
         <button
           v-loading
           @click="onMessage"
-          class="flex-1 rounded bg-blue-200 px-3 py-1 text-sm font-medium text-black transition hover:bg-blue-300">
+          class="bg-primary hover:bg-primary/60 flex-1 rounded px-3 py-1 text-sm font-medium text-black transition">
           Message
         </button>
         <button
           v-loading
           @click="onRemoveFriend"
-          class="flex-1 rounded bg-yellow-400 px-3 py-1 text-sm font-medium text-black transition hover:bg-yellow-500">
+          class="bg-secondary-2 hover:bg-secondary-2/60 flex-1 rounded px-3 py-1 text-sm font-medium text-black transition">
           Remove Friend
         </button>
       </template>
       <template v-else-if="isPending">
         <button
           disabled
-          class="bg-primary hover:bg-primary-2 flex-1 rounded px-3 py-1 text-sm font-medium text-black transition">
+          class="bg-primary hover:bg-primary/60 flex-1 rounded px-3 py-1 text-sm font-medium text-black transition">
           Request Pending
         </button>
       </template>
@@ -62,7 +62,7 @@ function onMessage() {
         <button
           v-loading
           @click="onAddFriend"
-          class="bg-primary hover:bg-primary-2 flex-1 rounded px-3 py-1 text-sm font-medium text-black transition">
+          class="bg-primary hover:bg-primary/60 flex-1 rounded px-3 py-1 text-sm font-medium text-black transition">
           Add Friend
         </button>
       </template>
@@ -71,7 +71,7 @@ function onMessage() {
         <button
           v-loading
           @click="onUnblock"
-          class="flex-1 rounded bg-red-600 px-3 py-1 text-sm font-medium text-white transition hover:bg-red-700">
+          class="bg-danger-2 hover:bg-danger-2/60 flex-1 rounded px-3 py-1 text-sm font-medium text-white transition">
           Unblock
         </button>
       </template>
@@ -79,7 +79,7 @@ function onMessage() {
         <button
           v-loading
           @click="onBlock"
-          class="flex-1 rounded bg-red-600 px-3 py-1 text-sm font-medium text-white transition hover:bg-red-700">
+          class="bg-danger-2 hover:bg-danger-2/60 flex-1 rounded px-3 py-1 text-sm font-medium text-white transition">
           Block
         </button>
       </template>

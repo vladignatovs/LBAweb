@@ -9,6 +9,14 @@ defineProps({
     type: String,
     default: "Enter text",
   },
+  id: {
+    type: String,
+    default: null,
+  },
+  autocomplete: {
+    type: String,
+    default: null,
+  },
 });
 
 defineEmits(["update:modelValue", "blur"]);
@@ -17,7 +25,8 @@ defineEmits(["update:modelValue", "blur"]);
   <div class="relative w-full">
     <input
       :type="type"
-      :id="label.toLowerCase().replace(/\s/g, '-')"
+      :id="id ?? label.toLowerCase().replace(/\s/g, '-')"
+      :autocomplete="autocomplete"
       class="peer w-full rounded-2xl border border-white/20 bg-black/10 px-3 pt-6 pb-2 text-base text-white shadow-md backdrop-blur-3xl hover:bg-black/20 hover:shadow-lg focus:bg-black/20 focus:ring-2 focus:ring-white/50 focus:outline-none"
       placeholder=""
       :value="modelValue"
