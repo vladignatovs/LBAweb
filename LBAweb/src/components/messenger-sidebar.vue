@@ -146,7 +146,6 @@ function formatTimestamp(ts) {
           </div>
         </div>
       </div>
-      <!-- new message form (does not scroll) -->
       <fieldset v-loading>
         <form @submit.prevent="handleSend" class="flex flex-none p-4">
           <input
@@ -154,7 +153,7 @@ function formatTimestamp(ts) {
             type="text"
             placeholder="Type a message..."
             class="flex-1 rounded-l border px-3 py-2 focus:outline-none" />
-          <button type="submit" class="rounded-r bg-blue-600 px-4 text-white">
+          <button type="submit" class="bg-primary rounded-r px-4 text-black">
             Send
           </button>
         </form>

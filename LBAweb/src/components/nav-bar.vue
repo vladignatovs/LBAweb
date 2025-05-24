@@ -61,7 +61,7 @@ function onSubmit() {
 
         <!-- dropdown panel -->
         <div
-          class="pointer-events-none absolute top-full left-0 mt-2 w-40 rounded-2xl border border-white/20 bg-black/30 opacity-0 shadow-lg backdrop-blur-3xl transition-all duration-200 ease-in-out group-hover:pointer-events-auto group-hover:opacity-100">
+          class="pointer-events-none absolute top-full left-0 mt-2 w-40 rounded border border-white/20 bg-black/30 opacity-0 shadow-lg backdrop-blur-3xl transition-all duration-200 ease-in-out group-hover:pointer-events-auto group-hover:opacity-100">
           <ul class="py-2">
             <li>
               <RouterLink
@@ -116,7 +116,10 @@ function onSubmit() {
       <!-- Search form -->
       <li class="relative inline-block">
         <form class="flex h-full items-center px-5" @submit.prevent="onSubmit">
-          <fancy-input v-model="searchQuery" label="Browse Levels / Users">
+          <fancy-input
+            v-model="searchQuery"
+            label="Browse Levels / Users"
+            :autocomplete="off">
           </fancy-input>
           <button
             type="submit"

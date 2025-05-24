@@ -161,7 +161,7 @@ watch(activeSection, (section) => {
           <fancy-input v-model="newName" label="Display Name" />
           <button
             @click="updateName(newName)"
-            class="bg-secondary-2 hover:bg-secondary-2/60 rounded px-4 py-2 text-black">
+            class="bg-secondary-2 hover:bg-secondary-2/60 rounded-2xl px-4 py-2 text-black">
             Update Name
           </button>
         </div>
@@ -178,7 +178,7 @@ watch(activeSection, (section) => {
             autocomplete="current-password" />
           <button
             type="submit"
-            class="bg-secondary-2 hover:bg-secondary-2/60 rounded px-4 py-2 text-black">
+            class="bg-secondary-2 hover:bg-secondary-2/60 rounded-2xl px-4 py-2 text-black">
             Update Email
           </button>
         </form>
@@ -210,7 +210,7 @@ watch(activeSection, (section) => {
             autocomplete="new-password" />
           <button
             type="submit"
-            class="bg-secondary-2 hover:bg-secondary-2/60 rounded px-4 py-2 text-black">
+            class="bg-secondary-2 hover:bg-secondary-2/60 rounded-2xl px-4 py-2 text-black">
             Change Password
           </button>
         </form>
@@ -219,7 +219,7 @@ watch(activeSection, (section) => {
         <div>
           <button
             @click="deleteAccount"
-            class="bg-danger hover:bg-danger/60 rounded px-4 py-2 text-white">
+            class="bg-danger hover:bg-danger/60 rounded-2xl px-4 py-2 text-white">
             Delete Account
           </button>
         </div>

@@ -32,7 +32,7 @@ const clearFile = () => {
       @change="handleChange"
       class="peer absolute inset-0 z-10 w-full cursor-pointer opacity-0" />
     <div
-      class="w-full rounded-2xl border border-white/20 bg-black/10 px-3 pt-6 pb-2 text-base text-white shadow-md backdrop-blur-3xl group-hover:bg-black/20 hover:bg-black/20 hover:shadow-lg">
+      class="w-full rounded border border-white/20 bg-black/10 px-3 pt-6 pb-2 text-base text-white shadow-md backdrop-blur-3xl group-hover:bg-black/20 hover:bg-black/20 hover:shadow-lg">
       <span class="text-white/80">
         {{ modelValue?.name || "defaultThumbnail.webp" }}
       </span>
@@ -40,7 +40,7 @@ const clearFile = () => {
     <button
       v-if="modelValue"
       @click.stop="clearFile"
-      class="absolute top-0 right-0 z-50 h-full cursor-pointer p-1 text-red-400 transition-all duration-200 hover:text-red-200">
+      class="text-danger hover:text-danger/60 absolute top-0 right-0 z-50 h-full cursor-pointer p-1 transition-all duration-200">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="32"

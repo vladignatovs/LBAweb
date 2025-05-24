@@ -75,7 +75,7 @@ async function handleSubmit() {
     <!-- TOGGLE BUTTON -->
     <button
       @click="emit('update:open', !open)"
-      class="fixed z-50 rounded-2xl bg-white/10 text-white shadow-md backdrop-blur-xl transition-all hover:bg-white/20 active:scale-95">
+      class="fixed z-50 rounded-full bg-white/10 text-white shadow-md backdrop-blur-xl transition-all hover:bg-white/20 active:scale-95">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         :class="open ? 'rotate-180' : 'rotate-0'"
@@ -112,7 +112,7 @@ async function handleSubmit() {
         <select
           v-model="category"
           id="category"
-          class="peer w-full rounded-2xl border border-white/20 bg-black/10 px-3 pt-6 pb-2 text-base text-white shadow-md backdrop-blur-3xl hover:bg-black/20 focus:bg-black/20 focus:ring-2 focus:ring-white/50 focus:outline-none">
+          class="peer w-full rounded border border-white/20 bg-black/10 px-3 pt-6 pb-2 text-base text-white shadow-md backdrop-blur-3xl hover:bg-black/20 focus:bg-black/20 focus:ring-2 focus:ring-white/50 focus:outline-none">
           <option value="" disabled>Select a category</option>
           <option value="update">Update</option>
           <option value="announcement">Announcement</option>
@@ -129,7 +129,7 @@ async function handleSubmit() {
       <textarea
         v-model="content"
         placeholder="Content"
-        class="h-1/2 max-h-[90%] min-h-20 w-full overflow-auto rounded-2xl border border-white/20 bg-black/10 p-2 pb-18 text-base text-white shadow-md backdrop-blur-3xl hover:bg-black/20 focus:bg-black/20 focus:ring-2 focus:ring-white/50 focus:outline-none">
+        class="h-1/2 max-h-[90%] min-h-20 w-full overflow-auto rounded border border-white/20 bg-black/10 p-2 pb-18 text-base text-white shadow-md backdrop-blur-3xl hover:bg-black/20 focus:bg-black/20 focus:ring-2 focus:ring-white/50 focus:outline-none">
       </textarea>
 
       <!-- Controls -->

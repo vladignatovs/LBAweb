@@ -71,7 +71,7 @@ function onMessage() {
         <button
           v-loading
           @click="onUnblock"
-          class="bg-danger-2 hover:bg-danger-2/60 flex-1 rounded px-3 py-1 text-sm font-medium text-white transition">
+          class="bg-danger-2 hover:bg-danger-2/60 flex h-12 min-h-full flex-1 items-center justify-center rounded px-3 py-1 text-sm leading-snug font-medium whitespace-normal text-white transition">
           Unblock
         </button>
       </template>
@@ -79,7 +79,7 @@ function onMessage() {
         <button
           v-loading
           @click="onBlock"
-          class="bg-danger-2 hover:bg-danger-2/60 flex-1 rounded px-3 py-1 text-sm font-medium text-white transition">
+          class="bg-danger-2 hover:bg-danger-2/60 flex h-12 min-h-full flex-1 items-center justify-center rounded px-3 py-1 text-sm leading-snug font-medium whitespace-normal text-white transition">
           Block
         </button>
       </template>
