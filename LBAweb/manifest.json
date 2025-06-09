@@ -1,0 +1,43 @@
+{
+  "name": "Lights, Beats, Action!",
+  "short_name": "LBA",
+  "start_url": "/",
+  "display": "standalone",
+  "display_override": ["window-controls-overlay", "standalone"],
+  "background_color": "#0f0f1a",
+  "theme_color": "#0fffff",
+  "icons": [
+    {
+      "src": "/icon_192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon_512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/screenshots/screenshot_narrow.png",
+      "type": "image/png",
+      "sizes": "360x640",
+      "form_factor": "narrow",
+      "label": "Home screen on mobile"
+    },
+    {
+      "src": "/screenshots/screenshot_wide.png",
+      "type": "image/png",
+      "sizes": "1280x720",
+      "form_factor": "wide",
+      "label": "Home screen on desktop"
+    }
+  ],
+  "protocol_handlers": [
+    {
+      "protocol": "web+beats",
+      "url": "/handle-protocol?url=%s"
+    }
+  ]
+}

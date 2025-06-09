@@ -108,6 +108,30 @@ onMounted(async () => {
 onUnmounted(() => {
   window.removeEventListener("scroll", handleScroll);
 });
+
+const canInstall = ref(false);
+let deferredPrompt = null;
+
+onMounted(() => {
+  window.addEventListener("beforeinstallprompt", (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    canInstall.value = true;
+  });
+});
+
+function installPWA() {
+  if (deferredPrompt) {
+    deferredPrompt.prompt();
+    deferredPrompt.userChoice.then((choiceResult) => {
+      if (choiceResult.outcome === "accepted") {
+        console.log("✅ User accepted install prompt");
+      }
+      deferredPrompt = null;
+      canInstall.value = false;
+    });
+  }
+}
 </script>
 
 <template>
@@ -279,6 +303,8 @@ onUnmounted(() => {
         </div>
       </div>
     </section>
+
+    <button v-if="canInstall" @click="installPWA">📲 Install App</button>
   </main>
 </template>
 
