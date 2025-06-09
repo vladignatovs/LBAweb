@@ -1,5 +1,4 @@
 <script setup>
-import { defineProps, defineEmits } from "vue";
 import { useAdminActions } from "../composables/useAdminActions";
 
 const props = defineProps({

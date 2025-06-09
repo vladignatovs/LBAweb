@@ -1,5 +1,5 @@
 <script setup>
-import { defineProps, defineEmits, computed } from "vue";
+import { computed } from "vue";
 import adminNewsControl from "@/admin/components/admin-news-control.vue";
 
 const props = defineProps({
